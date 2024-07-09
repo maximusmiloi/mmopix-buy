@@ -1,0 +1,99 @@
+@font-face {
+  font-family: 'TTMilks';
+  src: url('../fonts/TTMilks/TTMilks-DemiBold.woff2') format('woff2');
+/*        url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'),
+       url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'), */
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+/*   padding: 0 50px; */
+  background-color: #1C1737;
+}
+/* nav {
+
+} */
+.logo {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 12px;
+}
+.logo-text {
+  padding-top: 20px;
+}
+.logo-text-mmopix {
+  font-family: 'TTMilks';
+  font-weight: 900;
+  font-size: 24px;
+}
+.logo-text-buy {
+  font-family: 'TTMilks';
+  color: #FF7A00;
+}
+.logo-contact {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+a {
+  color: white;
+}
+.profile-info-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 5px;
+}
+.profile-info-container-user {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+}
+.profile-info-container-balance {
+  font-size: 28px;
+  font-family: 'TTMilks';
+  font-weight: 900;
+  color: #FF7A00;
+}
+
+@media only screen and (max-width: 1024px) {
+
+ }
+ /* Планшеты (портрет) */
+ @media only screen and (max-width: 768px) {
+  header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+  /*   padding: 0 50px; */
+    background-color: #1C1737;
+  }
+ }
+ 
+ /* Смартфоны (портрет) */
+ @media only screen and (max-width: 480px) {
+  header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+  /*   padding: 0 50px; */
+    background-color: #1C1737;
+  }
+ }

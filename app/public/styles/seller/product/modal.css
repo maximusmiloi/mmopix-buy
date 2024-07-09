@@ -1,0 +1,77 @@
+@font-face {
+  font-family: 'TTMilks';
+  src: url('../../../fonts/TTMilks/TTMilks-DemiBold.woff2') format('woff2');
+/*        url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'),
+       url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'), */
+  font-weight: normal;
+  font-style: normal;
+}
+.seller-product-modal {
+  display: none;
+	position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 70%;
+  background-color: #141027;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  z-index: 1000;
+  display: none; 
+  flex-direction: column;
+  padding: 20px; 
+  font-family: 'TTMilks';
+  overflow: auto;
+  gap: 5px;
+}
+
+.modal-button {
+  margin-top: 50px;
+	width: 136px;
+	height: 39px;
+	color: #1F1A3A;
+  font-family: 'TTMilks';
+  font-size: 20px;
+	background: linear-gradient(to bottom, #575757 21%, #F4C27D);;
+  cursor: pointer;
+}
+.modal-button-container {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	gap: 20px;
+  
+}
+.modal-button-container button {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	gap: 20px;
+  margin-top: 50px;
+	width: 136px;
+	height: 39px;
+	color: #1F1A3A;
+  font-family: 'TTMilks';
+  font-size: 20px;
+	background: linear-gradient(to bottom, #575757 21%, #F4C27D);;
+}
+.modal-overlay {
+  display: none;
+  position: fixed; /* Фиксированное позиционирование */
+  top: 0; /* Верх экрана */
+  left: 0; /* Левый край экрана */
+  width: 100%; /* Ширина всей страницы */
+  height: 100%; /* Высота всей страницы */
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный цвет */
+  z-index: 999; /* z-index ниже модального окна, но выше всего остального */
+}
+.seller-product-modal span {
+  display: flex;
+  align-items: center;
+  width: 60%;
+  height: 7%;
+  border: 1px solid #8778D9;
+  background-color: #2F2566;
+  color: white;
+}

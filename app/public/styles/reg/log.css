@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'TTMilks';
+  src: url('../../fonts/TTMilks/TTMilks-DemiBold.woff2') format('woff2');
+/*        url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'),
+       url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'), */
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  background-color: #1F1A3A;
+  font-family: 'TTMilks';
+}
+h1 {
+  color: white;
+  text-align: center;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  width: 60%;
+  height: 100%;
+  align-items:self-end;
+  flex-direction: column;
+  color: white;
+  gap: 10px
+}
+.container input {
+  width: 190px;
+  height: 28px;
+  background-color: #2F2566;
+  border: 1px solid #8778D9;
+  border-radius: 5px;
+  color: white;
+}
+.container label {
+  font-size: 16px;
+  color: #8778D9;
+}
+.container button {
+  width: 200px;
+  height: 34px;
+  text-align: center;
+  color: #1F1A3A;
+  font-size: 20px;
+  background: #F4C27D;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.indicator-reg {
+  color: white;
+  text-align: center;
+  font-size: 24px;
+  display: none;
+}

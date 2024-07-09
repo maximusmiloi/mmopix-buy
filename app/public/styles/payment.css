@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'TTMilks';
+  src: url('../fonts/TTMilks/TTMilks-DemiBold.woff2') format('woff2');
+/*        url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'),
+       url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'), */
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  justify-content: center;
+  background: #1C1737;
+  color: white;
+  /* max-width: 1170px; */
+  margin: 0 auto;
+  font-family: 'TTMilks';
+/*   padding-left: 16px;
+  padding-right: 16px; */
+}
+.payment-icons {
+  display: flex;
+  margin-top: 50px;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+.payment-icons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75px;
+  height: 75px;
+
+}

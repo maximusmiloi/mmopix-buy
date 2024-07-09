@@ -3,20 +3,129 @@
 <head>
   <title>Steam App</title>
   <link rel="stylesheet" href="/styles/styles.css">
-  <!-- <link rel="icon" href="/favicon.ico" type="image/x-icon" /> -->
+  <link rel="stylesheet" href="/styles/home.css">
+  <link rel="stylesheet" href="/styles/header.css">
+  <link rel="stylesheet" href="/styles/payment.css">
+  <link rel="stylesheet" href="/styles/footer.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
 <body>
-  
-  <h1>CUSTOM BOT - вход</h1>
-  <form method="POST" action="/login">
-    <label for="login">Логин</label>
-    <input type="text" id="login" name="login">
-    <label for="password">Пароль</label>
-    <input type="text" id="password" name="password">
-    <button>Войти</button>
-  </form>
+  <div id="home-container" class="home-container">
+    <header>
+      <div class="logo-contact">
+        <section id="logo" class="logo">
+          <a href="/">
+            <img src="img/logo.png">
+          </a>
+        </section>
+        <nav>
+          <a id="contact"  class="contact" href="/contact">Контакты</a>
+        </nav>
+      </div>
+      <section id="profile-info" class="profile-info">
+      </section>
+  <!--       <div id="profile-info-balance" class="profile-info-balance">
 
+        </div>
+        <div id="profile-info-link" class="profile-info-link">
+          <a id="profile-info-menu" class="profile-info-link-menu"></a>
+          <button id="logout">Выйти</button>
+        </div>
+      -->
+    </header>
+    <main>
+      <section id="main-content" class="main-content">
+        <div class="main-content-top">
+          <div class="main-content-top-elements">
+            <div class="main-content-top-elements_img">
+              <img  src="img/home_booster.png">
+            </div>
+            <div class="main-content-top-elements-button">
+              <button><a href="/auth/registration">Присоединиться</a></button>
+            </div>
+          </div>
+
+        </div>
+        <div class="main-content-bottom">
+          <div class="main-content-bottom-h2">
+            <h3>Игровая биржа</h3>
+          </div>
+          <div class="main-content-bottom-p">
+            <p>Платформа, которая позволяет игрокам находить друг друга, заключать сделки, обмениваться опытом и игровыми ценностями.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+    <section id="main-content-2" class="main-content-2">
+      <h2>Кому подходит наш проект?</h2>
+      <div class="main-content-2_item-1">
+        <div class="main-content-2_item-1-left">
+          <img  src="img/main-content-2-1-left.png">
+        </div>
+        <div class="main-content-2_item-1-right">
+          <h3 class="main-content-2_item-1-right-h3">Фармерам игровой валюты</h3>
+          <p class="main-content-2_item-1-right-p">Мы предоставляем фармерам удобную платформу для быстрой и безопасной продажи. Мы гарантируем защиту всех транзакций и предлагаем простой интерфейс, обеспечивающий надежные и эффективные сделки.</p>
+        </div>
+      </div>
+      <div class="main-content-2_item-2">
+        <div class="main-content-2_item-2-left">
+          <h3 class="main-content-2_item-2-left-h3">Профессиональным бустерам</h3>
+          <p class="main-content-2_item-2-left-p">Наш проект обеспечивает профессиональным бустерам и покупателям легкое взаимодействие под гарантией безопасности, благодаря удобному и интуитивно понятному интерфейсу. Мы создаем надежную среду для эффективного выполнения заказов и обеспечения удовлетворенности всех пользователей.</p>
+        </div>
+        <div class="main-content-2_item-2-right">
+          <img  src="img/main-content-2-2-right.png">
+        </div>
+      </div>
+      <div class="main-content-2_item-3">
+        <div class="main-content-2_item-3-left">
+          <img  src="img/main-content-2-3-left.png">
+        </div>
+        <div class="main-content-2_item-3-right">
+          <h3 class="main-content-2_item-3-right-h3">Реселлерам</h3>
+          <p class="main-content-2_item-3 -right-p">Наш проект позволяет реселлерам, имеющим собственных покупателей, закупаться игровой валютой и услугами у профессионалов по низким ценам. Мы обеспечиваем удобный и безопасный сервис, который упрощает оптовые сделки и поддерживает выгодные условия для всех участников.</p>
+        </div>
+      </div>
+    </section>
+    <section id="payment-icons" class="payment-icons">
+      <div id="payment-icons-container" class="payment-icons-container">
+        <img src="/img/pay/brandico_mastercard.png">
+      </div>
+      <div id="payment-icons-container" class="payment-icons-container">
+        <img src="/img/pay/brandico_visa.png">
+      </div>
+      <div id="payment-icons-container" class="payment-icons-container">
+        <img src="/img/pay/cryptocurrency_usdt.png">
+      </div>
+    </section>
+    <footer id="footer" class="footer">
+      <section id="footer-container" class="footer-container">
+        <div id="footer-top" class="footer-top">
+          <div id="footer-top-left" class="footer-top-left">
+            <h3>О сайте</h3>
+            <div>
+              <a href="/">Поддержка</a>
+            </div>
+          </div>
+          <div id="footer-top-right" class="footer-top-right">
+            <h3>Клиенту</h3>
+            <div>
+              <a href="/">Политика конфиденциальности</a>
+              <a href="/">Использование cookies</a>
+              <a href="/">Правила</a>
+              <a href="/">Публичная оферта</a>
+            </div>
+          </div>
+        </div>
+        <div id="footer-bot" class="footer-bot">
+          <p>Site не одобрен, не связан напрямую, не поддерживается и не спонсируется Blizzard Entertainment, Bungie, Electronic Arts, Grinding Gear Games, Activision Publishing, Square Enix Co., Valve, Battlestate Games, Wargaming.net Limited, Amazon Technologies, Jagex Limited. , Riot Games, Smilegate RPG, Digital Extremes. Взгляды и мнения, выраженные Site, не отражают точку зрения кого-либо, официально связанного с производством или управлением их игровых франшиз. Защищенные авторским правом произведения искусства, представленные в Site или через него, остаются интеллектуальной собственностью соответствующего правообладателя. Site не занимается продажей внутриигровых предметов. Вместо этого наш сервис направлен на улучшение игровых навыков игроков и иногда дарит пользователям внутриигровые предметы.</p>
+        </div>
+      </section>
+    </footer>
+    <script type="module" src="/javascript/home.js"></script>
 <!--   <script type="module" src="/javascript/main.js"></script>
   <script type="module" src="/javascript/loadingIndicator.js"></script> -->
+  </div>
 </body>
 </html>

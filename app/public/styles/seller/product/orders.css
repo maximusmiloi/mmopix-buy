@@ -1,0 +1,234 @@
+.main-panel2 {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+}
+.orders-header-radio,
+.main-content-radio {
+	display: inline-block;
+	float: left;    
+}
+.main-panel input[type=radio],
+.content-orders_header input[type=radio]
+{
+	display: none;
+}
+.main-panel2 label,
+.content-orders_header label {
+	display: inline-block;
+	cursor: pointer;
+	padding: 0px 15px;
+	line-height: 34px;
+	border-right: none;
+	user-select: none;
+}
+ 
+.main-panel2 .orders-header-radio:first-child label,
+.content-orders_headerr  .main-content-radio:first-child label{
+	border-radius: 6px 0 0 6px;
+}
+.main-panel2 .main-panel-radio:last-child label,
+.content-orders_header  .main-content-radio:last-child label {
+	border-radius: 0 6px 6px 0;
+}
+ 
+/* Checked */
+.main-panel2 input[type=radio]:checked + label,
+.content-orders_header input[type=radio]:checked + label
+{
+	color: #E3A64B;
+  background-color: #212121;
+}
+ 
+/* Hover */
+.main-panel2 label:hover,
+.content-orders_header label:hover
+{
+	color: #666;
+}
+ 
+/* Disabled */
+.main-panel2 input[type=radio]:disabled + label,
+.content-orders_header input[type=radio]:disabled + label
+{
+	background: #efefef;
+	color: #666;
+}
+
+.main-header {
+  width: 1280px;
+  border-bottom: #8778D9 3px solid;
+}
+.order-filter-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+.order-filter-container-filter {
+  display: flex;
+  gap: 15px;
+}
+.order-content-container {
+  display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 1280px;
+  gap: 15px;
+  font-family: 'TTMilks';
+	margin-top: 20px;
+}
+.order-content-row {
+	display: flex;
+	justify-content: start;
+  align-items: center;
+	height: 100px;
+	width: 100%;;
+	gap: 20px;
+	border-radius: 10px;
+	background-color: rgba(135, 120, 217, 0.4);
+	cursor: pointer;
+}
+
+.order-content-row::before{
+  content: "";
+  width: 20px;
+  flex-shrink: 0;
+}
+.order-content-row::after{
+  content: "";
+  width: 20px;
+  flex-shrink: 0;
+}
+.order-content-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 15%;
+  gap: 5px;
+}
+.order-content-cell div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+/*   align-items: center; */
+}
+.pagination-page {
+	cursor: pointer;
+}
+.seller-order-modal {
+  display: none;
+	position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 90%;
+  background-color: #141027;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  z-index: 1000;
+  display: none; 
+  flex-direction: column;
+  padding: 20px; 
+  font-family: 'TTMilks';
+  overflow: auto;
+  gap: 15px;
+}
+.modal-row-container {
+  display: flex;
+  justify-content: end;
+  gap: 5%;
+  align-items: center;
+}
+.modal-row-container label {
+  color: #8778D9;
+  font-size: 16px;
+}
+.modal-row-container span {
+  background-color: #2F2566;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #8778D9;
+  width: 60%;
+}
+#modal-id {
+  background: #141027;
+  border: 0;
+  color: #8778D9;
+}
+#modal-quantity-p {
+  font-size: 24px;
+  color: white;
+  width: 60%;
+}
+#modal-price-p {
+  font-size: 24px;
+  color: #FF7A00;
+  width: 60%;
+}
+.seller-order-modal-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 5%;
+}
+.seller-order-modal-content-left {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 40%;
+}
+.seller-order-modal-content-right {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* @media only screen and (max-width: 1024px) {
+  .order-content-container {
+    width:80%;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .seller-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+  }
+	main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .seller-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    max-width: 768px;
+  }
+}
+
+
+@media only screen and (max-width: 480px) {
+  .seller-container {
+    max-width: 480px;
+  }
+} */

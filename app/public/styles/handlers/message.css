@@ -1,0 +1,25 @@
+@font-face {
+  font-family: 'TTMilks';
+  src: url('../../fonts/TTMilks/TTMilks-DemiBold.woff2') format('woff2');
+/*        url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'),
+       url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'), */
+  font-weight: normal;
+  font-style: normal;
+}
+.message-panel {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 15%;
+  height: 15%;
+  background: #3b2d89;
+  text-align: center;
+  font-size: 34px;
+  font-weight: 900;
+  color: #FF7A00;
+  border-radius: 10px;
+}

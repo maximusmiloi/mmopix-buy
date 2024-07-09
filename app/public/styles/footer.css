@@ -1,0 +1,90 @@
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+footer section {
+  display: flex;
+  flex-direction: column;
+  color: #B0B0B0;
+  width: 1280px;
+  padding: 0 20px;
+  gap: 50px;
+}
+footer section a {
+  text-decoration: none;
+  color: #B0B0B0;
+}
+.footer-top {
+  display: flex;
+  justify-content: start;
+  gap: 40px;
+}
+.footer-top-right {
+  display: flex;
+  flex-direction: column;
+}
+.footer-top-right  div {
+  display: flex;
+  flex-direction: column;
+}
+h3 {
+  font-size: 1.5em;
+}
+
+@media only screen and (max-width: 1024px) {
+  footer {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   max-width: 800px;
+  }
+  footer section {
+    display: flex;
+    flex-direction: column;
+    color: #B0B0B0;
+    max-width: 800px;
+    padding: 0 20px;
+    gap: 50px;
+  }
+ }
+ /* Планшеты (портрет) */
+ @media only screen and (max-width: 768px) {
+  footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 700px;
+   }
+   footer section {
+     display: flex;
+     flex-direction: column;
+     color: #B0B0B0;
+     max-width: 600px;
+     padding: 0 20px;
+     gap: 50px;
+   }
+ }
+ 
+ /* Смартфоны (портрет) */
+ @media only screen and (max-width: 480px) {
+  footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+   }
+   footer section {
+     display: flex;
+     flex-direction: column;
+     color: #B0B0B0;
+     max-width: 350px;
+     padding: 0 20px;
+     gap: 50px;
+   }
+ }
