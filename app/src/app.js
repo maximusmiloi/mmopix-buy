@@ -9,7 +9,8 @@ import auth from './routes/auth/auth.js';
 import home from './routes/home.js';
 import seller from './routes//seller/seller.js';
 import admin from './routes/admin/admin.js';
-const port = 85;
+dotenv.config();
+const port = process.env.PORT;
 //console.log(process.env.PORT)
 const app = express();
 app.use(express.urlencoded({ extended: true }));
