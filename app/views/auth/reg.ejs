@@ -4,31 +4,86 @@
   <title>Steam App</title>
   <link rel="stylesheet" href="/styles/reg/reg.css">
   <link rel="stylesheet" href="/styles/load.css">
+  <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="stylesheet" href="/styles/home.css">
+  <link rel="stylesheet" href="/styles/header.css">
+  <link rel="stylesheet" href="/styles/payment.css">
+  <link rel="stylesheet" href="/styles/footer.css">
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   
 <body>
-  <h1>Регистрация</h1>
-  <div id="container" class="container">
-    <div id="login-container" class="login-container">
-      <label for="login">Логин</label>
-      <input type="text" id="login" name="login">
-    </div>
-    <div id="email-container" class="email-container">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email">
-    </div>
-    <div id="password-container" class="password-container">
-      <label for="password">Пароль</label>
-      <input type="text" id="password" name="password">
-    </div>
-    <div id="passwordtwo-container" class="passwordtwo-container">
-      <label for="passwordTwo">Повторный ввод пароля</label>
-      <input type="text" id="passwordTwo" name="passwordTwo">
-    </div>
-    <button id="registration-button">Регистрация</button>    
-    <div class="indicator-reg" id="indicator-reg"></div>
-  </div>
 
+  <div id="home-container" class="home-container">
+    <header>
+      <div class="logo-contact">
+        <section id="logo" class="logo">
+          <a href="/">
+            <img src="../img/logo.png">
+          </a>
+        </section>
+        <nav>
+          <a id="contact"  class="contact" href="/contact">Контакты</a>
+        </nav>
+      </div>
+      <section id="profile-info" class="profile-info">
+      </section>
+  <!--       <div id="profile-info-balance" class="profile-info-balance">
+
+        </div>
+        <div id="profile-info-link" class="profile-info-link">
+          <a id="profile-info-menu" class="profile-info-link-menu"></a>
+          <button id="logout">Выйти</button>
+        </div>
+      -->
+    </header>
+    <h1>Регистрация</h1>
+    <div id="container" class="container">
+      <div id="login-container" class="login-container">
+        <label for="login">Логин</label>
+        <input type="text" id="login" name="login">
+      </div>
+      <div id="email-container" class="email-container">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email">
+      </div>
+      <div id="password-container" class="password-container">
+        <label for="password">Пароль</label>
+        <input type="text" id="password" name="password">
+      </div>
+      <div id="passwordtwo-container" class="passwordtwo-container">
+        <label for="passwordTwo">Повторный ввод пароля</label>
+        <input type="text" id="passwordTwo" name="passwordTwo">
+      </div>
+      <button id="registration-button">Регистрация</button>    
+      <div class="indicator-reg" id="indicator-reg"></div>
+    </div>
+    <footer id="footer" class="footer">
+      <section id="footer-container" class="footer-container">
+        <div id="footer-top" class="footer-top">
+          <div id="footer-top-left" class="footer-top-left">
+            <h3>О сайте</h3>
+            <div>
+              <a href="/">Поддержка</a>
+            </div>
+          </div>
+          <div id="footer-top-right" class="footer-top-right">
+            <h3>Клиенту</h3>
+            <div>
+              <a href="/">Политика конфиденциальности</a>
+              <a href="/">Использование cookies</a>
+              <a href="/">Правила</a>
+              <a href="/">Публичная оферта</a>
+            </div>
+          </div>
+        </div>
+        <div id="footer-bot" class="footer-bot">
+          <p>Site не одобрен, не связан напрямую, не поддерживается и не спонсируется Blizzard Entertainment, Bungie, Electronic Arts, Grinding Gear Games, Activision Publishing, Square Enix Co., Valve, Battlestate Games, Wargaming.net Limited, Amazon Technologies, Jagex Limited. , Riot Games, Smilegate RPG, Digital Extremes. Взгляды и мнения, выраженные Site, не отражают точку зрения кого-либо, официально связанного с производством или управлением их игровых франшиз. Защищенные авторским правом произведения искусства, представленные в Site или через него, остаются интеллектуальной собственностью соответствующего правообладателя. Site не занимается продажей внутриигровых предметов. Вместо этого наш сервис направлен на улучшение игровых навыков игроков и иногда дарит пользователям внутриигровые предметы.</p>
+        </div>
+      </section>
+    </footer>
+  </div>
     <script type="module" src="/javaScript/registration.js"></script>
 <!--   <script type="module" src="/javascript/main.js"></script>
   <script type="module" src="/javascript/loadingIndicator.js"></script> -->
