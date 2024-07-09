@@ -12,6 +12,12 @@ export class Content {
 
 
       const contentRows = async(data) => {
+        console.log(data)
+        if(data.length < 1 || !data) {
+          const div = document.createElement('div');
+          div.textContent = 'Нет данных';
+          return contentContainer.append(div);
+        }
         for(let product of data.reverse()) {
           const productState = document.createElement('input');
           productState.id = 'enable-disable-chapter';
@@ -71,7 +77,6 @@ export class Content {
           this.editRow(buttonEdit, contentContainer);
           this.stateRow(productState, contentContainer);
           contentContainer.append(contentRow);
-    
         }
       }
 

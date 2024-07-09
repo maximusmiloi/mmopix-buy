@@ -6,6 +6,7 @@ import {createContentChapter} from '../javaScript/adminHandler/gameHandler/switc
 import createOrdersContent from './adminHandler/orderHandler/orders.js';
 import createUsersContent from './adminHandler/userHandler/users.js';
 import createFinancesContent from './adminHandler/financesHandler/finances.js';
+import createNotificationsContent from './adminHandler/notificationsHandler/notifications.js';
 (async() => {
   try {
     const userInfo = document.querySelector('.profile-info');
@@ -32,91 +33,165 @@ import createFinancesContent from './adminHandler/financesHandler/finances.js';
 
 (async() => {
   try {
+    document.addEventListener("DOMContentLoaded", () => {
+      let flagSwitcher;
+      const escapingBallG = document.getElementById('escapingBallG');
+      const ovarlay = document.querySelector('.modal-overlay');
+      const mainPanelElement = document.querySelectorAll('.main-panel-radio label');
+      const saveSelectedRadio = (value) => {
+        localStorage.setItem('selectedRadio', value);
+      };
+    
+      const getSelectedRadio = () => {
+        return localStorage.getItem('selectedRadio');
+      };
 
-    const mainPanelElement = document.querySelectorAll('.main-panel-radio label');
-    createOrdersContent();
-    //const mainHeaderContentElement = document.getElementById('')
-    mainPanelElement.forEach(label => {
-      label.addEventListener('click', async(event) => {
-        const input = document.querySelector(`#${label.getAttribute('for')}`);
+
+      /* createOrdersContent(); */
+      //const mainHeaderContentElement = document.getElementById('')
+      const handleRadioClick = async(input) => {
         if (input) {
           input.checked = true;
           const value = input.value;
           if (value === 'games') {
-            localStorage.setItem('admin-order-page', 1);
-            const requestGetGames = await fetch('/admin/getgames');
-            const responseGetGame = await requestGetGames.json();
+            console.log(flagSwitcher);
+            if(flagSwitcher !== 'games') {
+              flagSwitcher = 'games';
+              ovarlay.style.display = 'block';
+              escapingBallG.style.display = 'flex';
+              localStorage.setItem('admin-order-page', 1);
+              const requestGetGames = await fetch('/admin/getgames');
+              const responseGetGame = await requestGetGames.json();
 
-            const createButtonCreateGame = async() => {
-              const labelsHeader = document.querySelectorAll('.main-panel2-radio label');
-              labelsHeader.forEach(label => {
-                label.addEventListener('click', (event) => {
-                  const input = document.querySelector(`#${label.getAttribute('for')}`);
-                  if (input) {
-                    input.checked = true;
-                    const value = input.value;
-                    if(value === 'games') {
-                      localStorage.setItem('admin-order-page', 1);
-/*                    
-                      mainFilterElement.innerHTML = '';
-                      mainFilterElementGames.innerHTML = ''; */
-                      createContentGames(value, responseGetGame[0]);
-                      createButtonCreateGame();
+              const createButtonCreateGame = async() => {
+                const labelsHeader = document.querySelectorAll('.main-panel2-radio label');
+                labelsHeader.forEach(label => {
+                  label.addEventListener('click', (event) => {
+                    const input = document.querySelector(`#${label.getAttribute('for')}`);
+                    if (input) {
+                      input.checked = true;
+                      const value = input.value;
+                      if(value === 'games') {
+                        ovarlay.style.display = 'block';
+                        escapingBallG.style.display = 'flex';
+                        localStorage.setItem('admin-order-page', 1);
+  /*                    
+                        mainFilterElement.innerHTML = '';
+                        mainFilterElementGames.innerHTML = ''; */
+                        createContentGames(value, responseGetGame[0]);
+                        createButtonCreateGame();
+                        ovarlay.style.display = 'none';
+                        escapingBallG.style.display = 'none';
+                      }
+                      if(value === 'chapters') {
+                        ovarlay.style.display = 'block';
+                        escapingBallG.style.display = 'flex';
+                        localStorage.setItem('admin-order-page', 1);
+  /*                    
+                        mainFilterElement.innerHTML = '';
+                        mainFilterElementGames.innerHTML = ''; */
+                        createContentChapter(value, responseGetGame[0], responseGetGame[1]);
+                        createButtonCreateGame();
+                        ovarlay.style.display = 'none';
+                        escapingBallG.style.display = 'none';
+                      }
                     }
-                    if(value === 'chapters') {
-                      localStorage.setItem('admin-order-page', 1);
-/*                    
-                      mainFilterElement.innerHTML = '';
-                      mainFilterElementGames.innerHTML = ''; */
-                      createContentChapter(value, responseGetGame[0], responseGetGame[1]);
-                      createButtonCreateGame();
-                    }
-                  }
+                  })
                 })
-              })
+              }
+              createContentGames(value, responseGetGame[0]);
+              createButtonCreateGame();
+              ovarlay.style.display = 'none';
+              escapingBallG.style.display = 'none';
             }
-            createContentGames(value, responseGetGame[0]);
-            createButtonCreateGame();
-
           } else if (value === `orders`) {
-            localStorage.setItem('admin-order-page', 1);
-            const contentContainer  = document.querySelector('.content');
-            contentContainer.innerHTML = '';
-            createOrdersContent();
+            ovarlay.style.display = 'block';
+            escapingBallG.style.display = 'flex';
+            console.log(flagSwitcher);
+            if(flagSwitcher !== 'orders') {
+              flagSwitcher = 'orders';
+              localStorage.setItem('admin-order-page', 1);
+              const contentContainer  = document.querySelector('.content');
+              contentContainer.innerHTML = '';
+              createOrdersContent();
+            }
+            ovarlay.style.display = 'none';
+            escapingBallG.style.display = 'none';
           } else if (value === `profiles`) {
-            localStorage.setItem('admin-order-page', 1);
-            const contentContainer  = document.querySelector('.content');
-            contentContainer.innerHTML = '';
-             
+            ovarlay.style.display = 'block';
+            escapingBallG.style.display = 'flex';
+            if(flagSwitcher !== 'profiles') {
+              flagSwitcher = 'profiles';
+              localStorage.setItem('admin-order-page', 1);
+              const contentContainer  = document.querySelector('.content');
+              contentContainer.innerHTML = '';
+              ovarlay.style.display = 'none';
+              escapingBallG.style.display = 'none';
+            }
           } else if (value === `finances`) {
-            localStorage.setItem('admin-order-page', 1);
+            ovarlay.style.display = 'block';
+            escapingBallG.style.display = 'flex';
+            if(flagSwitcher !== 'finances') {
+              flagSwitcher = 'finances';
+              localStorage.setItem('admin-order-page', 1);
 
-            const contentContainer  = document.querySelector('.content');
-            contentContainer.innerHTML = '';
-            createFinancesContent();
-             
+              const contentContainer  = document.querySelector('.content');
+              contentContainer.innerHTML = '';
+              createFinancesContent();
+            }
+            ovarlay.style.display = 'none';
+            escapingBallG.style.display = 'none';
           } else if (value === `notifications`) {
-            localStorage.setItem('admin-order-page', 1);
-            const contentContainer  = document.querySelector('.content');
-            contentContainer.innerHTML = '';
-
+            ovarlay.style.display = 'block';
+            escapingBallG.style.display = 'flex';
+            if(flagSwitcher !== 'notifications') {
+              flagSwitcher = 'notifications';
+              localStorage.setItem('admin-order-page', 1);
+              const contentContainer  = document.querySelector('.content');
+              contentContainer.innerHTML = '';
+              createNotificationsContent();
+            }
+            ovarlay.style.display = 'none';
+            escapingBallG.style.display = 'none';
           } else if (value === `users`) {
-            localStorage.setItem('admin-order-page', 1);
-            const contentContainer  = document.querySelector('.content');
-            contentContainer.innerHTML = '';
-            createUsersContent();
+            ovarlay.style.display = 'block';
+            escapingBallG.style.display = 'flex';
+            if(flagSwitcher !== 'users') {
+              flagSwitcher = 'users';
+              localStorage.setItem('admin-order-page', 1);
+              const contentContainer  = document.querySelector('.content');
+              contentContainer.innerHTML = '';
+              createUsersContent();
 /*             mainContentElement.innerHTML = '';
             mainFilterElement.innerHTML = '';
             mainFilterElementGames.innerHTML = ''; */
+            }
+            ovarlay.style.display = 'none';
+            escapingBallG.style.display = 'none';
           } 
-           else {
+          else {
             mainContentElement.innerHTML = '';
             mainFilterElement.innerHTML = '';
             mainFilterElementGames.innerHTML = '';
           }
         }
+      }
+      const savedValue = getSelectedRadio();
+      if (savedValue) {
+        const savedInput = document.querySelector(`input[value="${savedValue}"]`);
+        if (savedInput) {
+          savedInput.checked = true;
+          handleRadioClick(savedInput); 
+        }
+      }
+      mainPanelElement.forEach(label => {
+        const input = document.querySelector(`#${label.getAttribute('for')}`);
+        label.addEventListener('click', async(event) => {
+          await handleRadioClick(input); 
+          saveSelectedRadio(input.value); 
+        });
       });
-    });
+    })
   } catch(error) {
     console.log(error)
   }

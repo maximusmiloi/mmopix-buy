@@ -162,6 +162,12 @@ main {
     max-width: 350px;
     font-size: 12px;
    }
+   main {
+    margin-top: 50px;
+   }
+   .main-content-top-elements_img {
+    display: none;
+   }
    .main-content-2_item-1 {
     display: flex;
     flex-direction: column;
