@@ -7,6 +7,8 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import flash from 'connect-flash';
 import auth from './routes/auth/auth.js';
 import home from './routes/home.js';
+import seller from './routes//seller/seller.js';
+import admin from './routes/admin/admin.js';
 const port = 85;
 //console.log(process.env.PORT)
 const app = express();
@@ -45,8 +47,11 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(express.json());
 
+/* app.use('/', ) */
 app.use('/', home)
 app.use('/auth', auth);
+app.use('/seller', seller);
+app.use('/admin', admin);
 
 
 

@@ -1,5 +1,4 @@
 (async() => {
-  console.log(`log`)
   const indicator = document.querySelector('.indicator-log');
   try{
     const loginButton = document.getElementById('button-log');
@@ -22,9 +21,14 @@
         }
         const request = await fetch('/auth/login', options);
         const respone = await request.json();
-        console.log(respone.response)
-        if(respone.response === 'success') {
+        if(respone.message === 'success') {
           window.location.href = '/';
+        }
+        if(respone.message === 'incorrectPassword') {
+          indicator.style.display = 'block';
+          indicator.style.color = 'red';
+          indicator.textContent = 'НЕВЕРНЫЙ ЛОГИН ИЛИ ПАРОЛЬ'
+          /* window.location.href = '/auth/login'; */
         }
         
 /*         if(respone.message === 'loginSucces') {

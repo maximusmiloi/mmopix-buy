@@ -1,0 +1,60 @@
+.finance-content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+.order-content-container {
+  display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 1280px;
+  gap: 15px;
+  font-family: 'TTMilks';
+}
+.order-content-row {
+	display: flex;
+	justify-content: start;
+  align-items: center;
+	height: 15%;
+	width: 100%;;
+	gap: 20px;
+	border-radius: 10px;
+	background-color: rgba(135, 120, 217, 0.4);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+
+.order-content-row::before{
+  content: "";
+  width: 20px;
+  flex-shrink: 0;
+}
+.order-content-row::after{
+  content: "";
+  width: 20px;
+  flex-shrink: 0;
+}
+.order-content-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 15%;
+  gap: 5px;
+}
+.order-content-cell div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+/*   align-items: center; */
+}
+button {
+  width: 100px;
+  /* height: 30%; */
+  background-color: #E3A64B;
+  color: #1F1A3A;
+  font-family: 'TTMilks';
+  cursor: pointer;
+}

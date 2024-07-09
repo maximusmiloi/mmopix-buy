@@ -1,0 +1,150 @@
+.finance-container {
+  display: flex;
+  flex-direction: column;
+  width: 1280px;
+  padding-left: 20px;
+  gap: 20px;
+}
+
+.finance-container button {
+	height: 39px;
+	color: #1F1A3A;
+  font-family: 'TTMilks';
+  font-size: 20px;
+  border-radius: 10px;
+	background: linear-gradient(to bottom, #575757 21%, #F4C27D);;
+}
+.finance-panel_button-save {
+  width: 100%;
+}
+.finance-panel_container__balance___button {
+  width: 130%;
+}
+.finance-panel_container {
+	display: flex;
+  justify-content: space-between;
+	gap: 20px;
+  color: #8778D9;
+}
+.finance-panel_container__balance {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.finance-panel_inputs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.payment-method-container {
+  display: flex;
+  justify-content: start;
+  gap: 15px;
+}
+.payment-method-container label {
+  width: 20%;
+}
+.finance-panel_container__methods {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  gap: 15px;
+}
+.finance-panel_container__balance {
+  width: 30%;
+}
+.finance-panel_container__balance-container {
+  display: flex;
+  gap: 15px;
+}
+#finance-panel_container__balance___value {
+  color: #FF7A00;
+  font-size: 24px;
+}
+#finance-panel_container__balance___text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+#payment-method {
+  width: 60%;
+}
+.seller-finances-modal {
+  display: none;
+	position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 30%;
+  background-color: #141027;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  z-index: 1000;
+  display: none; 
+  flex-direction: column;
+  padding: 20px; 
+  font-family: 'TTMilks';
+  overflow: auto;
+  gap: 5px;
+}
+.finance-content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.order-content-container {
+  display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 1280px;
+  gap: 15px;
+  font-family: 'TTMilks';
+}
+.order-content-row {
+	display: flex;
+	justify-content: start;
+  align-items: center;
+	height: 15%;
+	width: 100%;;
+	gap: 20px;
+	border-radius: 10px;
+	background-color: rgba(135, 120, 217, 0.4);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+
+.order-content-row::before{
+  content: "";
+  width: 20px;
+  flex-shrink: 0;
+}
+.order-content-row::after{
+  content: "";
+  width: 20px;
+  flex-shrink: 0;
+}
+.order-content-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 15%;
+  gap: 5px;
+}
+.order-content-cell div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+/*   align-items: center; */
+}
+button {
+  width: 100px;
+  height: 30%;
+  background-color: #E3A64B;
+  color: #1F1A3A;
+  font-family: 'TTMilks';
+  cursor: pointer;
+}

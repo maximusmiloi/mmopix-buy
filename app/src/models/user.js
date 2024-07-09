@@ -14,7 +14,11 @@ const userSchema = new Schema({
   telegram: String,
   discord: String, 
   role: String,
-  balance: Number
+  balance: Number,
+  products: Array,
+  orders: Array,
+  payments: Array,
+  paymentOrders: Array,
 })
 
 const User = mongoose.model('User', userSchema);

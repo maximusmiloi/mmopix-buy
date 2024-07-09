@@ -17,7 +17,7 @@ router.post('/register', async(req, res) => {
     console.log(req.body)
     const { login, password, email } = req.body;
     const users = await User.find();
-    const existingUser = await User.findOne({ login });
+    const existingUser = await User.findOne({ $or: [{ login }, { email }] });
     if (existingUser) {
       return res.status(200).json({ message: 'userHaveAlready' });
     }
@@ -55,7 +55,7 @@ router.get(`/login`, async(req,res) => {
     res.status(400).json({message: 'pageNotFound'});
   }
 })
-router.post('/login', (req, res, next) => {
+/* router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) { return next(err); }
     if (!user) {
@@ -67,24 +67,33 @@ router.post('/login', (req, res, next) => {
       let response = 'success';
       console.log('Authentication successful, redirecting...');
       return res.json({response});
+    });
+  })(req, res, next);
+}); */
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) { return next(err); }
+    if (!user) {
+      let message = 'incorrectPassword';
+      console.log('Authentication failed: incorrectPassword');
+      return res.json({message});
+    }
+    req.logIn(user, (err) => {
+      if (err) { return next(err); }
+      let message = 'success';
+      
+      console.log('Authentication successful, redirecting...');
+      return res.json({message});
     });
   })(req, res, next);
 });
-router.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) { return next(err); }
-    if (!user) {
-      console.log('Authentication failed');
-      return res.redirect('/auth/login');
+router.get('/logout', (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
     }
-    req.logIn(user, (err) => {
-      if (err) { return next(err); }
-      let response = 'success';
-      console.log(req.user)
-      console.log('Authentication successful, redirecting...');
-      return res.json({response});
-    });
-  })(req, res, next);
+    res.redirect('/');
+  });
 });
 
 export default router;

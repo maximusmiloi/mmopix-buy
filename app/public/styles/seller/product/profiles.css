@@ -1,0 +1,55 @@
+@font-face {
+  font-family: 'TTMilks';
+  src: url('../../../fonts/TTMilks/TTMilks-DemiBold.woff2') format('woff2');
+/*        url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'),
+       url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'), */
+  font-weight: normal;
+  font-style: normal;
+}
+.profiles-container {
+  display: flex;
+  flex-direction: column;
+  width: 1280px;
+  padding-left: 20px;
+  gap: 20px;
+}
+.profiles-container-name {
+  display: flex;
+  gap: 20px;
+}
+.profiles-container-name_name {
+  font-size: 32px;
+  font-family: 'TTMilks';
+}
+.profiles-container-name_div__email_id {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  color: #8778D9;
+  gap: 3px;
+}
+.profiles-container-verif {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  color: #8778D9;
+  gap: 5px;
+}
+.profiles-container button {
+	width: 30%;
+	height: 39px;
+	color: #1F1A3A;
+  font-family: 'TTMilks';
+  font-size: 20px;
+  border-radius: 10px;
+	background: linear-gradient(to bottom, #575757 21%, #F4C27D);;
+}
+.profiles-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.profiles-input {
+  display: flex;
+  flex-direction: column;
+}

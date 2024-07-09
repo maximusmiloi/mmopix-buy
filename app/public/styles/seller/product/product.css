@@ -1,0 +1,74 @@
+@font-face {
+  font-family: 'TTMilks';
+  src: url('../../../fonts/TTMilks/TTMilks-DemiBold.woff2') format('woff2');
+/*        url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'),
+       url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'), */
+  font-weight: normal;
+  font-style: normal;
+}
+.product-button_create-gold {
+  width: 134px;
+  height: 29px;
+  font-size: 16px;
+  background: linear-gradient(to bottom, #575757 21%, #F4C27D);
+  border-radius: 10px;
+  color: #1F1A3A;
+  font-family: 'TTMilks';
+  cursor: pointer;
+}
+.product-content-container {
+  display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 1280px;
+  gap: 15px;
+  font-family: 'TTMilks';
+}
+.product-content-row {
+	display: flex;
+	justify-content: start;
+  align-items: center;
+	height: 15%;
+	width: 100%;;
+	gap: 20px;
+	border-radius: 10px;
+	background-color: rgba(135, 120, 217, 0.4);
+}
+.product-filter-container {
+  margin-bottom: 20px;
+}
+.product-content-row::before{
+  content: "";
+  width: 20px;
+  flex-shrink: 0;
+}
+.product-content-row::after{
+  content: "";
+  width: 20px;
+  flex-shrink: 0;
+}
+.product-content-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 15%;
+  gap: 5px;
+}
+.product-content-cell div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+/*   align-items: center; */
+}
+button {
+  width: 100px;
+  height: 30%;
+  background-color: #E3A64B;
+  color: #1F1A3A;
+  font-family: 'TTMilks';
+  cursor: pointer;
+}
+/* .enable-disable-chapter {
+  
+} */
