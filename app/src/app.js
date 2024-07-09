@@ -9,6 +9,9 @@ import auth from './routes/auth/auth.js';
 import home from './routes/home.js';
 import seller from './routes//seller/seller.js';
 import admin from './routes/admin/admin.js';
+import history from 'connect-history-api-fallback';
+import path from 'path';
+import etag from 'etag';
 dotenv.config();
 const port = process.env.PORT;
 //console.log(process.env.PORT)
@@ -39,23 +42,31 @@ app.use((req, res, next) => {
 });
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static('public'));
-app.use(express.static('public', { 'Content-Type': 'application/javascript' }));
 app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(express.json());
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 /* app.use('/', ) */
 app.use('/', home)
 app.use('/auth', auth);
 app.use('/seller', seller);
 app.use('/admin', admin);
 
-
-
+app.use(history());
+app.use(express.static('public'));
+app.use(express.static('public', {
+   maxAge: '30d',
+   etag: true,
+   lastModified: true, 
+  }
+));
+/* app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'public, max-age=2592000');
+  res.setHeader('ETag', 'W/"' + new Date().getTime() + '"');
+  next();
+}); */
 app.listen(port, (err) => {
   err ? console.log(`Error to listen port ${port}: ${err}`) :console.log(`Server connect. PORT: ${port}`);
 });
