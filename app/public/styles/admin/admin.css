@@ -310,7 +310,11 @@ main-header  .main-content-radio:last-child label {
 .update-prices {
 	height: 100%;
 }
-
+.main-filter-button-prices_update {
+	height: 24px;
+	color: #1F1A3A;
+	background: #F4C27D;
+}
 /* .main-content-container::before {
   content: "";
   width: 20px;

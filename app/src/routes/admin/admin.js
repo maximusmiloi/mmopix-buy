@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import { isAuthenticated } from '../middleware/auth.js';
+import crypto from 'crypto';
 import Game from '../../models/game.js';
 import Order from '../../models/order.js';
 import Chaptersgold from '../../models/chaptergold.js';
@@ -366,8 +367,15 @@ router.get('/getpayments', isAuthenticated,  async(req,res) => {
     }
 
     const payments = await Payment.findOne();
-    if(!payments || payments.length < 1) {
-      return res.status(200).json({payments: null});
+    if(!payments) {
+      const payment = new Payment({
+        id: 0,
+        methods: [],
+        orders: [],
+        idOrder: 0
+      })
+      payment.save()
+      return res.status(200).json({payments: payment});
     } else {
       return res.status(200).json({payments});
     }
@@ -440,6 +448,7 @@ router.post('/changestatusorder', isAuthenticated,  async(req,res) => {
     if(!req.user || req.user.role !== 'admin') {
       return res.redirect('/auth/login');
     }
+    console.log(req.body)
     const status = req.body.status;
     const seller = req.body.seller;
     const id = req.body.id;
@@ -448,26 +457,29 @@ router.post('/changestatusorder', isAuthenticated,  async(req,res) => {
     const sellerInfo = await User.findOne({login: seller});
     order.data.forEach(async order => {
       if(+order.id === +id && order.seller[0] === seller && order.server[0] === server) {
-        if(order.status === 'canceled' && order.status === 'done') {
           if(status === 'done') {
+            console.log(sellerInfo);
+            console.log(order.price)
             order.status = status;
-            sellerInfo.balance = sellerInfo.balance + (+order.price);
-            sellerInfo.save();
+            await User.updateOne({ login: seller }, { $set: { balance: sellerInfo.balance + (+order.price)} });
+/*             sellerInfo.balance = sellerInfo.balance + (+order.price);
+            sellerInfo.save(); */
           }
           if(status === 'canceled') {
             order.status = status;
 /*             sellerInfo.balance = sellerInfo.balance + (+order.price);
             sellerInfo.save(); */
           }
-        } else {
           if(status === 'inwork') {
-            const requestTelegramBot = await fetch(`https://api.telegram.org/MmopixStore_bot:7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE`);
-            const resTelegramBot = await requestTelegramBot.json();
-            console.log(resTelegramBot);
+            if(sellerInfo.telegramId.length > 0 && sellerInfo.token) {
+              const requestTelegramBot = await fetch(`https://api.telegram.org/bot:7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${sellerInfo.telegramId}&text=Ваш заказ #${id} принят`);
+              const resTelegramBot = await requestTelegramBot.json();
+              console.log(resTelegramBot);
+            }
+            order.status = status;
+          } else {
             order.status = status;
           }
-          order.status = status;
-        }
       }
     })
     order.markModified('data');
@@ -500,7 +512,7 @@ router.post('/paymentsave', async(req,res) => {
     const newPayments  = req.body.arrayAdd;
     const updatePayments = req.body.arrayUpdate;
     const payments = await Payment.findOne();
-    if(!payments || payments.methods.length < 1) {
+    if(!payments) {
       const payment = new Payment({
         id: 0,
         methods: newPayments,
@@ -541,6 +553,28 @@ router.get('/info', async(req, res) => {
     const users = await User.find();
     return res.status(200).json({users});
   } catch(error) {
+    return res.status(400).json({message: error.message})
+  }
+})
+router.get('/checktoken', isAuthenticated,  async(req, res) => {
+  try {
+    if(!req.user || req.user.role !== 'admin') {
+      return res.redirect('/auth/login');
+    }
+    const login = req.user.login;
+    const userInfo = await User.findOne({login: login})
+    if(!userInfo.token) {
+      const token = userInfo.id + (crypto.randomBytes(16).toString('hex'));
+      userInfo.token = token;
+      userInfo.save();
+      return res.status(200).json({token: token});
+    } else if (userInfo.token) {
+      return res.status(200).json({token: userInfo.token});
+    } else {
+      return res.status(200).json({message: 'error'});
+    }
+  } catch(error) {
+    console.log(error)
     return res.status(400).json({message: error.message})
   }
 })

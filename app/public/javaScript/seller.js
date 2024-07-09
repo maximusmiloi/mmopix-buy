@@ -4,6 +4,7 @@ import { Content } from "./components/seller/products/content.js";
 import { ContentProfiles } from "./components/seller/profiles/contentProfiles.js";
 import {Panel} from "./components/seller/finances/panel.js";
 import {ContentFinance} from "./components/seller/finances/content.js";
+import {ContentNotifications} from "./components/seller/notification/content.js";
 import {SwitcherOrders} from "./components/seller/orders/switcher.js";
 import {FilterOrders} from "./components/seller/orders/filter.js";
 import {ContentOrders} from "./components/seller/orders/content.js";
@@ -34,7 +35,11 @@ import {ContentOrders} from "./components/seller/orders/content.js";
 (async() => {
   const  message = document.querySelector('.message-panel')
   try {
+    
     document.addEventListener("DOMContentLoaded", () => {
+      const escapingBallG = document.getElementById('escapingBallG');
+      const ovarlay = document.querySelector('.modal-overlay');
+      let flagSwitcher;
       const mainPanelElement = document.querySelectorAll('.main-panel-radio label');
       const content = document.querySelector('.main-content');
     
@@ -47,100 +52,151 @@ import {ContentOrders} from "./components/seller/orders/content.js";
       };
     
       const handleRadioClick = async (input) => {
+        
         const requestDataChapters = await fetch('/seller/getchapters');
         const dataChapters = await requestDataChapters.json();
-    
+        
         if (input.value === 'orders') {
-          localStorage.setItem('seller-order-page', 1);
-          const mainContent = document.getElementById('main-content');
-          mainContent.innerHTML = '';
-          const switcher = new SwitcherOrders();
-          const createSwitcher = switcher.renderPanel1();
-          mainContent.appendChild(createSwitcher);
-          const createSwitcher2 = switcher.renderPanel2();
-          mainContent.appendChild(createSwitcher2);
+          if(flagSwitcher !== 'orders') {
+            flagSwitcher = 'orders';
+            localStorage.setItem('seller-order-page', 1);
+            const mainContent = document.getElementById('main-content');
+            mainContent.innerHTML = '';
+            ovarlay.style.display = 'block';
+            escapingBallG.style.display = 'flex';
+            const switcher = new SwitcherOrders();
+            const createSwitcher = switcher.renderPanel1();
+            mainContent.appendChild(createSwitcher);
+            const createSwitcher2 = switcher.renderPanel2();
+            mainContent.appendChild(createSwitcher2);
 
-          const filter = new FilterOrders(dataChapters.ordersUser);
-          const filterCreate = filter.render();
-          mainContent.appendChild(filterCreate);
-          const content = new ContentOrders(dataChapters.ordersUser);
-          const contentCreate = content.renderOrders();
-          mainContent.appendChild(contentCreate);
-
-
-          const inputsSwitcher = createSwitcher.querySelectorAll('input');
-          
-          inputsSwitcher.forEach(input => {
-
-            input.addEventListener('click', async event => {
-              if(event.target.value === 'newOrders') {
-                filterCreate.style.display = 'none';
-                contentCreate.style.display = 'none';
-              }
-              if(event.target.value === 'myOrders') {
-                filterCreate.style.display = 'flex';
-                contentCreate.style.display = 'flex';
-              }
+            const filter = new FilterOrders(dataChapters.ordersUser);
+            const filterCreate = filter.render();
+            mainContent.appendChild(filterCreate);
+            const content = new ContentOrders(dataChapters.ordersUser);
+            const contentCreate = content.renderOrders();
+            mainContent.appendChild(contentCreate);
+            escapingBallG.style.display = 'none';
+            ovarlay.style.display = 'none';
+            const inputsSwitcher = createSwitcher.querySelectorAll('input');
+            
+            
+            inputsSwitcher.forEach(input => {
+              
+              input.addEventListener('click', async event => {
+                
+                if(event.target.value === 'newOrders') {
+                  filterCreate.style.display = 'none';
+                  contentCreate.style.display = 'none';
+                }
+                if(event.target.value === 'myOrders') {
+                  filterCreate.style.display = 'flex';
+                  contentCreate.style.display = 'flex';
+                }
+              });
             });
-          });
-          const inputsSwitcher2 = createSwitcher2.querySelectorAll('input');
-          inputsSwitcher2.forEach(input => {
+            const inputsSwitcher2 = createSwitcher2.querySelectorAll('input');
+            inputsSwitcher2.forEach(input => {
 
-            input.addEventListener('click', async event => {
+              input.addEventListener('click', async event => {
 
-              if(event.target.value === 'Buy') {
-                filterCreate.style.display = 'none';
-                contentCreate.style.display = 'none';
-              }
-              if(event.target.value === 'Sell') {
-                filterCreate.style.display = 'flex';
-                contentCreate.style.display = 'flex';
-              }
+                if(event.target.value === 'Buy') {
+                  filterCreate.style.display = 'none';
+                  contentCreate.style.display = 'none';
+                }
+                if(event.target.value === 'Sell') {
+                  filterCreate.style.display = 'flex';
+                  contentCreate.style.display = 'flex';
+                }
+              });
             });
-          });
+          }
         }
-    
+        
         if (input.value === 'products') {
-          localStorage.setItem('seller-order-page', 1);
-          const requestOrders = await fetch('/seller/getorders');
-          const responseOrders = await requestOrders.json();
-    
-          const createFilter = new Filter('Добавить товар', dataChapters.chapters);
-          const filter = createFilter.renderGold();
-          content.innerHTML = '';
-          content.appendChild(filter);
-    
-          const createContent = new Content(responseOrders);
-          const contentOrders = createContent.render();
-          content.appendChild(contentOrders);
+          
+          console.log(flagSwitcher);
+          if(flagSwitcher !== 'products') {
+            flagSwitcher = 'products';
+            content.innerHTML = ''; 
+            ovarlay.style.display = 'block';
+            escapingBallG.style.display = 'flex';
+            localStorage.setItem('seller-order-page', 1);
+            const requestOrders = await fetch('/seller/getorders');
+            const responseOrders = await requestOrders.json();
+
+            const createFilter = new Filter('Добавить товар', dataChapters.chapters);
+            const filter = createFilter.renderGold();
+            content.appendChild(filter);
+      
+            const createContent = new Content(responseOrders);
+            const contentOrders = createContent.render();
+            content.appendChild(contentOrders);
+            escapingBallG.style.display = 'none';
+            ovarlay.style.display = 'none';
+          }
         }
     
         if (input.value === 'profiles') {
-          localStorage.setItem('seller-order-page', 1);
-          /* const mainContent = document.getElementById('main-content'); */
-          content.innerHTML = '';
-          const reqUserInfo = await fetch('/seller/userinfo');
-          const resUserInfo = await reqUserInfo.json();
-          const createContent = new ContentProfiles(resUserInfo.user);
-          const mainContent = createContent.render();
-          content.append(mainContent);
+          console.log(flagSwitcher);
+          if(flagSwitcher !== 'profiles') { 
+            flagSwitcher = 'profiles';
+            localStorage.setItem('seller-order-page', 1);
+            /* const mainContent = document.getElementById('main-content'); */
+            content.innerHTML = '';
+            escapingBallG.style.display = 'flex';
+            ovarlay.style.display = 'block';
+            const reqUserInfo = await fetch('/seller/userinfo');
+            const resUserInfo = await reqUserInfo.json();
+            const createContent = new ContentProfiles(resUserInfo.user);
+            const mainContent = createContent.render();
+            content.append(mainContent);
+            escapingBallG.style.display = 'none';
+            ovarlay.style.display = 'none';
+          }
         }
     
         if (input.value === 'finances') {
-          localStorage.setItem('seller-order-page', 1);
-          const mainContent = document.getElementById('main-content');
-          mainContent.innerHTML = '';
-          const financeContainer = document.createElement('div');
-          financeContainer.classList.add('finance-container');
-          const reqUserInfo = await fetch('/seller/userinfo');
-          const resUserInfo = await reqUserInfo.json();
+          if(flagSwitcher !== 'finances') {
+            flagSwitcher = 'finances';
+            localStorage.setItem('seller-order-page', 1);
+            const mainContent = document.getElementById('main-content');
+            mainContent.innerHTML = '';
+            escapingBallG.style.display = 'flex';
+            ovarlay.style.display = 'block';
+            const financeContainer = document.createElement('div');
+            financeContainer.classList.add('finance-container');
+            const reqUserInfo = await fetch('/seller/userinfo');
+            const resUserInfo = await reqUserInfo.json();
 
-          const createPanel = new Panel(resUserInfo);
-          const panel = createPanel.render();
-          const createContent = new ContentFinance(resUserInfo.paymentOrdersUser);
-          const content = createContent.render();
-          mainContent.append(financeContainer);
-          financeContainer.append(panel, content);
+            const createPanel = new Panel(resUserInfo);
+            const panel = createPanel.render();
+            const createContent = new ContentFinance(resUserInfo.paymentOrdersUser);
+            const content = createContent.render();
+            mainContent.append(financeContainer);
+            financeContainer.append(panel, content);
+            escapingBallG.style.display = 'none';
+            ovarlay.style.display = 'none';
+          }
+        }
+        if (input.value === 'notifications') {
+          if(flagSwitcher !== 'notifications') {
+            flagSwitcher = 'notifications';
+            localStorage.setItem('seller-order-page', 1);
+            const mainContent = document.getElementById('main-content');
+            mainContent.innerHTML = '';
+            escapingBallG.style.display = 'flex';
+            ovarlay.style.display = 'block';
+            const notificationContainer = document.createElement('div');
+            notificationContainer.classList.add('notifications-container');
+;
+            const createContent = new ContentNotifications();
+            const content = createContent.render();
+            notificationContainer.append(content);
+            mainContent.append(notificationContainer);
+            escapingBallG.style.display = 'none';
+            ovarlay.style.display = 'none';
+          }
         }
       };
     

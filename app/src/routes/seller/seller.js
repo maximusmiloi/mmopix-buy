@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 import { isAuthenticated } from '../middleware/auth.js';
 import Game from '../../models/game.js';
 import Payment from '../../models/payment.js';
@@ -8,6 +9,7 @@ import Chaptersgold from '../../models/chaptergold.js';
 import Product from '../../models/product.js';
 import User from '../../models/user.js';
 import Order from '../../models/order.js';
+
 
 router.get(`/`, isAuthenticated, (req,res) => {
   try {
@@ -31,6 +33,24 @@ router.get('/getchapters', isAuthenticated, async(req, res) => {
     }
     const chapters = await Chaptersgold.find();
     const orders = await Order.findOne();
+    if(!orders) {
+      const order = new Order({
+        id: 0,
+        data: [],
+      })
+      order.save()
+      const ordersUser = order.data.filter(order => {
+        if(order.seller[0] === user.login){
+          return order;
+        }
+      })
+      const chaptersTrue = chapters.filter(chapter => {
+        if(chapter.state == true) {
+          return chapter;
+        }
+      })
+      return res.status(200).json({chapters: chaptersTrue, ordersUser})
+    }
     const ordersUser = orders.data.filter(order => {
       if(order.seller[0] === user.login){
         return order;
@@ -59,14 +79,11 @@ router.post('/saveproduct', isAuthenticated,  async(req,res) => {
     const gameRegion = orderData[1];
     const gameServer = orderData[2];
     const avaible = req.body.inputValue;
-
-    console.log(orderData);
     
     if(avaible.length < 1) {
       message = 'emptyInput';
       return res.status(200).json({message});
     }
-    console.log(+avaible)
     if(`${+avaible}` == 'NaN') {
       message = 'notNumber';
       return res.status(200).json({message});
@@ -92,7 +109,6 @@ router.post('/saveproduct', isAuthenticated,  async(req,res) => {
           return product;
         }
       })
-      console.log(hasOrder);
       if(hasOrder.length > 0) {
         message = 'hasOrder';
         return res.status(200).json({message})
@@ -138,6 +154,21 @@ router.get('/getorders', isAuthenticated, async(req, res) => {
     }
     const userNumberproducts = req.user.products;
     const products = await Product.findOne();
+    if(!products) {
+      const product = new Product({
+        id: 0,
+        data: []
+      })
+      product.save();
+      const productsUser = product.data.filter(product => {
+        for(let number of userNumberproducts) {
+          if(number === product.id && product.login === req.user.login) {
+            return product;
+          }
+        }
+      })
+      return res.status(200).json(productsUser);
+    }
     const productsUser = products.data.filter(product => {
       for(let number of userNumberproducts) {
         if(number === product.id && product.login === req.user.login) {
@@ -145,7 +176,7 @@ router.get('/getorders', isAuthenticated, async(req, res) => {
         }
       }
     })
-    res.status(200).json(productsUser);
+    return res.status(200).json(productsUser);
   } catch ( error ) {
     console.log(error)
     return res.status(400).json({message: error.message})
@@ -155,16 +186,13 @@ router.get('/getorders', isAuthenticated, async(req, res) => {
 router.get('/getorderone', isAuthenticated,  async(req, res) => {
   let message;
   const user = req.user;
-  console.log(user)
   try{
     if(!req.user || req.user.role !== 'seller') {
       return res.redirect('/auth/login');
     }
     const idProduct = req.query.id;
-    console.log(idProduct)
     const products = await Product.findOne();
     const product = products.data.find(el => el.id == +idProduct)
-    console.log(product)
     return res.status(200).json(product);
   } catch ( error ) {
     console.log(error);
@@ -178,9 +206,7 @@ router.get('/deleteuserproduct', isAuthenticated,  async(req, res) => {
       }
       let message;
       const user = await User.findOne({login: req.user.login});
-      console.log(user.products);
       user.products = user.products.filter(product => product !== +req.query.id);
-      console.log(user.products);
       user.save();
 
       const products = await Product.findOne();
@@ -193,14 +219,12 @@ router.get('/deleteuserproduct', isAuthenticated,  async(req, res) => {
     }
 })
 router.post('/edituserproduct', isAuthenticated,  async(req, res) => {
-  console.log(req.user)
   try {
     if(!req.user || req.user.role !== 'seller') {
       return res.redirect('/auth/login');
     }
     let message;
     const productData = req.body;
-    console.log(productData)
 /*     const user = await User.findOne({login: req.user.login});
     console.log(user.orders);
     user.orders = user.orders.filter(order => order !== +req.query.id);
@@ -215,7 +239,6 @@ router.post('/edituserproduct', isAuthenticated,  async(req, res) => {
       }
     }
     products.markModified('data');
-    console.log(products.data)
     products.save();
     /* const order = orders.data.find(el => el.id == orderId); */
     return res.status(200).json({message: 'success'});
@@ -229,11 +252,8 @@ router.get('/stateproduct', isAuthenticated,  async (req, res) => {
     if(!req.user || req.user.role !== 'seller') {
       return res.redirect('/auth/login');
     }
-    console.log(req.query)
     const id = req.query.id;
     const state = req.query.state;
-    console.log(id)
-    console.log(state)
     const products = await Product.findOne();
     for(let product of products.data) {
       if(product.id === +id && product.login === req.user.login) {
@@ -241,7 +261,6 @@ router.get('/stateproduct', isAuthenticated,  async (req, res) => {
       }
     }
     products.markModified('data');
-    console.log(products.data)
     products.save();
     return res.status(200).json({message: 'success'});
   } catch(error) {
@@ -275,7 +294,6 @@ router.post('/paymentsave', isAuthenticated, async(req, res) => {
     }
     const user = req.user;
     const value = req.body.arrayPayments;
-    console.log(value);
     await User.updateOne({ login: user.login }, { $set: { payments: value} })
     return res.status(200).json({message: 'success'});
   } catch(error) {
@@ -292,10 +310,6 @@ router.post('/orderpayment', isAuthenticated, async(req, res) => {
     const value = req.body.value;
     const method = req.body.methodValue;
     const requisites = user.payments.find(pay => pay[0] === method)[1];
-    console.log(user);
-    console.log(value);
-    console.log(method);
-    console.log(requisites);
     if(+value > user.balance) {
       return res.status(200).json({message: 'limitBalance'});
     }
@@ -311,9 +325,7 @@ router.post('/orderpayment', isAuthenticated, async(req, res) => {
       hour12: false,
     };
     const formattedDate = date.toLocaleString('ru-RU', options).replace(',', '');
-    console.log(payment.orders)
     if(!payment.orders || payment.orders.length < 1) {
-      console.log('empty')
       payment.idOrder = 0;
       payment.orders = [{
         user: user.login,
@@ -328,7 +340,6 @@ router.post('/orderpayment', isAuthenticated, async(req, res) => {
       await User.updateOne({ login: user.login }, { $set: { balance: user.balance - value} });
       return res.status(200).json({message: 'success'});
     } else {
-      console.log('noempty');
       payment.idOrder = payment.idOrder + 1;
       payment.orders.push({
         user: user.login,
@@ -354,7 +365,6 @@ router.post('/profilessave', isAuthenticated,  async(req, res) => {
     if(!req.user || req.user.role !== 'seller') {
       return res.redirect('/auth/login');
     }
-    console.log(req.body)
     const user = req.user;
     const userData = await User.findOne({login: req.user.login});
     const telegram = req.body.telegram;
@@ -369,7 +379,6 @@ router.post('/profilessave', isAuthenticated,  async(req, res) => {
       userData.discord = discord;
     }
     if(password.length > 5 && twopassword.length > 5 && password === twopassword) {
-      console.log('Password change');
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
       userData.password = hashedPassword;
@@ -426,6 +435,28 @@ router.post('/doneorder', isAuthenticated,  async(req, res) => {
     order.markModified('data');
     order.save();
     return res.status(200).json({message: 'success'});
+  } catch(error) {
+    console.log(error)
+    return res.status(400).json({message: error.message})
+  }
+})
+router.get('/checktoken', isAuthenticated,  async(req, res) => {
+  try {
+    if(!req.user || req.user.role !== 'seller') {
+      return res.redirect('/auth/login');
+    }
+    const login = req.user.login;
+    const userInfo = await User.findOne({login: login})
+    if(!userInfo.token || userInfo.token < 1) {
+      const token = userInfo.id + (crypto.randomBytes(16).toString('hex'));
+      userInfo.token = token;
+      userInfo.save();
+      return res.status(200).json({token: token});
+    } else if (userInfo.token) {
+      return res.status(200).json({token: userInfo.token});
+    } else {
+      return res.status(200).json({message: 'error'});
+    }
   } catch(error) {
     console.log(error)
     return res.status(400).json({message: error.message})

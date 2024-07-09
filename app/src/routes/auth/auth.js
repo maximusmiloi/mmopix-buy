@@ -1,6 +1,7 @@
 import express from 'express';
 import User from '../../models/user.js';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 import passport from '../../config/passport.js';
 import { isAuthenticated } from '../middleware/auth.js';
 const router = express.Router();
@@ -25,6 +26,7 @@ router.post('/register', async(req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = new User({
       id: users.length + 1,
+      token: (users.length + 1) + (crypto.randomBytes(16).toString('hex')),
       login,
       email,
       password: hashedPassword,
@@ -96,4 +98,44 @@ router.get('/logout', (req, res, next) => {
   });
 });
 
+router.post('/telegramhook', async(req, res) => {
+  try {
+    console.log(req.body);
+    const { message } = req.body;
+
+    if (message) {
+      if (message.text && message.text.startsWith('/')) {
+        const chatId = message.chat.id;
+        const username = message.chat.username;
+        const text = message.text;
+    
+        // Проверяем, содержит ли сообщение токен
+        if (text.startsWith('/start ')) {
+          const token = text.split(' ')[1];
+    
+          // Ищем пользователя с этим токеном и обновляем его telegramId
+          try {
+            const requestTelegramBot = await fetch(`https://api.telegram.org/bot:7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${chatId}&text=Поздравляем, бот для уведомлений подключён`);
+            const resTelegramBot = await requestTelegramBot.json();
+            console.log(resTelegramBot);
+
+            const user = await User.findOneAndUpdate({ token }, { telegramId: chatId }, { new: true });
+            if (user) {
+              console.log(`User ${username} updated with telegramId: ${chatId}`);
+            } else {
+              console.log('User not found');
+            }
+          } catch (error) {
+            console.log(`Error updating user: ${error.message}`);
+          }
+        }
+      } else {
+        console.log('ignore message telegram');
+      }
+    }
+    res.sendStatus(200);
+  } catch(error) {
+    console.log(error)
+  }
+});
 export default router;
