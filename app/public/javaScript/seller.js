@@ -115,7 +115,6 @@ import {ContentOrders} from "./components/seller/orders/content.js";
         
         if (input.value === 'products') {
           
-          console.log(flagSwitcher);
           if(flagSwitcher !== 'products') {
             flagSwitcher = 'products';
             content.innerHTML = ''; 
@@ -128,8 +127,8 @@ import {ContentOrders} from "./components/seller/orders/content.js";
             const createFilter = new Filter('Добавить товар', dataChapters.chapters);
             const filter = createFilter.renderGold();
             content.appendChild(filter);
-      
-            const createContent = new Content(responseOrders);
+            console.log(dataChapters.chapters)
+            const createContent = new Content(responseOrders, dataChapters.chapters);
             const contentOrders = createContent.render();
             content.appendChild(contentOrders);
             escapingBallG.style.display = 'none';
@@ -138,7 +137,6 @@ import {ContentOrders} from "./components/seller/orders/content.js";
         }
     
         if (input.value === 'profiles') {
-          console.log(flagSwitcher);
           if(flagSwitcher !== 'profiles') { 
             flagSwitcher = 'profiles';
             localStorage.setItem('seller-order-page', 1);

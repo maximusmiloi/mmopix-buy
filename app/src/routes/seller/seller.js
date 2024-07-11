@@ -314,6 +314,7 @@ router.post('/orderpayment', isAuthenticated, async(req, res) => {
       return res.status(200).json({message: 'limitBalance'});
     }
     const payment = await Payment.findOne();
+    const admin = await User.findOne({role: 'admin'});
     const date = new Date();
     const options = {
       year: 'numeric',
@@ -338,6 +339,11 @@ router.post('/orderpayment', isAuthenticated, async(req, res) => {
       }]
       payment.save();
       await User.updateOne({ login: user.login }, { $set: { balance: user.balance - value} });
+      if(admin.telegramId && admin.telegramId.length > 0 && admin.token) {
+        const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${admin.telegramId}&text=ВЫПЛАТА: Пользователь ${user.login} заказал выплату на сумму ${value} $`);
+        const resTelegramBot = await requestTelegramBot.json();
+        console.log(resTelegramBot);
+      }
       return res.status(200).json({message: 'success'});
     } else {
       payment.idOrder = payment.idOrder + 1;
@@ -352,6 +358,11 @@ router.post('/orderpayment', isAuthenticated, async(req, res) => {
       })
       payment.save();
       await User.updateOne({ login: user.login }, { $set: { balance: user.balance - value} });
+      if(admin.telegramId && admin.telegramId.length > 0 && admin.token) {
+        const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${admin.telegramId}&text=ВЫПЛАТА: Пользователь ${user.login} заказал выплату на сумму ${value} $`);
+        const resTelegramBot = await requestTelegramBot.json();
+        console.log(resTelegramBot);
+      }
       return res.status(200).json({message: 'success'});
     }
 /*     await User.updateOne({ login: user.login }, { $set: { payments: value} }) */
@@ -399,10 +410,16 @@ router.post('/acceptorder', isAuthenticated,  async(req, res) => {
     const seller = req.body.seller;
     const server = req.body.server;
     const order = await Order.findOne();
-    order.data.forEach(order => {
+    const admin = await User.findOne({role: 'admin'});
+    order.data.forEach(async order => {
       if(+order.id === +id && order.seller[0] === seller && order.server[0] === server) {
         if(order.status !== 'canceled' && order.status !== 'done') {
           order.status = 'inwork';
+          if(admin.telegramId && admin.telegramId.length > 0 && admin.token) {
+            const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${admin.telegramId}&text=Пользователь ${seller} принял заказ с номером - ${id}. Сервер ${server}.`);
+            const resTelegramBot = await requestTelegramBot.json();
+            console.log(resTelegramBot);
+          }
         }
       }
     })

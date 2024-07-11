@@ -1,4 +1,6 @@
 import {Elements} from './elements/elements.js';
+import {Modal} from './elements/modal.js';
+
 export class Panel {
   constructor(data) {
     this.data = data;
@@ -15,12 +17,24 @@ export class Panel {
       this.data.methods.forEach(element => {
         const infoContainer = document.createElement('div')
         const labelMethod = elements.renderLabel('payment-method', `${element[0]}: `);
+        labelMethod.dataset.method = element[0];
         const inputMethod = elements.renderInput('payment-method');
         const spanMethod = elements.renderSpan('payment-method-span');
+        const buttonMethod = elements.renderButton('payment-method-button', 'Удалить');
+        buttonMethod.style.width = '100px';
+        buttonMethod.style.background = 'red';
+        buttonMethod.style.color = 'white';
+        buttonMethod.addEventListener('click', async event => {
+          const modalDelete = new Modal();
+          const nameMethod = event.target.parentNode.children[0].dataset.method;
+          console.log(nameMethod)
+          const createModalDelete = await modalDelete.renderNotification('Будет удалён метод, а также все реквизиты у каждого продавца', nameMethod);
+          panelContainer.append(createModalDelete)
+        })
         inputMethod.value = element[1];
         inputMethod.dataset.name = element[0];
         spanMethod.textContent = '%';
-        infoContainer.append(labelMethod, inputMethod, spanMethod)
+        infoContainer.append(labelMethod, inputMethod, spanMethod, buttonMethod)
         inputContainer.append(infoContainer);
       });
       panelContainer.appendChild(inputContainer);

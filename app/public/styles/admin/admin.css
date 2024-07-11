@@ -77,6 +77,8 @@ button {
 	line-height: 34px;
 	border-right: none;
 	user-select: none;
+	font-size: 24px;
+	color: #8778D9;
 }
  
 .main-panel2 .orders-header-radio:first-child label,
@@ -92,7 +94,7 @@ button {
 .main-panel2 input[type=radio]:checked + label,
 .content-orders_header input[type=radio]:checked + label
 {
-	color: #E3A64B;
+	color: white;
   background-color: #212121;
 }
  
@@ -136,6 +138,8 @@ button {
 	line-height: 34px;
 	border-right: none;
 	user-select: none;
+	color: #8778D9;
+	font-size: 24px;
 }
  
 .main-panel .main-panel-radio:first-child label,
@@ -151,7 +155,7 @@ main-header  .main-content-radio:last-child label {
 .main-panel input[type=radio]:checked + label,
 .main-header input[type=radio]:checked + label
 {
-	color: #E3A64B;
+	color: white;
   background-color: #212121;
 }
  
@@ -325,6 +329,75 @@ main-header  .main-content-radio:last-child label {
 	width: 100%;
 } */ 
 
+.seller-product-modal {
+  display: none;
+	position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 70%;
+  background-color: #141027;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  z-index: 1000;
+  display: none; 
+  flex-direction: column;
+  padding: 20px; 
+  font-family: 'TTMilks';
+  overflow: auto;
+  gap: 5px;
+}
+
+.modal-button {
+  margin-top: 50px;
+	width: 136px;
+	height: 39px;
+	color: #1F1A3A;
+  font-family: 'TTMilks';
+  font-size: 20px;
+	background: linear-gradient(to bottom, #575757 21%, #F4C27D);;
+  cursor: pointer;
+}
+.modal-button-container {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	gap: 20px;
+  
+}
+.modal-button-container button {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	gap: 20px;
+  margin-top: 50px;
+	width: 136px;
+	height: 39px;
+	color: #1F1A3A;
+  font-family: 'TTMilks';
+  font-size: 20px;
+	background: linear-gradient(to bottom, #575757 21%, #F4C27D);;
+}
+.modal-overlay {
+  display: none;
+  position: fixed; /* Фиксированное позиционирование */
+  top: 0; /* Верх экрана */
+  left: 0; /* Левый край экрана */
+  width: 100%; /* Ширина всей страницы */
+  height: 100%; /* Высота всей страницы */
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный цвет */
+  z-index: 999; /* z-index ниже модального окна, но выше всего остального */
+}
+.seller-product-modal span {
+  display: flex;
+  align-items: center;
+  width: 60%;
+  height: 7%;
+  border: 1px solid #8778D9;
+  background-color: #2F2566;
+  color: white;
+}
 /* Мобильные устройства (портрет) */
 @media only screen and (max-width: 480px) {
 

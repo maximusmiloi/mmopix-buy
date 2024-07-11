@@ -37,7 +37,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-image: url('../img/background-home.png');
+  background-image: url('../img/background-home.webp');
   background-repeat: no-repeat;
   background-position: center 0;
   /* background-size: cover; */
@@ -63,15 +63,23 @@ main {
   height: 48px;
   font-family: 'TTMilks';
   font-size: 32px;
+  font-weight: 900;
   color: #1F1A3A;
-  background: #F4C27D;
+  background: linear-gradient(90deg, rgba(244,194,125,1) 0%, rgba(130,92,40,1) 100%);
   border-radius: 10px;
   cursor: pointer;
+}
+.main-content-top-elements-button button:hover {
+  background: #1F1A3A;
+  
 }
 .main-content-top-elements-button button a{
  color: #1F1A3A;
  text-decoration: none;
 }
+.main-content-top-elements-button button a:hover{
+  color: #F4C27D;
+ }
 .main-content-bottom {
   width: 40%;
 }
@@ -168,6 +176,12 @@ main {
    .main-content-top-elements_img {
     display: none;
    }
+   .main-content-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 5%;
+    padding: 10px;
+   }
    .main-content-2_item-1 {
     display: flex;
     flex-direction: column;
@@ -176,8 +190,40 @@ main {
     display: flex;
     flex-direction: column;
    }
+   .main-content-2_item-1-left {
+    order: 2;
+   }
    .main-content-2_item-3 {
     display: flex;
     flex-direction: column;
+   }
+   .main-content-2_item-3-left {
+    display: flex;
+    flex-direction: column;
+    order: 2;
+   }
+   .main-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0;
+    gap: 10%;
+   }
+   .main-content-top {
+    order: 2;
+
+   }
+   .main-content-bottom-h2 {
+    font-size: 1.5em;
+   }
+   .main-content-bottom-p {
+    font-size: 1em;
+   }
+   .main-content-top-elements button {
+    width: 100%;
+    height: 100%;
+    font-size: 1.5em;
+    padding: 5px;
    }
 }

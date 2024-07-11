@@ -39,11 +39,12 @@ const getPriceG2g = async(link) => {
               const matches = cleanedStr.match(regexPrice);
             
               if (matches) {
-                const result = [matches[1], matches[2]];
+                const result = [(+matches[1] * 0.85).toFixed(3), matches[2]];
+                console.log(result)
                 if (option.length >= 3) {
                   option[2] = result; 
                 } else {
-                  option.push(result); 
+                  option.push(result);
                 }
                 console.log("Updated Option:", option); 
                 isModified = true; // Установить флаг изменений

@@ -120,7 +120,39 @@ router.post('/deletegame', isAuthenticated,  async(req, res) => {
       return res.redirect('/auth/login');
     }
     const _id = req.body.idGame;
-    await Game.deleteOne({ _id:  _id})
+    const game = await Game.findOne({_id});
+    const name = game.name[0];
+
+    await Product.updateMany(
+      { 'data.name': name }, 
+      { $pull: { data: { name: name } } }
+    );
+    await Chaptersgold.deleteMany({ name });
+
+    await Game.deleteOne({ _id:  _id});
+    
+    return res.status(200).json({message: 'success'});
+  } catch(error) {
+    return res.status(400).json({message: error.message})
+  }
+})
+router.post('/deleteMethodPay', isAuthenticated,  async(req, res) => {
+  try {
+    if(!req.user || req.user.role !== 'admin') {
+      return res.redirect('/auth/login');
+    }
+    const nameMethod = req.body.nameMethod;
+    const payment = await Payment.findOne();
+    payment.methods = payment.methods.filter(method =>  method[0] !== nameMethod);     
+    payment.markModified('methods');
+    payment.save();
+    const users = await User.find();
+    users.forEach(user => {
+      user.payments = user.payments.filter(payment => payment[0] !== nameMethod);
+      user.markModified('payments');
+    
+      user.save();
+    });
     return res.status(200).json({message: 'success'});
   } catch(error) {
     return res.status(400).json({message: error.message})
@@ -185,7 +217,19 @@ router.post('/deletechapter', isAuthenticated,  async(req, res) => {
   }
   try {
     const _id = req.body.idGame;
-    await Chaptersgold.deleteOne({ _id:  _id})
+    const chapter = await Chaptersgold.findOne({_id});
+    const name = chapter.name;
+    const region = chapter.region;
+    console.log(name)
+    console.log(region)
+    await Chaptersgold.deleteMany({ name, region});
+    await Product.updateMany(
+      { 'data': { $elemMatch: { name: name, region: region } } }, 
+      { $pull: { data: { name: name, region: region } } }
+    );
+    
+    await Game.deleteOne({ _id:  _id});
+    
     return res.status(200).json({message: 'success'});
   } catch(error) {
     return res.status(400).json({message: error.message})
@@ -302,6 +346,11 @@ router.post('/productorder', isAuthenticated,  async(req,res) => {
         ]
       })
       order.save();
+      if(user.telegramId && user.telegramId.length > 0 && user.token) {
+        const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${user.telegramId}&text=Ваш заказ #${order.data.id} принят. Сервер: ${order.data.server}. Цена: ${order.data.price}. Количество: ${order.data.available}`);
+        const resTelegramBot = await requestTelegramBot.json();
+        console.log(resTelegramBot);
+      }
       const hasOrder = user.orders.some(order => order === order.id);
       if(hasOrder) {
         return res.status(200).json({message: 'hasOrder'});
@@ -339,6 +388,11 @@ router.post('/productorder', isAuthenticated,  async(req,res) => {
       });
       orders.markModified('data');
       orders.save();
+      if(user.telegramId && user.telegramId.length > 0 && user.token) {
+        const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${user.telegramId}&text=Ваш заказ #${id} принят. Сервер: ${server}. Цена: ${price}. Количество: ${available}`);
+        const resTelegramBot = await requestTelegramBot.json();
+        console.log(resTelegramBot);
+      }
       user.orders.push(orders.id + 1);
       user.save();
     }
@@ -462,20 +516,28 @@ router.post('/changestatusorder', isAuthenticated,  async(req,res) => {
             console.log(order.price)
             order.status = status;
             await User.updateOne({ login: seller }, { $set: { balance: sellerInfo.balance + (+order.price)} });
+            if(sellerInfo.telegramId && sellerInfo.telegramId.length > 0 && sellerInfo.token) {
+              const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${sellerInfo.telegramId}&text=Ваш заказ #${id} одобрен. Деньги зачислены на баланс в личном кабинете.`);
+              const resTelegramBot = await requestTelegramBot.json();
+              console.log(resTelegramBot);
+            }
 /*             sellerInfo.balance = sellerInfo.balance + (+order.price);
             sellerInfo.save(); */
           }
           if(status === 'canceled') {
             order.status = status;
-/*             sellerInfo.balance = sellerInfo.balance + (+order.price);
-            sellerInfo.save(); */
-          }
-          if(status === 'inwork') {
-            if(sellerInfo.telegramId.length > 0 && sellerInfo.token) {
-              const requestTelegramBot = await fetch(`https://api.telegram.org/bot:7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${sellerInfo.telegramId}&text=Ваш заказ #${id} принят`);
+            if(sellerInfo.telegramId && sellerInfo.telegramId.length > 0 && sellerInfo.token) {
+              const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${sellerInfo.telegramId}&text=Ваш заказ #${id} отменён. Если у Вас остались вопросы, свяжитесь с нами.`);
               const resTelegramBot = await requestTelegramBot.json();
               console.log(resTelegramBot);
             }
+          }
+          if(status === 'inwork') {
+/*             if(sellerInfo.telegramId && sellerInfo.telegramId.length > 0 && sellerInfo.token) {
+              const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${sellerInfo.telegramId}&text=Ваш заказ #${id} принят`);
+              const resTelegramBot = await requestTelegramBot.json();
+              console.log(resTelegramBot);
+            } */
             order.status = status;
           } else {
             order.status = status;

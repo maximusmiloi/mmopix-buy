@@ -54,7 +54,6 @@ import createNotificationsContent from './adminHandler/notificationsHandler/noti
           input.checked = true;
           const value = input.value;
           if (value === 'games') {
-            console.log(flagSwitcher);
             if(flagSwitcher !== 'games') {
               flagSwitcher = 'games';
               ovarlay.style.display = 'block';
@@ -107,7 +106,6 @@ import createNotificationsContent from './adminHandler/notificationsHandler/noti
           } else if (value === `orders`) {
             ovarlay.style.display = 'block';
             escapingBallG.style.display = 'flex';
-            console.log(flagSwitcher);
             if(flagSwitcher !== 'orders') {
               flagSwitcher = 'orders';
               localStorage.setItem('admin-order-page', 1);
@@ -125,6 +123,11 @@ import createNotificationsContent from './adminHandler/notificationsHandler/noti
               localStorage.setItem('admin-order-page', 1);
               const contentContainer  = document.querySelector('.content');
               contentContainer.innerHTML = '';
+              const div = document.createElement('div');
+              console.log(`prifles here`);
+              div.style.textAlign = 'center';
+              div.textContent = 'Этот раздел ещё не создан, пёс. Ты не имеешь имени. Ты не имеешь личности. Ты никто.';
+              contentContainer.append(div);
               ovarlay.style.display = 'none';
               escapingBallG.style.display = 'none';
             }

@@ -60,6 +60,10 @@ a {
   align-items: center;
   gap: 20px;
 }
+.profile-info-container-user a:hover {
+  background: #FF7A00;
+  border-radius: 5px;
+}
 .profile-info-container-balance {
   font-size: 28px;
   font-family: 'TTMilks';

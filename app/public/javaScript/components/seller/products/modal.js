@@ -104,7 +104,13 @@ export class Modal {
       } else {
         const prices = data.filter(item => item.name === name && item.region === region);
         clearSelect(spanPrice);
-        spanPrice.textContent = prices[0].options[0][2];
+
+        if(prices[0] && prices[0].options[0] && prices[0].options[0][2]) {
+          spanPrice.textContent = prices[0].options[0][2];
+        } else {
+          spanPrice.textContent = '';
+        }
+        
       }
     }
     function clearSelect(select) {

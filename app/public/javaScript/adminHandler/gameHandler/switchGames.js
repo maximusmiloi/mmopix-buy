@@ -81,22 +81,10 @@ export const createContentGames = async(value, responseData) =>{
     })
     buttonEditDelete.forEach(button => {
       button.addEventListener('click', async(event) => { 
-        indicatorLoad.style.display = 'block';
+        const ModalDelete = new Modal();
         const idGame = event.target.dataset.id;
-        const optionsCreateGame = {
-          method: 'POST',
-          body: JSON.stringify({idGame}),
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        }
-        
-        const requestCreateGame = await fetch(`/admin/deletegame`, optionsCreateGame);
-        const responseCreateGame = await requestCreateGame.json();
-        if(responseCreateGame.message === 'success') {
-          event.target.parentElement.parentElement.remove()
-        }
-        indicatorLoad.style.display = 'none';
+        const createModalDelete = await ModalDelete.renderNotification('Игра и все связанные с ней разделы и товары продавцов будут удалены', idGame);
+        contentContainer.append(createModalDelete)
       } )
     })
     buttonEditGame.forEach(button => {

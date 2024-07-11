@@ -31,8 +31,10 @@
         const respone = await request.json();
         if(respone.message === 'userRegistered') {
           indicator.style.display = 'block';
-          indicator.innerHTML = 'Пользователь успешно создан';
-          return 'succes'   
+          indicator.innerHTML = 'Пользователь успешно создан. Переходим на страницу входа...';
+          await new Promise(resolve => setTimeout(resolve, 2000));    
+          window.location.href = 'https://mmopix.store/auth/login';
+          return 'succes';
         }
         if(respone.message === 'userHaveAlready') {
           indicator.style.display = 'block';
