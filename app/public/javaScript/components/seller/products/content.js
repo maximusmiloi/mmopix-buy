@@ -1,7 +1,8 @@
 import {Modal} from './modal.js'
 export class Content {
-  constructor(data) {
+  constructor(data, chapters) {
     this.data = data;
+    this.chapters = chapters;
   }
   render() {
     try {
@@ -10,12 +11,12 @@ export class Content {
       const paginationContainer = document.createElement('div');
       paginationContainer.classList.add('pagination-container');
 
-
       const contentRows = async(data) => {
         console.log(data)
         if(data.length < 1 || !data) {
           const div = document.createElement('div');
-          div.textContent = 'Нет данных';
+          div.style.textAlign = 'center';
+          div.textContent = 'Нажмите "Добавить товар", чтобы выставить товар на продажу';
           return contentContainer.append(div);
         }
         for(let product of data.reverse()) {
@@ -26,9 +27,27 @@ export class Content {
           productState.checked = product.state;
           productState.style.width = '50px';
           productState.style.height = '20px';
-    
+          
+          let chapter;
+          chapter = this.chapters.filter(ch => {
+            if(ch.name ===  product.name[0] && ch.region === product.region[0]) {
+              if(ch.options && ch.options.length > 0) {
+                return ch/* .options.filter(option => {option[0] === product.server[0]}) */
+              }
+            }
+          })
+          let optionPrice;
+          let price;
+          if(chapter[0] && chapter[0].options &&  chapter[0].options.length > 0) {
+            optionPrice = chapter[0].options.filter(option => option[0][0] === product.server[0]);
+            if(optionPrice) {
+              console.log(optionPrice)
+              price = `${optionPrice[0][2][0]} ${optionPrice[0][2][1]}`;
+            }
+          }
           const array = [
-            ['ID', product.id],
+            /* ['ID', product.id], */
+            ['Примерный курс', price ? price : 'Не обновлён'],
             ['Игра', product.name[0]], 
             ['Тип', product.type], 
             ['Регион', product.region[0]],
@@ -126,28 +145,28 @@ export class Content {
   }
   deleteRow(button, contentContainer) {
     button.addEventListener('click', async(event) => {
+      console.log(event.target)
       const overlay = document.createElement('div');
       overlay.classList.add('.modal-overlay')
       overlay.style.display = 'flex';
       const rowElement = event.target.parentElement.parentElement.parentElement;
-
+      console.log(rowElement)
       const createModal = new Modal();
       const modal = createModal.renderNotificationModal('Вы действительно хотите удалить данный товар?', 'modal-button-delete-row');
-
+      contentContainer.append(modal)
       const buttonDelete = document.getElementById('modal-button-delete-row');
       buttonDelete.addEventListener('click', async event => {
 
       const id = rowElement.dataset.id;
+      console.log(id)
       const requestDeleteRow = await fetch(`/seller/deleteuserproduct?id=${id}`);
       const responseDeleteRow = await requestDeleteRow.json();
-
+      console.log(responseDeleteRow)
       if (responseDeleteRow.message === 'success') {
         rowElement.remove();
         modal.remove();
         overlay.remove();
-      } /* else {
-
-      } */
+      }
       })
     })
   }

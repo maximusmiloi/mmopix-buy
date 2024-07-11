@@ -60,6 +60,8 @@ main {
 	line-height: 34px;
 	border-right: none;
 	user-select: none;
+	color: #8778D9;
+	font-size: 24px;
 }
  
 .main-panel .main-panel-radio:first-child label,
@@ -75,8 +77,8 @@ main-header  .main-content-radio:last-child label {
 .main-panel input[type=radio]:checked + label,
 .main-header input[type=radio]:checked + label
 {
-	color: #E3A64B;
-  background-color: #212121;
+	color: white;
+  background-color: #151129;
 }
  
 /* Hover */
@@ -90,151 +92,26 @@ main-header  .main-content-radio:last-child label {
 .main-panel input[type=radio]:disabled + label,
 .main-header input[type=radio]:disabled + label
 {
-	background: #efefef;
+	background: white;
 	color: #666;
 }
-@media only screen and (max-width: 1024px) {
-	main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 800px;
+ @media only screen and (max-width: 1024px) {
+	.seller-container {
+		scroll-behavior: auto;
 	}
-	.order-content-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 800px;
-	}
-	.product-content-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 800px;
-		font-size: 12px;
-	}
-	.profiles-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 800px;
-		font-size: 12px;
-	}
-	.finance-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 800px;
-		font-size: 12px;
-	}
-	.main-header {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		max-width: 800px;
-	}
- }
+}
  /* Планшеты (портрет) */
  @media only screen and (max-width: 768px) {
-	main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 600px;
+	.seller-container {
+		scroll-behavior: auto;
 	}
-	.order-content-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 600px;
-		font-size: 12px;
-	}
-	.product-content-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 600px;
-		font-size: 12px;
-	}
-	.profiles-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 600px;
-		font-size: 12px;
-	}
-	.finance-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 600px;
-		font-size: 12px;
-	}
-	.main-header {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		max-width: 600px;
-	}
- }
+}
  
  /* Смартфоны (портрет) */
  @media only screen and (max-width: 480px) {
-	main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 350px;
+	.seller-container {
+		scroll-behavior: auto;
 	}
-	.order-content-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 450px;
-		font-size: 8px;
-	}
-	.product-content-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 450px;
-		font-size: 12px;
-	}
-	.profiles-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 450px;
-		font-size: 12px;
-	}
-	.finance-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		max-width: 450px;
-		font-size: 12px;
-	}
-	.main-header {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		max-width: 350px;
-	}
- }
+}
 
 

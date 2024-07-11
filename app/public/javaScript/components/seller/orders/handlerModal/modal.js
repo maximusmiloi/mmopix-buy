@@ -254,6 +254,9 @@ export class Modal {
     modalButtonSupport.classList.add('modal-button');
     modalButtonSupport.textContent = 'Помощь (TG)';
     modalButtonSupport.style.color = 'white';
+    modalButtonSupport.addEventListener('click', event => {
+      window.open(`https://t.me/Mmopix_shop`, '_blank');
+    })
     const modalButtonDone = document.createElement('button');
     modalButtonDone.classList.add('modal-button');
     modalButtonDone.textContent = 'Готово';
@@ -500,6 +503,9 @@ export class Modal {
     modalButtonSupport.classList.add('modal-button');
     modalButtonSupport.textContent = 'Помощь (TG)';
     modalButtonSupport.style.color = 'white';
+    modalButtonSupport.addEventListener('click', event => {
+      window.open(`https://t.me/Mmopix_shop`, '_blank');
+    })
     const modalButtonDone = document.createElement('button');
     modalButtonDone.classList.add('modal-button');
     modalButtonDone.textContent = 'Готово';
@@ -640,6 +646,9 @@ export class Modal {
     modalButtonSupport.classList.add('modal-button');
     modalButtonSupport.textContent = 'Помощь (TG)';
     modalButtonSupport.style.color = 'white';
+    modalButtonSupport.addEventListener('click', event => {
+      window.open(`https://t.me/Mmopix_shop`, '_blank');
+    })
     const modalButtonDone = document.createElement('button');
     modalButtonDone.classList.add('modal-button');
     modalButtonDone.textContent = 'Готово';

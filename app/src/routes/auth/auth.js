@@ -15,7 +15,6 @@ router.get('/registration', async(req, res) => {
 })
 router.post('/register', async(req, res) => {
   try {
-    console.log(req.body)
     const { login, password, email } = req.body;
     const users = await User.find();
     const existingUser = await User.findOne({ $or: [{ login }, { email }] });
@@ -85,7 +84,8 @@ router.post('/login', (req, res, next) => {
       let message = 'success';
       
       console.log('Authentication successful, redirecting...');
-      return res.json({message});
+      const role = user.role; 
+      return res.json({message, role});
     });
   })(req, res, next);
 });
@@ -100,7 +100,6 @@ router.get('/logout', (req, res, next) => {
 
 router.post('/telegramhook', async(req, res) => {
   try {
-    console.log(req.body);
     const { message } = req.body;
 
     if (message) {
@@ -112,13 +111,11 @@ router.post('/telegramhook', async(req, res) => {
         // Проверяем, содержит ли сообщение токен
         if (text.startsWith('/start ')) {
           const token = text.split(' ')[1];
-    
           // Ищем пользователя с этим токеном и обновляем его telegramId
           try {
-            const requestTelegramBot = await fetch(`https://api.telegram.org/bot:7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${chatId}&text=Поздравляем, бот для уведомлений подключён`);
+            const requestTelegramBot = await fetch(`https://api.telegram.org/bot:7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${chatId}&text=Поздравляем, бот для уведомлений подключён. Теперь Вы будете получать уведомления о состоянии своих заказов.`);
             const resTelegramBot = await requestTelegramBot.json();
             console.log(resTelegramBot);
-
             const user = await User.findOneAndUpdate({ token }, { telegramId: chatId }, { new: true });
             if (user) {
               console.log(`User ${username} updated with telegramId: ${chatId}`);

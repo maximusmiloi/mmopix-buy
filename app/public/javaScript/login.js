@@ -22,7 +22,11 @@
         const request = await fetch('/auth/login', options);
         const respone = await request.json();
         if(respone.message === 'success') {
-          window.location.href = '/';
+          if(respone.role === 'seller') {
+            window.location.href = '/seller';
+          } else {
+            window.location.href = '/';
+          }
         }
         if(respone.message === 'incorrectPassword') {
           indicator.style.display = 'block';

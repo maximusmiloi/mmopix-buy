@@ -29,7 +29,7 @@ export class ContentNotifications {
         const req = await fetch('/seller/checktoken');
         const res = await req.json();
         if(res.token) {
-          window.open(`https://t.me/MmopixStore_bot/start${res.token}`, '_blank');
+          window.open(`https://t.me/MmopixStore_bot?start=${res.token}`, '_blank');
         } else {
           p.style.color = 'red';
           p.style.fontSize = '16px';

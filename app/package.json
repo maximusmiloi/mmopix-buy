@@ -17,9 +17,11 @@
     "body-parser": "^1.20.2",
     "cheerio": "^1.0.0-rc.12",
     "connect-flash": "^0.1.1",
+    "connect-history-api-fallback": "^2.0.0",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.9",
+    "etag": "^1.8.1",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.2",
@@ -34,15 +36,14 @@
     "pino": "^8.20.0",
     "pino-http": "^9.0.0",
     "protobufjs": "^7.3.0",
+    "serve-static": "^1.15.0",
     "session": "^0.1.0",
     "steam-user": "^5.0.1",
     "steamcommunity": "^3.48.3",
     "steamid": "^2.0.0",
     "tough-cookie": "^4.1.4",
     "url": "^0.11.3",
-    "winston": "^3.11.0",
-    "connect-history-api-fallback": "^2.0.0",
-    "etag": "^1.8.1"
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "pino-pretty": "^11.0.0"

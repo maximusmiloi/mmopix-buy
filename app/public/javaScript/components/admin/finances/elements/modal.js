@@ -91,4 +91,59 @@ export class Modal {
     modal.append(buttonContainer);
     return modal;
   }
+  async renderNotification(text, nameMethod) {
+    const modal = document.createElement('div');
+    modal.id = 'seller-product-modal';
+    modal.classList.add('seller-product-modal');
+    modal.style.width = '300px';
+    modal.style.height = '200px';
+    modal.style.display = 'flex';
+    modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center';
+    const textElement = document.createElement('div');
+    textElement.textContent = text;
+    modal.append(text);
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.width = '100%';
+    buttonContainer.classList.add('modal-button-container');
+    const modalButtonClose = document.createElement('button');
+    modalButtonClose.classList.add('modal-button');
+    modalButtonClose.textContent = 'Закрыть';
+    buttonContainer.append(modalButtonClose);
+
+    modalButtonClose.addEventListener('click', event => {
+      const overlay = document.querySelector('.modal-overlay');
+      overlay.style.display = 'none';
+      if(escapingBallG) {
+        escapingBallG.style.display = 'none';
+      }
+      modal.remove();
+    })
+    const modalButtonDelete = document.createElement('button');
+    modalButtonDelete.classList.add('modal-button-delete-game');
+    modalButtonDelete.textContent = 'Удалить';
+    buttonContainer.append(modalButtonDelete);
+
+    modalButtonDelete.addEventListener('click', async event => {
+      const optionsCreateGame = {
+        method: 'POST',
+        body: JSON.stringify({nameMethod}),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+      const requestCreateGame = await fetch(`/admin/deleteMethodPay`, optionsCreateGame);
+      const responseCreateGame = await requestCreateGame.json();
+      if(responseCreateGame.message === 'success') {
+        location.reload();
+      } else {
+        textElement.style.color = 'red';
+        textElement.innerHTML = `Что-то пошло не так, попробуйте снова.`
+      }
+    })
+
+    modal.append(buttonContainer);
+    return modal;
+  }
 }

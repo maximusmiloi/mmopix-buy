@@ -90,6 +90,9 @@
 	background-color: rgba(135, 120, 217, 0.4);
 	cursor: pointer;
 }
+.order-content-row:hover {
+  border: 1px solid #FF7A00;
+}
 
 .order-content-row::before{
   content: "";

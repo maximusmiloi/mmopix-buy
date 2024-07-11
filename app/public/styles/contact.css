@@ -23,7 +23,7 @@ body {
   padding-right: 16px; */
 }
 main {
-  background-image: url('../img/contact_background.png');
+  background-image: url('../img/contact_background.webp');
   background-repeat: no-repeat;
   background-position: right 0;
   margin-top: 50px;
@@ -72,3 +72,29 @@ main {
   gap: 40px;
 }
 
+
+@media only screen and (max-width: 1024px) {
+
+ }
+ /* Планшеты (портрет) */
+ @media only screen and (max-width: 768px) {
+
+ }
+ 
+ /* Смартфоны (портрет) */
+ @media only screen and (max-width: 480px) {
+  .main-content-top {
+    justify-content: center;
+    align-items: center;
+  }
+  .main-content-bottom {
+    justify-content: center;
+    align-items: center;
+  }
+  .main-content-bottom-icons-container {
+    flex-direction: column;
+  }
+/*   .main-content-bottom-icons-container {
+    
+  } */
+ }

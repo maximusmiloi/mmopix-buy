@@ -10,8 +10,13 @@ export class ContentFinance {
       const paginationContainer = document.createElement('div');
       paginationContainer.classList.add('pagination-container');
       const contentRows = async(data) => {
+        if(data.length < 1 || !data) {
+          const div = document.createElement('div');
+          div.style.textAlign = 'center';
+          div.textContent = 'История заявок пуста';
+          return contentContainer.append(div);
+        }
         for(let order of data.reverse()) {
-
           const array = [
             ['Номер заказа', order.id],
             ['Сумма', order.value], 

@@ -105,7 +105,12 @@ export class ContentOrders {
       let numberPage = (this.data.length / 10) < 1 ? 0 : Math.floor(this.data.length / 10);
 
       const contentRows = async(data) => {
-
+        if(data.length < 1 || !data) {
+          const div = document.createElement('div');
+          div.style.textAlign = 'center';
+          div.textContent = 'Нет активных заказов';
+          return contentContainer.append(div);
+        }
         for(let order of data.reverse()) {
           const array = [
             ['Дата создания', order.date],

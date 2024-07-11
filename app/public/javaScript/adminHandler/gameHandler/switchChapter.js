@@ -85,9 +85,12 @@ export const createContentChapter = async(value, gameData, chapterData) =>{
     })
     buttonEditDelete.forEach(button => {
       button.addEventListener('click', async(event) => { 
-        indicatorLoad.style.display = 'block';
         const idGame = event.target.dataset.id;
-        const optionsCreateGame = {
+        console.log(idGame)
+        const modalDelete = new Modal();
+        const createModalDelete = await modalDelete.renderNotificationChapter('Раздел и все связанные с ним продукты будут удалены', idGame);
+        contentContainer.append(createModalDelete)
+/*         const optionsCreateGame = {
           method: 'POST',
           body: JSON.stringify({idGame}),
           headers: {
@@ -100,7 +103,7 @@ export const createContentChapter = async(value, gameData, chapterData) =>{
         if(responseCreateGame.message === 'success') {
           event.target.parentElement.parentElement.remove();
         }
-        indicatorLoad.style.display = 'none';
+        indicatorLoad.style.display = 'none'; */
       } )
     })
     buttonEditChapter.forEach(button => {
