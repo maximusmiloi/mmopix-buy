@@ -339,7 +339,7 @@ router.post('/orderpayment', isAuthenticated, async(req, res) => {
       }]
       payment.save();
       await User.updateOne({ login: user.login }, { $set: { balance: user.balance - value} });
-      if(admin.telegramId && admin.telegramId.length > 0 && admin.token) {
+      if(admin.telegramId && admin.telegramId > 0 && admin.token) {
         const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${admin.telegramId}&text=ВЫПЛАТА: Пользователь ${user.login} заказал выплату на сумму ${value} $`);
         const resTelegramBot = await requestTelegramBot.json();
         console.log(resTelegramBot);
@@ -358,7 +358,7 @@ router.post('/orderpayment', isAuthenticated, async(req, res) => {
       })
       payment.save();
       await User.updateOne({ login: user.login }, { $set: { balance: user.balance - value} });
-      if(admin.telegramId && admin.telegramId.length > 0 && admin.token) {
+      if(admin.telegramId && admin.telegramId > 0 && admin.token) {
         const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${admin.telegramId}&text=ВЫПЛАТА: Пользователь ${user.login} заказал выплату на сумму ${value} $`);
         const resTelegramBot = await requestTelegramBot.json();
         console.log(resTelegramBot);
@@ -415,7 +415,7 @@ router.post('/acceptorder', isAuthenticated,  async(req, res) => {
       if(+order.id === +id && order.seller[0] === seller && order.server[0] === server) {
         if(order.status !== 'canceled' && order.status !== 'done') {
           order.status = 'inwork';
-          if(admin.telegramId && admin.telegramId.length > 0 && admin.token) {
+          if(admin.telegramId && admin.telegramId > 0 && admin.token) {
             const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${admin.telegramId}&text=Пользователь ${seller} принял заказ с номером - ${id}. Сервер ${server}.`);
             const resTelegramBot = await requestTelegramBot.json();
             console.log(resTelegramBot);

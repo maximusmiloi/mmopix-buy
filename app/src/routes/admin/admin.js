@@ -346,8 +346,8 @@ router.post('/productorder', isAuthenticated,  async(req,res) => {
         ]
       })
       order.save();
-      if(user.telegramId && user.telegramId.length > 0 && user.token) {
-        const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${user.telegramId}&text=Ваш заказ #${order.data.id} принят. Сервер: ${order.data.server}. Цена: ${order.data.price}. Количество: ${order.data.available}`);
+      if(user.telegramId && user.telegramId > 0 && user.token) {
+        const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${user.telegramId}&text=НОВЫЙ ЗАКАЗ! Номер заказа - 0. Сервер - ${server}. Количество - ${available}. Цена за заказ - ${price}`);
         const resTelegramBot = await requestTelegramBot.json();
         console.log(resTelegramBot);
       }
@@ -388,8 +388,8 @@ router.post('/productorder', isAuthenticated,  async(req,res) => {
       });
       orders.markModified('data');
       orders.save();
-      if(user.telegramId && user.telegramId.length > 0 && user.token) {
-        const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${user.telegramId}&text=Ваш заказ #${id} принят. Сервер: ${server}. Цена: ${price}. Количество: ${available}`);
+      if(user.telegramId && user.telegramId > 0 && user.token) {
+        const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${user.telegramId}&text=НОВЫЙ ЗАКАЗ! Номер заказа - ${orders.id + 1}. Сервер - ${server}. Количество - ${available}. Цена за заказ - ${price}`);
         const resTelegramBot = await requestTelegramBot.json();
         console.log(resTelegramBot);
       }
@@ -516,8 +516,8 @@ router.post('/changestatusorder', isAuthenticated,  async(req,res) => {
             console.log(order.price)
             order.status = status;
             await User.updateOne({ login: seller }, { $set: { balance: sellerInfo.balance + (+order.price)} });
-            if(sellerInfo.telegramId && sellerInfo.telegramId.length > 0 && sellerInfo.token) {
-              const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${sellerInfo.telegramId}&text=Ваш заказ #${id} одобрен. Деньги зачислены на баланс в личном кабинете.`);
+            if(sellerInfo.telegramId && sellerInfo.telegramId > 0 && sellerInfo.token) {
+              const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${sellerInfo.telegramId}&text=Ваш заказ с номером - ${id} одобрен. Деньги зачислены на баланс в личном кабинете.`);
               const resTelegramBot = await requestTelegramBot.json();
               console.log(resTelegramBot);
             }
@@ -526,8 +526,8 @@ router.post('/changestatusorder', isAuthenticated,  async(req,res) => {
           }
           if(status === 'canceled') {
             order.status = status;
-            if(sellerInfo.telegramId && sellerInfo.telegramId.length > 0 && sellerInfo.token) {
-              const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${sellerInfo.telegramId}&text=Ваш заказ #${id} отменён. Если у Вас остались вопросы, свяжитесь с нами.`);
+            if(sellerInfo.telegramId && sellerInfo.telegramId > 0 && sellerInfo.token) {
+              const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${sellerInfo.telegramId}&text=Ваш заказ с номером - ${id} отменён. Если у Вас остались вопросы, свяжитесь с нами.`);
               const resTelegramBot = await requestTelegramBot.json();
               console.log(resTelegramBot);
             }
