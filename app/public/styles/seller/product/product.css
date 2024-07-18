@@ -16,6 +16,10 @@
   font-family: 'TTMilks';
   cursor: pointer;
 }
+.product-filter-container {
+  margin-bottom: 20px;
+}
+
 .product-content-container {
   display: flex;
 	flex-direction: column;
@@ -24,20 +28,23 @@
 	width: 1280px;
   gap: 15px;
   font-family: 'TTMilks';
+	margin-top: 20px;
 }
 .product-content-row {
 	display: flex;
 	justify-content: start;
   align-items: center;
-	height: 15%;
+	height: 100px;
 	width: 100%;;
 	gap: 20px;
 	border-radius: 10px;
 	background-color: rgba(135, 120, 217, 0.4);
+	cursor: pointer;
 }
-.product-filter-container {
-  margin-bottom: 20px;
+.product-content-row:hover {
+  border: 1px solid #FF7A00;
 }
+
 .product-content-row::before{
   content: "";
   width: 20px;

@@ -86,7 +86,6 @@ export const createContentChapter = async(value, gameData, chapterData) =>{
     buttonEditDelete.forEach(button => {
       button.addEventListener('click', async(event) => { 
         const idGame = event.target.dataset.id;
-        console.log(idGame)
         const modalDelete = new Modal();
         const createModalDelete = await modalDelete.renderNotificationChapter('Раздел и все связанные с ним продукты будут удалены', idGame);
         contentContainer.append(createModalDelete)
