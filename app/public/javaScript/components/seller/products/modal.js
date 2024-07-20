@@ -41,6 +41,7 @@ export class Modal {
     const modalButtonClose = document.createElement('button');
     modalButtonClose.classList.add('modal-button');
     modalButtonClose.textContent = 'Закрыть';
+    modalButtonClose.classList.add('close_btn');
     const modalButtonSave = document.createElement('button');
     modalButtonSave.classList.add('modal-button');
     modalButtonSave.textContent = 'Выставить';

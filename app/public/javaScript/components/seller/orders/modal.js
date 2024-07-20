@@ -138,6 +138,8 @@ export class Modal {
     });
     modalButtonClose.addEventListener('click', async(event) => {
       const overlay = document.querySelector('.modal-overlay');
+      modalButtonClose.classList.add('close_btn');
+      console.log(`CLOSE`)
       overlay.style.display = 'none';
       if(escapingBallG) {
         escapingBallG.style.display = 'none';

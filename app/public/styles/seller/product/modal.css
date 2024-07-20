@@ -75,3 +75,70 @@
   background-color: #2F2566;
   color: white;
 }
+.close-btn {
+  position: absolute; /* Абсолютное позиционирование */
+  top: 10px; /* Отступ сверху */
+  right: 10px; /* Отступ справа */
+  width: 40px; /* Ширина кнопки */
+  height: 40px; /* Высота кнопки */
+  background-color: #ff5f5f; /* Красный фон */
+  border: none; /* Без рамки */
+  border-radius: 50%; /* Круглая форма */
+  cursor: pointer; /* Курсор указателя */
+  display: flex; /* Flexbox для центрирования крестика */
+  align-items: center; /* Выравнивание по вертикали */
+  justify-content: center; /* Выравнивание по горизонтали */
+  transition: background-color 0.3s ease;
+}
+.close-btn:hover {
+  background-color: #FF7A00; /* Красный фон */
+
+}
+.close-btn .line {
+  position: absolute; /* Абсолютное позиционирование */
+/*   left: 50%;
+  right: 50%;
+  top: 50%;
+  bottom: 50%; */
+  width: 4px; /* Ширина линии */
+  height: 24px; /* Высота линии */
+  background-color: white; /* Цвет линии */
+}
+
+.close-btn .line1 {
+  transform: rotate(45deg); /* Поворот первой линии */
+}
+
+.close-btn .line2 {
+  transform: rotate(-45deg); /* Поворот второй линии */
+}
+@media only screen and (max-width: 1024px) {
+
+}
+
+@media only screen and (max-width: 768px) {
+
+}
+
+
+@media only screen and (max-width: 480px) {
+  .seller-product-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background-color: #141027;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    z-index: 1000;
+    display: none; 
+    flex-direction: column;
+    padding: 20px; 
+    font-family: 'TTMilks';
+    overflow: auto;
+    gap: 5px;
+  }
+}

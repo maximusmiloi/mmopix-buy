@@ -40,7 +40,7 @@ export class Content {
           let price;
           if(chapter[0] && chapter[0].options &&  chapter[0].options.length > 0) {
             optionPrice = chapter[0].options.filter(option => option[0][0] === product.server[0]);
-            if(optionPrice) {
+            if(optionPrice && optionPrice.length > 0) {
               console.log(optionPrice)
               price = `${optionPrice[0][2][0]} ${optionPrice[0][2][1]}`;
             }
@@ -99,10 +99,18 @@ export class Content {
         }
       }
 
-      let numberPage = (this.data.length / 10) < 1 ? 0 : Math.floor(this.data.length / 10);
+      const selectGame = document.querySelector('.product-filter-container-select-game');
+      selectGame.addEventListener('change', async event => {;
+
+        const gameData = this.data.filter(el => el.name[0] === selectGame.value);
+        contentContainer.innerHTML = ''; 
+        contentRows(gameData);
+        contentContainer.appendChild(paginationContainer);
+      })
+      let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
       //pagination
       if(numberPage > 0) {
-        const data0Page = this.data.reverse().slice(0, 9).reverse();
+        const data0Page = this.data.slice(0, 9).reverse();
         contentRows(data0Page);
       } else {
         contentRows(this.data);
@@ -119,6 +127,15 @@ export class Content {
       const page = paginationContainer.querySelectorAll('.pagination-page');
 
       const currentPage = localStorage.getItem('seller-order-page');
+
+      function paginate(array, pageNumber, itemsPerPage) {
+        let startIndex = ((pageNumber * 10) -10);
+        if(startIndex > 0) {
+          startIndex - 1;
+        }
+        const endIndex = pageNumber * 10;
+        return array.slice(startIndex, endIndex).reverse();
+      }
       page.forEach(element => {
         if(+element.textContent === +currentPage) {
           element.style.color = '#FF7A00';
@@ -128,10 +145,11 @@ export class Content {
             p.style.color = 'white';
           });
           localStorage.setItem('seller-order-page', event.target.textContent);
-        
+          console.log(event.target.innerHTML)
           event.target.style.color = '#FF7A00';
           contentContainer.innerHTML = ''; 
-          const data0Page = this.data.reverse().slice(0, 9).reverse();
+          /* const data0Page = this.data.reverse().slice(0, 9); */
+          const data0Page = paginate(this.data, event.target.innerHTML, this.data.length);
           contentRows(data0Page);
           contentContainer.appendChild(paginationContainer);
         })

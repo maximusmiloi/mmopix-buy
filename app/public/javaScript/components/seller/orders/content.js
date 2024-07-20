@@ -10,7 +10,7 @@ export class ContentOrders {
       const paginationContainer = document.createElement('div');
       paginationContainer.classList.add('pagination-container');
       console.log(this.data);
-      let numberPage = (this.data.length / 10) < 1 ? 0 : Math.floor(this.data.length / 10);
+      let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
       console.log(numberPage)
       
 
@@ -158,9 +158,71 @@ export class ContentOrders {
           contentContainer.append(contentRow);
         }
       }
+
+      const search = document.querySelector('.order-filter-container-search');
+      search.addEventListener('change', async event => {
+        console.log(search.value);
+        let searchData = this.data.filter(el => el.id === +search.value);
+        contentContainer.innerHTML = ''; 
+          /* const data0Page = this.data.reverse().slice(0, 9); */
+          contentRows(searchData);
+          contentContainer.appendChild(paginationContainer);
+          const row = contentContainer.querySelectorAll('.order-content-row');
+
+          row.forEach(element => {
+            element.addEventListener('click', async(event) => {
+              const dataElement = this.data.find(el => el.id == element.dataset.id);
+    
+              const modal = new Modal(dataElement);
+              const createModal = modal.renderOrderModal();
+              contentContainer.appendChild(createModal);
+            })
+          })
+      })
+      const selectGame = document.querySelector('.order-filter-container-select-game');
+      selectGame.addEventListener('change', async event => {
+        let selectData = this.data.filter(el => el.game[0] === selectGame.value);
+        contentContainer.innerHTML = ''; 
+        /* const data0Page = this.data.reverse().slice(0, 9); */
+        contentRows(selectData);
+        contentContainer.appendChild(paginationContainer);
+        const row = contentContainer.querySelectorAll('.order-content-row');
+
+        row.forEach(element => {
+          element.addEventListener('click', async(event) => {
+            const dataElement = this.data.find(el => el.id == element.dataset.id);
+  
+            const modal = new Modal(dataElement);
+            const createModal = modal.renderOrderModal();
+            contentContainer.appendChild(createModal);
+          })
+        })
+      })
+
+      const selectStatus = document.querySelector('.order-filter-status-select');
+      selectStatus.addEventListener('change', async event => {
+        let selectData = this.data.filter(el => el.status === selectStatus.value);
+        contentContainer.innerHTML = ''; 
+        /* const data0Page = this.data.reverse().slice(0, 9); */
+        contentRows(selectData);
+        contentContainer.appendChild(paginationContainer);
+        const row = contentContainer.querySelectorAll('.order-content-row');
+
+        row.forEach(element => {
+          element.addEventListener('click', async(event) => {
+            const dataElement = this.data.find(el => el.id == element.dataset.id);
+  
+            const modal = new Modal(dataElement);
+            const createModal = modal.renderOrderModal();
+            contentContainer.appendChild(createModal);
+          })
+        })
+      })
       //pagination
       if(numberPage > 0) {
-        const data0Page = this.data.reverse().slice(0, 9).reverse();
+        console.log(numberPage)
+        console.log(this.data.reverse())
+        const data0Page = this.data.slice(0, 9).reverse();
         contentRows(data0Page);
       } else {
         contentRows(this.data);
@@ -177,6 +239,15 @@ export class ContentOrders {
       const page = paginationContainer.querySelectorAll('.pagination-page');
 
       const currentPage = localStorage.getItem('seller-order-page');
+
+      function paginate(array, pageNumber, itemsPerPage) {
+        let startIndex = ((pageNumber * 10) -10);
+        if(startIndex > 0) {
+          startIndex - 1;
+        }
+        const endIndex = pageNumber * 10;
+        return array.slice(startIndex, endIndex).reverse();
+      }
       page.forEach(element => {
         if(+element.textContent === +currentPage) {
           element.style.color = '#FF7A00';
@@ -186,12 +257,24 @@ export class ContentOrders {
             p.style.color = 'white';
           });
           localStorage.setItem('seller-order-page', event.target.textContent);
-        
+          console.log(event.target.innerHTML)
           event.target.style.color = '#FF7A00';
           contentContainer.innerHTML = ''; 
-          const data0Page = this.data.reverse().slice(0, 9).reverse();
+          /* const data0Page = this.data.reverse().slice(0, 9); */
+          const data0Page = paginate(this.data, event.target.innerHTML, this.data.length);
           contentRows(data0Page);
           contentContainer.appendChild(paginationContainer);
+          const row = contentContainer.querySelectorAll('.order-content-row');
+
+          row.forEach(element => {
+            element.addEventListener('click', async(event) => {
+              const dataElement = this.data.find(el => el.id == element.dataset.id);
+    
+              const modal = new Modal(dataElement);
+              const createModal = modal.renderOrderModal();
+              contentContainer.appendChild(createModal);
+            })
+          })
         })
       });
       //pagination

@@ -34,7 +34,7 @@ main {
   flex-direction: column;
   gap: 34px;
 }
-.main-content-top-button button {
+.main-content-top-button a {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,10 +42,14 @@ main {
   width: 142px;
   height: 32px;
   color: #1F1A3A;
-  background-color: #F4C27D;
+  background: linear-gradient(to bottom, #F4C27D 21%, #575757);
   border-radius: 10px;
 }
-.main-content-top-button button a {
+.main-content-top-button a:hover {
+  background: linear-gradient(to bottom, #1F1A3A 21%, #575757);
+  color: #F4C27D;
+}
+.main-content-top-button a {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,6 +70,9 @@ main {
   display: flex;
   flex-direction: column;
   gap: 40px;
+}
+.main-content-bottom-icons img:hover {
+  border: 2px solid #F4C27D;
 }
 .main-content-bottom-icons-container {
   display: flex;

@@ -55,11 +55,20 @@
 	background: #efefef;
 	color: #666;
 }
-
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  width: 100%;
+  background: rgb(21,17,41,0.5);
+  
+}
 .main-header {
-  width: 1280px;
+  max-width: 1280px;
   border-bottom: #8778D9 3px solid;
 }
+
 .order-filter-container {
   display: flex;
   justify-content: space-between;
@@ -74,7 +83,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 1280px;
+	max-width: 1280px;
   gap: 15px;
   font-family: 'TTMilks';
 	margin-top: 20px;
@@ -85,7 +94,7 @@
   align-items: center;
 	height: 100px;
 	width: 100%;;
-	gap: 20px;
+	gap: 15px;
 	border-radius: 10px;
 	background-color: rgba(135, 120, 217, 0.4);
 	cursor: pointer;
@@ -192,12 +201,16 @@
 }
 
 @media only screen and (max-width: 1024px) {
+  .main-header {
+    max-width: 980px;
+  }
   .order-content-container {
-    width:80%;
+    width:100%;
   }
   body {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
   }
   .seller-container {
@@ -205,35 +218,38 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    max-width: 800px;
+    max-width: 960px;
   }
 	main {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
+  .order-filter-container {
+    display: flex;
+    justify-content: start;
+    gap: 30px;
+  }
+  .main-content {
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgb(21,17,41,0.5);
+  }
+  .main-panel {
+    display: flex;
+/*     flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 @media only screen and (max-width: 768px) {
   body {
     display: flex;
     flex-direction: column;
-    align-items: center;
-  }
-  .seller-container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    max-width: 768px;
-  }
-}
-
-
-@media only screen and (max-width: 480px) {
-  body {
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
@@ -242,10 +258,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    max-width: 480px;
+    max-width: 720px;
   }
   .main-content {
-    max-width: 480px;
+    max-width: 720px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -258,7 +274,7 @@
     align-items: center;
   }
   .main-header {
-    max-width: 480px;
+    max-width: 720px;
     display: flex;
     /* flex-direction: column; */
     justify-content: center;
@@ -267,7 +283,7 @@
   .order-filter-container {
     display: flex;
     flex-direction: column;
-    max-width: 480px;
+    max-width: 720px;
     justify-content: center;
     align-items: center;
     gap: 8px;
@@ -289,8 +305,137 @@
     display: flex;
     gap: 8px;
     font-size: 10px;
-    max-width: 480;
+    max-width: 640px;
+  }
+  .seller-order-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 90%;
+    background-color: #141027;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    z-index: 1000;
+    display: none; 
+    flex-direction: column;
+    padding: 20px; 
+    font-family: 'TTMilks';
+    overflow: auto;
+    gap: 15px;
+  }
+  .seller-order-modal-content {
+    display: flex;
+    flex-direction: column;
+  }
+  .seller-order-modal-content-left {
+    width: 95%;
+  }
+  .seller-order-modal-content-right {
+    width: 95%;
+  }
+}
 
+
+@media only screen and (max-width: 480px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .seller-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 440px;
+  }
+  .main-content {
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .main-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .main-header {
+    max-width: 320px;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+  }
+  .order-filter-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  .order-filter-container-filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  .order-content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .order-content-row {
+    display: flex;
+    gap: 8px;
+    font-size: 10px;
+    max-width: 320px;
+
+  }
+  .order-content-row .order-content-cell:nth-child(1) {
+    display: none;
+  }
+  .order-content-row .order-content-cell:nth-child(5) {
+    display: none;
+  }
+
+  .seller-order-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 90%;
+    background-color: #141027;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    z-index: 1000;
+    display: none; 
+    flex-direction: column;
+    padding: 20px; 
+    font-family: 'TTMilks';
+    overflow: auto;
+    gap: 15px;
+  }
+  .seller-order-modal-content {
+    display: flex;
+    flex-direction: column;
+  }
+  .seller-order-modal-content-left {
+    width: 95%;
+  }
+  .seller-order-modal-content-right {
+    width: 95%;
   }
 /*   header {
     display: flex;

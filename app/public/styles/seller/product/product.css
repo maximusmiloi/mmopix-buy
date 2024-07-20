@@ -17,6 +17,8 @@
   cursor: pointer;
 }
 .product-filter-container {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 20px;
 }
 
@@ -25,7 +27,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 1280px;
+	max-width: 1280px;
   gap: 15px;
   font-family: 'TTMilks';
 	margin-top: 20px;
@@ -36,7 +38,7 @@
   align-items: center;
 	height: 100px;
 	width: 100%;;
-	gap: 20px;
+	gap: 15px;
 	border-radius: 10px;
 	background-color: rgba(135, 120, 217, 0.4);
 	cursor: pointer;
@@ -79,3 +81,209 @@ button {
 /* .enable-disable-chapter {
   
 } */
+
+@media only screen and (max-width: 1024px) {
+  .main-header {
+    max-width: 980px;
+  }
+  .product-content-container {
+    width: 100%;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .seller-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+  }
+	main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+  .product-filter-container {
+    display: flex;
+    justify-content: start;
+    gap: 30px;
+  }
+  .main-content {
+    max-width: 960px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .main-panel {
+   /*  max-width: 960px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .seller-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 480px;
+  }
+  .main-content {
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .main-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .main-header {
+    max-width: 480px;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+  }
+  .product-filter-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 480px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  .product-filter-container-filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  .product-content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 700px;
+  }
+  .product-content-row {
+    display: flex;
+    gap: 8px;
+    font-size: 10px;
+    width: 90%;
+  }
+  .product-content-row .product-content-cell:nth-child(3) {
+    display: none;
+  }
+  .product-content-row .product-content-cell:nth-child(4) {
+    display: none;
+  }
+/*   header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  } */
+}
+
+
+@media only screen and (max-width: 480px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .seller-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 440px;
+  }
+  .main-content {
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .main-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .main-header {
+    max-width: 440px;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+  }
+  .product-filter-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 440px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  .product-filter-container-filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  .product-content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 440px;
+  }
+  .product-content-row {
+    display: flex;
+    gap: 8px;
+    font-size: 10px;
+    width: 100%;
+  }
+  .product-content-row .product-content-cell:nth-child(3) {
+    display: none;
+  }
+  .product-content-row .product-content-cell:nth-child(4) {
+    display: none;
+  }
+  .product-content-row button {
+    width: 60px;
+    height: 30%;
+    background-color: #E3A64B;
+    color: #1F1A3A;
+    font-family: 'TTMilks';
+    font-size: 12px;
+    cursor: pointer;
+  }
+/*   header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  } */
+}

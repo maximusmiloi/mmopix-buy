@@ -23,7 +23,24 @@ export class Filter {
     buttonCreate.classList.add('product-button_create-gold');
     buttonCreate.textContent = this.button;
     this.eventButtonCreateOrder(buttonCreate);
-    containerFilter.append(buttonCreate)
+
+    console.log(this.data)
+    const salectGame = document.createElement('select');
+    salectGame.classList.add('product-filter-container-select-game');
+    const gameNames = [...new Set(this.data.map(item => item.name))];
+    gameNames.forEach(name => {
+      const option = document.createElement('option');
+      if(salectGame.length < 1) {
+        const emptyOption = document.createElement('option');
+        emptyOption.value = 'Выбрать игру';
+        emptyOption.textContent = 'Выбрать игру';
+        salectGame.appendChild(emptyOption);
+      } 
+      option.value = name;
+      option.textContent = name;
+      salectGame.appendChild(option);
+    })
+    containerFilter.append(buttonCreate, salectGame)
     return containerFilter;
   }
 }
