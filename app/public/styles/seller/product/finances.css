@@ -1,7 +1,7 @@
 .finance-container {
   display: flex;
   flex-direction: column;
-  width: 1280px;
+  max-width: 1280px;
   padding-left: 20px;
   gap: 20px;
 }
@@ -19,10 +19,17 @@
   color: #F4C27D;
 }
 .finance-panel_button-save {
-  width: 100%;
+  width: 101px;
+  height: 29px;
 }
 .finance-panel_container__balance___button {
-  width: 130%;
+  /* width: 100%; */
+  width: 174px;
+  height: 34px;
+}
+.finance-panel_button-container {
+  display: flex;
+  justify-content: end;
 }
 .finance-panel_container {
 	display: flex;
@@ -38,25 +45,18 @@
 .finance-panel_inputs-container {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 15px;
 }
 .payment-method-container {
   display: flex;
-  justify-content: start;
+  justify-content: end;
   gap: 15px;
 }
 .payment-method-container label {
-  width: 20%;
+  width: 10%;
 }
-.finance-panel_container__methods {
-  display: flex;
-  flex-direction: column;
-  width: 30%;
-  gap: 15px;
-}
-.finance-panel_container__balance {
-  width: 30%;
-}
+
 .finance-panel_container__balance-container {
   display: flex;
   gap: 15px;
@@ -103,7 +103,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 1280px;
+	max-width: 1280px;
   gap: 15px;
   font-family: 'TTMilks';
 }
@@ -151,4 +151,129 @@ button {
   color: #1F1A3A;
   font-family: 'TTMilks';
   cursor: pointer;
+}
+.finance-panel_container__methods {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  gap: 15px;
+}
+.finance-panel_container__balance {
+  width: 40%;
+}
+@media only screen and (max-width: 1024px) {
+  .main-header {
+    max-width: 980px;
+  }
+  .order-content-container {
+    width:100%;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .seller-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    max-width: 960px;
+  }
+	main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+  .main-content {
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .main-panel {
+    display: flex;
+/*     flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .seller-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 720px;
+  }
+  .main-content {
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+
+@media only screen and (max-width: 480px) {
+  .finance-panel_container__methods {
+    max-width: 100%;
+  }
+  .finance-panel_container__balance___value {
+    max-width: 100%;
+  }
+  .payment-method-container {
+    width: 100%;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .seller-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 440px;
+  }
+  .main-content {
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .finance-container {
+    max-width: 440px;
+  }
+  .finance-panel_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    color: #8778D9;
+    max-width: 100%;
+  } 
+  .finance-panel_container__balance {
+    max-width: 80%;
+  }
+  .finance-panel_container__balance-container {
+    max-width: 100%;
+    gap: 30px;
+  }
+  .finance-container button {
+    font-size: 12px;
+  }
 }

@@ -17,14 +17,15 @@ export class FilterOrders {
     inputSearch.id = 'order-filter-container-search';
     inputSearch.classList.add('order-filter-container-search');
     inputSearch.placeholder = 'Номер заказа';
+    inputSearch.style.paddingLeft = '15px';
     const salectGame = document.createElement('select');
     salectGame.classList.add('order-filter-container-select-game');
     gameNames.forEach(name => {
       const option = document.createElement('option');
       if(salectGame.length < 1) {
         const emptyOption = document.createElement('option');
-        emptyOption.value = '';
-        emptyOption.textContent = '';
+        emptyOption.value = 'Выбрать игру';
+        emptyOption.textContent = 'Выбрать игру';
         salectGame.appendChild(emptyOption);
       } 
       option.value = name;
@@ -36,13 +37,13 @@ export class FilterOrders {
     const statusContainer = document.createElement('div');
     statusContainer.classList.add('order-filter-status-container');
     const salectStatus = document.createElement('select');
-    salectStatus.classList.add('order-filter-status-select')
+    salectStatus.classList.add('order-filter-status-select');
     statusContainer.append(salectStatus);
     ['new', 'inwork', 'canceled', 'check', 'done'].forEach(name => {
       if(salectStatus.length < 1) {
         const emptyOption = document.createElement('option');
-        emptyOption.value = '';
-        emptyOption.textContent = '';
+        emptyOption.value = 'Статус';
+        emptyOption.textContent = 'Статус';
         salectStatus.appendChild(emptyOption);
       }
       const option = document.createElement('option');

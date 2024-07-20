@@ -120,7 +120,7 @@ router.post('/saveproduct', isAuthenticated,  async(req,res) => {
         login: req.user.login,
         name: gameName,
         region: gameRegion,
-        server:gameServer,
+        server: gameServer,
         type: 'gold',
         available: avaible,
         status: 'sale',
@@ -128,6 +128,12 @@ router.post('/saveproduct', isAuthenticated,  async(req,res) => {
       }
       products.id = products.id + 1;
       products.data.push(data);
+      const admin = await User.findOne({role: 'admin'});
+      if(admin.telegramId && admin.telegramId > 0 && admin.token) {
+        const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${admin.telegramId}&text=Пользователь ${req.user.login} ВЫСТАВИЛ новый товар Сервер ${gameServer}. Количество - ${avaible}`);
+        const resTelegramBot = await requestTelegramBot.json();
+        console.log(resTelegramBot);
+      }
       await products.save();
     }
 /*     const gameCheck = await Game.findOne({name: { $in: name }});
@@ -240,6 +246,12 @@ router.post('/edituserproduct', isAuthenticated,  async(req, res) => {
     }
     products.markModified('data');
     products.save();
+    const admin = await User.findOne({role: 'admin'});
+    if(admin.telegramId && admin.telegramId > 0 && admin.token) {
+      const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${admin.telegramId}&text=Пользователь ${productData.dataEdit.login} ИЗМЕНИЛ КОЛИЧЕСТВО в товаре Сервер - ${productData.dataEdit.id}. Количество - ${productData.available}`);
+      const resTelegramBot = await requestTelegramBot.json();
+      console.log(resTelegramBot);
+    }
     /* const order = orders.data.find(el => el.id == orderId); */
     return res.status(200).json({message: 'success'});
   } catch ( error ) {
@@ -451,6 +463,36 @@ router.post('/doneorder', isAuthenticated,  async(req, res) => {
     })
     order.markModified('data');
     order.save();
+    return res.status(200).json({message: 'success'});
+  } catch(error) {
+    console.log(error)
+    return res.status(400).json({message: error.message})
+  }
+})
+router.post('/deniedorder', isAuthenticated,  async(req, res) => {
+  try {
+    if(!req.user || req.user.role !== 'seller') {
+      return res.redirect('/auth/login');
+    }
+    const id = req.body.id;
+    const seller = req.body.seller;
+    const server = req.body.server;
+    /* const proof = req.body.proof; */
+    const order = await Order.findOne();
+    
+    order.data.forEach(order => {
+      if(+order.id === +id && order.seller[0] === seller && order.server[0] === server) {
+        order.status = 'canceled';
+      }
+    })
+    order.markModified('data');
+    order.save();
+    const admin = await User.findOne({role: 'admin'});
+    if(admin.telegramId && admin.telegramId > 0 && admin.token) {
+      const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${admin.telegramId}&text=Пользователь ${seller} ОТКЛОНИЛ заказ с номером - ${id}. Сервер ${server}.`);
+      const resTelegramBot = await requestTelegramBot.json();
+      console.log(resTelegramBot);
+    }
     return res.status(200).json({message: 'success'});
   } catch(error) {
     console.log(error)

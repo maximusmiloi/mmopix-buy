@@ -48,6 +48,7 @@ header {
 }
 a {
   color: white;
+  font-size: 24px;
 }
 .profile-info-container {
   display: flex;
@@ -70,9 +71,22 @@ a {
   font-weight: 900;
   color: #FF7A00;
 }
+.contact:hover {
+  color: #FF7A00;
+  border-radius: 5px;
+}
 
 @media only screen and (max-width: 1024px) {
-
+  header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+  /*   padding: 0 50px; */
+    background-color: #1C1737;
+  }
  }
  /* Планшеты (портрет) */
  @media only screen and (max-width: 768px) {

@@ -53,9 +53,11 @@ export class ContentFinance {
 
   
       let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
-      //pagination)
+      //pagination
       if(numberPage > 0) {
-        const data0Page = this.data.reverse().slice(0, 9).reverse();
+        console.log(numberPage)
+        console.log(this.data.reverse())
+        const data0Page = this.data.slice(0, 9).reverse();
         contentRows(data0Page);
       } else {
         contentRows(this.data);
@@ -72,6 +74,15 @@ export class ContentFinance {
       const page = paginationContainer.querySelectorAll('.pagination-page');
 
       const currentPage = localStorage.getItem('seller-order-page');
+
+      function paginate(array, pageNumber, itemsPerPage) {
+        let startIndex = ((pageNumber * 10) -10);
+        if(startIndex > 0) {
+          startIndex - 1;
+        }
+        const endIndex = pageNumber * 10;
+        return array.slice(startIndex, endIndex).reverse();
+      }
       page.forEach(element => {
         if(+element.textContent === +currentPage) {
           element.style.color = '#FF7A00';
@@ -81,10 +92,11 @@ export class ContentFinance {
             p.style.color = 'white';
           });
           localStorage.setItem('seller-order-page', event.target.textContent);
-        
+          console.log(event.target.innerHTML)
           event.target.style.color = '#FF7A00';
           contentContainer.innerHTML = ''; 
-          const data0Page = this.data.reverse().slice(0, 9);
+          /* const data0Page = this.data.reverse().slice(0, 9); */
+          const data0Page = paginate(this.data, event.target.innerHTML, this.data.length);
           contentRows(data0Page);
           contentContainer.appendChild(paginationContainer);
         })

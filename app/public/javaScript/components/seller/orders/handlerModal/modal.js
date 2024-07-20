@@ -81,13 +81,27 @@ export class Modal {
 
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('modal-button-container');
-    const modalButtonClose = document.createElement('button');
-    modalButtonClose.classList.add('modal-button');
-    modalButtonClose.textContent = 'Закрыть';
+    const modalButtonClose = document.createElement('div');
+    modalButtonClose.classList.add('close-btn');
+    const line1Container = document.createElement('div');
+    line1Container.classList.add('line');
+    line1Container.classList.add('line1');
+    const line2Container = document.createElement('div');
+    line2Container.classList.add('line2');
+    line2Container.classList.add('line');
+    modalButtonClose.append(line1Container, line2Container);
+    /* modalButtonClose.classList.add('modal-button'); */
+    
+    /* modalButtonClose.textContent = 'Закрыть'; */
+    const modalButtonDenied = document.createElement('button');
+    modalButtonDenied.classList.add('modal-button');
+    modalButtonDenied.style.color = 'red';
+    modalButtonDenied.textContent = 'Отказаться';
+
     const modalButtonAccept = document.createElement('button');
     modalButtonAccept.classList.add('modal-button');
     modalButtonAccept.textContent = 'Принять';
-    buttonContainer.append(modalButtonClose, modalButtonAccept);
+    buttonContainer.append(modalButtonClose, modalButtonDenied, modalButtonAccept);
     modal.append(
       spanIdOrder,
       modalGameContainer,
@@ -104,6 +118,38 @@ export class Modal {
         escapingBallG.style.display = 'none';
       }
       modal.remove();
+    })
+
+    modalButtonDenied.addEventListener('click', async event => {
+      //escapingBallG.style.display = 'flex';
+      const seller = data.seller[0];
+      const id = data.id;
+      const server = data.server[0];
+      modal.remove();
+      const options = {
+        method: 'POST',
+        body: JSON.stringify({seller, id, server}),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+      const reqOrderAccpet = await fetch('/seller/deniedorder', options);
+      const resOrderAccpet = await reqOrderAccpet.json();
+
+      if(resOrderAccpet.message === 'success') {
+        modal.remove();
+        location.reload();
+      }
+/*       if(resOrderSave.message === 'success') {
+        escapingBallG.classList.add('notification');
+        escapingBallG.style.width = '300px';
+        escapingBallG.style.height = '50px';
+        escapingBallG.style.color = 'black';
+        escapingBallG.innerHTML = 'Сохранено';
+        escapingBallG.style.display = 'flex';
+        await new Promise(resolve => setTimeout(resolve, 10000));
+        escapingBallG.style.display = 'none';
+      } */
     })
     modalButtonAccept.addEventListener('click', async event => {
       //escapingBallG.style.display = 'flex';
@@ -247,9 +293,17 @@ export class Modal {
 ///
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('modal-button-container');
-    const modalButtonClose = document.createElement('button');
-    modalButtonClose.classList.add('modal-button');
-    modalButtonClose.textContent = 'Закрыть';
+
+    const modalButtonClose = document.createElement('div');
+    modalButtonClose.classList.add('close-btn');
+    const line1Container = document.createElement('div');
+    line1Container.classList.add('line');
+    line1Container.classList.add('line1');
+    const line2Container = document.createElement('div');
+    line2Container.classList.add('line2');
+    line2Container.classList.add('line');
+    modalButtonClose.append(line1Container, line2Container);
+
     const modalButtonSupport = document.createElement('button');
     modalButtonSupport.classList.add('modal-button');
     modalButtonSupport.textContent = 'Помощь (TG)';
@@ -257,10 +311,18 @@ export class Modal {
     modalButtonSupport.addEventListener('click', event => {
       window.open(`https://t.me/Mmopix_shop`, '_blank');
     })
+
+    const modalButtonDenied = document.createElement('button');
+    modalButtonDenied.classList.add('modal-button');
+    modalButtonDenied.style.color = 'red';
+    modalButtonDenied.textContent = 'Отказаться';
+
     const modalButtonDone = document.createElement('button');
     modalButtonDone.classList.add('modal-button');
     modalButtonDone.textContent = 'Готово';
-    buttonContainer.append(modalButtonSupport, modalButtonClose, modalButtonDone);
+
+
+    buttonContainer.append(modalButtonSupport, modalButtonClose, modalButtonDenied,  modalButtonDone);
     modalContentLeft.append(
       spanIdOrder,
       modalGameContainer,
@@ -277,6 +339,27 @@ export class Modal {
         escapingBallG.style.display = 'none';
       }
       modal.remove();
+    })
+    modalButtonDenied.addEventListener('click', async event => {
+      escapingBallG.style.display = 'flex';
+      const seller = data.seller[0];
+      const id = data.id;
+      const server = data.server[0];
+      const proof = inputProof.value;
+      const options = {
+        method: 'POST',
+        body: JSON.stringify({seller, id, server, proof}),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+      const reqOrderDone = await fetch('/seller/deniedorder', options);
+      const resOrderDone = await reqOrderDone.json();
+
+      if(resOrderDone.message === 'success') {
+        modal.remove();
+        location.reload();
+      }
     })
     modalButtonDone.addEventListener('click', async event => {
       escapingBallG.style.display = 'flex';
@@ -364,9 +447,17 @@ export class Modal {
 
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('modal-button-container');
-    const modalButtonClose = document.createElement('button');
-    modalButtonClose.classList.add('modal-button');
-    modalButtonClose.textContent = 'Закрыть';
+
+    const modalButtonClose = document.createElement('div');
+    modalButtonClose.classList.add('close-btn');
+    const line1Container = document.createElement('div');
+    line1Container.classList.add('line');
+    line1Container.classList.add('line1');
+    const line2Container = document.createElement('div');
+    line2Container.classList.add('line2');
+    line2Container.classList.add('line');
+    modalButtonClose.append(line1Container, line2Container);
+
     buttonContainer.append(modalButtonClose);
     modal.append(
       spanIdOrder,
@@ -496,9 +587,17 @@ export class Modal {
 ///
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('modal-button-container');
-    const modalButtonClose = document.createElement('button');
-    modalButtonClose.classList.add('modal-button');
-    modalButtonClose.textContent = 'Закрыть';
+
+    const modalButtonClose = document.createElement('div');
+    modalButtonClose.classList.add('close-btn');
+    const line1Container = document.createElement('div');
+    line1Container.classList.add('line');
+    line1Container.classList.add('line1');
+    const line2Container = document.createElement('div');
+    line2Container.classList.add('line2');
+    line2Container.classList.add('line');
+
+    modalButtonClose.append(line1Container, line2Container);
     const modalButtonSupport = document.createElement('button');
     modalButtonSupport.classList.add('modal-button');
     modalButtonSupport.textContent = 'Помощь (TG)';
@@ -639,9 +738,17 @@ export class Modal {
 ///
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('modal-button-container');
-    const modalButtonClose = document.createElement('button');
-    modalButtonClose.classList.add('modal-button');
-    modalButtonClose.textContent = 'Закрыть';
+
+    const modalButtonClose = document.createElement('div');
+    modalButtonClose.classList.add('close-btn');
+    const line1Container = document.createElement('div');
+    line1Container.classList.add('line');
+    line1Container.classList.add('line1');
+    const line2Container = document.createElement('div');
+    line2Container.classList.add('line2');
+    line2Container.classList.add('line');
+    modalButtonClose.append(line1Container, line2Container);
+
     const modalButtonSupport = document.createElement('button');
     modalButtonSupport.classList.add('modal-button');
     modalButtonSupport.textContent = 'Помощь (TG)';
