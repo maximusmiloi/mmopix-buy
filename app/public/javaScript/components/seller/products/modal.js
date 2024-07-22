@@ -97,7 +97,6 @@ export class Modal {
             return 0;
           }
         });;
-        console.log(optionSort)
         optionSort.forEach(optionArray => {
           const option = document.createElement('option');
           option.value = optionArray[0][0];
@@ -183,9 +182,7 @@ export class Modal {
         }
       })
       /* const inputValue = input.value; */
-      console.log(event.target.parentElement.parentElement)
       const availableInput = document.querySelector('.modal-quantity');
-      console.log(availableInput)
       const available = availableInput.value;
       const values = Array.from(selects).map(select => {
         return select.value.split(',').map(item => item.trim());
