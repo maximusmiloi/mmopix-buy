@@ -78,6 +78,7 @@ h3 {
     justify-content: center;
     align-items: center;
     max-width: 600px;
+    order: 10;
    }
    footer section {
      display: flex;

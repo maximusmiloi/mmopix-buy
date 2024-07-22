@@ -12,7 +12,7 @@ export class Content {
       paginationContainer.classList.add('pagination-container');
 
       const contentRows = async(data) => {
-        console.log(data)
+
         if(data.length < 1 || !data) {
           const div = document.createElement('div');
           div.style.textAlign = 'center';
@@ -41,7 +41,7 @@ export class Content {
           if(chapter[0] && chapter[0].options &&  chapter[0].options.length > 0) {
             optionPrice = chapter[0].options.filter(option => option[0][0] === product.server[0]);
             if(optionPrice && optionPrice.length > 0) {
-              console.log(optionPrice)
+
               price = `${optionPrice[0][2][0]} ${optionPrice[0][2][1]}`;
             }
           }
@@ -145,7 +145,7 @@ export class Content {
             p.style.color = 'white';
           });
           localStorage.setItem('seller-order-page', event.target.textContent);
-          console.log(event.target.innerHTML)
+
           event.target.style.color = '#FF7A00';
           contentContainer.innerHTML = ''; 
           /* const data0Page = this.data.reverse().slice(0, 9); */
@@ -163,12 +163,12 @@ export class Content {
   }
   deleteRow(button, contentContainer) {
     button.addEventListener('click', async(event) => {
-      console.log(event.target)
+
       const overlay = document.createElement('div');
       overlay.classList.add('.modal-overlay')
       overlay.style.display = 'flex';
       const rowElement = event.target.parentElement.parentElement.parentElement;
-      console.log(rowElement)
+
       const createModal = new Modal();
       const modal = createModal.renderNotificationModal('Вы действительно хотите удалить данный товар?', 'modal-button-delete-row');
       contentContainer.append(modal)
@@ -176,10 +176,10 @@ export class Content {
       buttonDelete.addEventListener('click', async event => {
 
       const id = rowElement.dataset.id;
-      console.log(id)
+
       const requestDeleteRow = await fetch(`/seller/deleteuserproduct?id=${id}`);
       const responseDeleteRow = await requestDeleteRow.json();
-      console.log(responseDeleteRow)
+
       if (responseDeleteRow.message === 'success') {
         rowElement.remove();
         modal.remove();

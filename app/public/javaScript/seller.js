@@ -49,8 +49,13 @@ import {ContentOrders} from "./components/seller/orders/content.js";
     
       const getSelectedRadio = () => {
         return localStorage.getItem('selectedRadio');
+        
       };
-    
+
+      if(!localStorage.getItem('selectedRadio')) {
+        localStorage.setItem('selectedRadio', 'orders');
+        handleRadioClick(orders); 
+      }
       const handleRadioClick = async (input) => {
         
         const requestDataChapters = await fetch('/seller/getchapters');
@@ -127,7 +132,7 @@ import {ContentOrders} from "./components/seller/orders/content.js";
             const createFilter = new Filter('Добавить товар', dataChapters.chapters);
             const filter = createFilter.renderGold();
             content.appendChild(filter);
-            console.log(dataChapters.chapters)
+
             const createContent = new Content(responseOrders, dataChapters.chapters);
             const contentOrders = createContent.render();
             content.appendChild(contentOrders);
