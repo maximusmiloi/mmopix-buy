@@ -28,7 +28,7 @@ export class Modal {
     const selectServers = modalElement.renderSelect('modal-servers');
     modal.append(labelServers, selectServers);
 
-    const labelPrice = modalElement.renderLabel('modal-price', 'Приблизительная цена');
+    const labelPrice = modalElement.renderLabel('modal-price', 'Ориентировочная цена');
     const spanPrice = modalElement.renderSpan('modal-price');
     modal.append(labelPrice, spanPrice);
 
@@ -87,7 +87,18 @@ export class Modal {
 
       clearSelect(selectServers);
       if (filteredItems.length > 0) {
-        filteredItems[0].options.forEach(optionArray => {
+        const optionSort = filteredItems[0].options.sort((a, b) => {
+          // Сравниваем первые элементы вложенных массивов
+          if (a[0] < b[0]) {
+            return -1;
+          } else if (a[0] > b[0]) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });;
+        console.log(optionSort)
+        optionSort.forEach(optionArray => {
           const option = document.createElement('option');
           option.value = optionArray[0][0];
           option.textContent = optionArray[0][0];
