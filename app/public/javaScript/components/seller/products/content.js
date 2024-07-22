@@ -41,8 +41,9 @@ export class Content {
           if(chapter[0] && chapter[0].options &&  chapter[0].options.length > 0) {
             optionPrice = chapter[0].options.filter(option => option[0][0] === product.server[0]);
             if(optionPrice && optionPrice.length > 0) {
-
-              price = `${optionPrice[0][2][0]} ${optionPrice[0][2][1]}`;
+              if(optionPrice[0][2]) {
+                price = `${optionPrice[0][2][0]} ${optionPrice[0][2][1]}`;
+              }
             }
           }
           const array = [
