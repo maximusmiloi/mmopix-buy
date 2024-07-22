@@ -74,11 +74,13 @@ router.post('/saveproduct', isAuthenticated,  async(req,res) => {
       return res.redirect('/auth/login');
     }
     let message;
+    console.log(req.body)
     const orderData = req.body.values;
     const gameName = orderData[0];
     const gameRegion = orderData[1];
     const gameServer = orderData[2];
-    const avaible = req.body.inputValue;
+    const avaible = req.body.available;
+    const methods = req.body.methodsArray;
     
     if(avaible.length < 1) {
       message = 'emptyInput';

@@ -24,7 +24,6 @@ export class Filter {
     buttonCreate.textContent = this.button;
     this.eventButtonCreateOrder(buttonCreate);
 
-    console.log(this.data)
     const salectGame = document.createElement('select');
     salectGame.classList.add('product-filter-container-select-game');
     const gameNames = [...new Set(this.data.map(item => item.name))];

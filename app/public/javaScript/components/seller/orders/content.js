@@ -9,13 +9,11 @@ export class ContentOrders {
       contentContainer.classList.add('product-content-container');
       const paginationContainer = document.createElement('div');
       paginationContainer.classList.add('pagination-container');
-      console.log(this.data);
+
       let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
-      console.log(numberPage)
-      
 
       const contentRows = async(data) => {
-        console.log(data)
+
         for(let product of data.reverse()) {
           const array = [
             ['seller', product.login],
@@ -25,7 +23,7 @@ export class ContentOrders {
             ['Сервер', product.server[0]],
             ['Количество', product.available],
           ]
-          console.log(product);
+
           const contentRow = document.createElement('div');
           contentRow.classList.add('product-content-row');
           contentRow.dataset.id = product.id;
@@ -63,23 +61,23 @@ export class ContentOrders {
       }
       contentContainer.appendChild(paginationContainer);
       const page = paginationContainer.querySelectorAll('.pagination-page');
-      console.log(page)
+
       page.forEach(element => {
         element.addEventListener('click', async(event) => {
           contentContainer.innerHTML = '';
           contentContainer.appendChild(paginationContainer);
           const data0Page = this.data.reverse().slice(0, 9);
           contentRows(data0Page);
-          console.log(event.target.textContent)
+
         })
       });
 
       const row = contentContainer.querySelectorAll('.product-content-row');
-      console.log(row)
+
       row.forEach(element => {
         element.addEventListener('click', async(event) => {
           const dataElement = this.data.find(el => {
-            console.log(`${el.id} - ${element.dataset.id}`)
+
             if(el.id == element.dataset.id) {
               return el;
             }
@@ -161,7 +159,7 @@ export class ContentOrders {
 
       const search = document.querySelector('.order-filter-container-search');
       search.addEventListener('change', async event => {
-        console.log(search.value);
+
         let searchData = this.data.filter(el => el.id === +search.value);
         contentContainer.innerHTML = ''; 
           /* const data0Page = this.data.reverse().slice(0, 9); */
@@ -220,8 +218,7 @@ export class ContentOrders {
       })
       //pagination
       if(numberPage > 0) {
-        console.log(numberPage)
-        console.log(this.data.reverse())
+
         const data0Page = this.data.slice(0, 9).reverse();
         contentRows(data0Page);
       } else {
@@ -257,7 +254,7 @@ export class ContentOrders {
             p.style.color = 'white';
           });
           localStorage.setItem('seller-order-page', event.target.textContent);
-          console.log(event.target.innerHTML)
+ 
           event.target.style.color = '#FF7A00';
           contentContainer.innerHTML = ''; 
           /* const data0Page = this.data.reverse().slice(0, 9); */

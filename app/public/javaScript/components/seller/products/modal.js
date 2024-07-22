@@ -21,8 +21,8 @@ export class Modal {
     modal.append(labelRegion, selectRegion);
 
     const labelMethod = modalElement.renderLabel('modal-method', 'Метод доставки');
-    const spanMethod = modalElement.renderSpan('modal-method');
-    modal.append(labelMethod, spanMethod);
+    const divMethod = modalElement.renderDiv('modal-method');
+    modal.append(labelMethod, divMethod);
 
     const labelServers = modalElement.renderLabel('modal-servers', 'Сервера');
     const selectServers = modalElement.renderSelect('modal-servers');
@@ -41,7 +41,6 @@ export class Modal {
     const modalButtonClose = document.createElement('button');
     modalButtonClose.classList.add('modal-button');
     modalButtonClose.textContent = 'Закрыть';
-    modalButtonClose.classList.add('close_btn');
     const modalButtonSave = document.createElement('button');
     modalButtonSave.classList.add('modal-button');
     modalButtonSave.textContent = 'Выставить';
@@ -61,7 +60,7 @@ export class Modal {
     function populateRegionSelect(name, data) {
       const regions = [...new Set(data.filter(item => item.name === name).map(item => item.region))];
       clearSelect(selectRegion);
-      clearSelect(spanMethod);
+      clearSelect(divMethod);
       regions.forEach(region => {
         const option = document.createElement('option');
         option.value = region;
@@ -71,13 +70,21 @@ export class Modal {
     }
     function populateMethods(name, region, data) {
       const methods = data.filter(item => item.name === name && item.region === region);
-      clearSelect(spanMethod);
-
-      spanMethod.textContent = methods[0].methodDelivery;
+      clearSelect(divMethod);
+      
+      if(methods[0].methodDelivery && methods[0].methodDelivery.length > 0) {
+        methods[0].methodDelivery.forEach(el => {
+          const checkBoxMethod = modalElement.renderCheckBox('modal-method-checkbox', el);
+          divMethod.appendChild(checkBoxMethod);
+        })
+      }
+      /* spanMethod.textContent = methods[0].methodDelivery; */
     }
     function populateOptionsSelect(name, region, data) {
 
       const filteredItems = data.filter(item => item.name === name && item.region === region);
+      filteredItems.sort((a, b) => a.localeCompare(b));
+
       clearSelect(selectServers);
       if (filteredItems.length > 0) {
         filteredItems[0].options.forEach(optionArray => {
@@ -157,15 +164,24 @@ export class Modal {
 
       const selects = event.target.parentElement.parentElement.querySelectorAll('select');
 
-      const input = event.target.parentElement.parentElement.querySelector('input');
-      const inputValue = input.value;
-
+      const inputsMethod = event.target.parentElement.parentElement.querySelectorAll('input');
+      const methodsArray = [];
+      inputsMethod.forEach(el => {
+        if(el.checked) {
+          methodsArray.push(el.value);
+        }
+      })
+      /* const inputValue = input.value; */
+      console.log(event.target.parentElement.parentElement)
+      const availableInput = document.querySelector('.modal-quantity');
+      console.log(availableInput)
+      const available = availableInput.value;
       const values = Array.from(selects).map(select => {
         return select.value.split(',').map(item => item.trim());
       });
       const options = {
         method: 'POST',
-        body: JSON.stringify({values, inputValue}),
+        body: JSON.stringify({values, available, methodsArray}),
         headers: {
           'Content-Type': 'application/json',
         }
