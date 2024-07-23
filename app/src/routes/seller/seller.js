@@ -68,7 +68,7 @@ router.get('/getchapters', isAuthenticated, async(req, res) => {
   }
 })
 router.post('/saveproduct', isAuthenticated,  async(req,res) => {
-  const user = req.user;
+  const userData = req.user;
   try{
     if(!req.user || req.user.role !== 'seller') {
       return res.redirect('/auth/login');
@@ -81,7 +81,12 @@ router.post('/saveproduct', isAuthenticated,  async(req,res) => {
     const gameServer = orderData[2];
     const avaible = req.body.available;
     const methods = req.body.methodsArray;
-    
+
+    if(!userData.telegram && userData.telegram.length < 1 && !userData.telegram.startsWith('@') && !userData.discord && userData.discord.length < 1 && !userData.discord.startsWith('@')) {
+      message = 'notContant';
+      console.log(message)
+      return res.status(200).json({message});
+    }
     if(avaible.length < 1) {
       message = 'emptyInput';
       return res.status(200).json({message});
@@ -123,6 +128,7 @@ router.post('/saveproduct', isAuthenticated,  async(req,res) => {
         name: gameName,
         region: gameRegion,
         server: gameServer,
+        methods: methods,
         type: 'gold',
         available: avaible,
         status: 'sale',
@@ -212,13 +218,20 @@ router.get('/deleteuserproduct', isAuthenticated,  async(req, res) => {
       if(!req.user || req.user.role !== 'seller') {
         return res.redirect('/auth/login');
       }
+      
       let message;
+      console.log(req.query.id);
       const user = await User.findOne({login: req.user.login});
       user.products = user.products.filter(product => product !== +req.query.id);
+      user.markModified('products');
       user.save();
 
       const products = await Product.findOne();
-      products.data = products.data.filter(product => product.id !== +req.query.id && product.login === req.user.login);
+      console.log(products)
+      console.log(products.data)
+      products.data = products.data.filter(product => product.id !== +req.query.id );
+      products.markModified('data');
+      console.log(products.data)
       products.save();
       return res.status(200).json({message: 'success'});
     } catch ( error ) {
@@ -397,18 +410,30 @@ router.post('/profilessave', isAuthenticated,  async(req, res) => {
     const password = req.body.password;
     const twopassword = req.body.twopassword;
 
-    if(telegram.length > 1) {
+
+    if(telegram.length > 1 && telegram.startsWith('@')) {
       userData.telegram = telegram;
+    } else {
+      userData.telegram;
     }
-    if(discord.length > 1) {
+    if(discord.length > 1 && telegram.startsWith('@')) {
       userData.discord = discord;
+    } else {
+      userData.telegram;
     }
+
     if(password.length > 5 && twopassword.length > 5 && password === twopassword) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
       userData.password = hashedPassword;
     }
     userData.save();
+    if(telegram.length > 0 && !telegram.startsWith('@')) {
+      return res.status(200).json({message: 'wrongText'});
+    }
+    if(discord.length > 0 && !discord.startsWith('@')) {
+      return res.status(200).json({message: 'wrongText'});
+    }
     return res.status(200).json({message: 'success'});
   } catch(error) {
     console.log(error)

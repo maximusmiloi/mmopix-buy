@@ -37,3 +37,17 @@
   /* background: #151129; */
   gap: 15px;
 }
+.indicator-telegram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  width: 15%;
+  height: 34px;
+  font-weight: 900;
+}
+.container-button-not {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}

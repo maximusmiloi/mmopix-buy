@@ -196,26 +196,34 @@ export class Modal {
       }
       const requestProductSave = await fetch('/seller/saveproduct', options);
       const responseProductSave = await requestProductSave.json();
+      if(responseProductSave.message === 'notContant') {
+        escapingBallG.classList.add('notification');
+        escapingBallG.style.width = '350px';
+        escapingBallG.style.height = '90px';
+        escapingBallG.innerHTML = 'ОШИБКА! Перейдите в раздел "Профиль" и заполните контактные данные: Telegram или Discord.';
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        escapingBallG.style.display = 'none';
+      }
       if(responseProductSave.message === 'emptyInput') {
         escapingBallG.classList.add('notification');
-        escapingBallG.style.width = '300px';
-        escapingBallG.style.height = '50px';
+        escapingBallG.style.width = '350px';
+        escapingBallG.style.height = '90px';
         escapingBallG.innerHTML = 'Строка "Количество" пуста.';
         await new Promise(resolve => setTimeout(resolve, 5000));
         escapingBallG.style.display = 'none';
       }
       if(responseProductSave.message === 'notNumber') {
         escapingBallG.classList.add('notification');
-        escapingBallG.style.width = '300px';
-        escapingBallG.style.height = '50px';
+        escapingBallG.style.width = '350px';
+        escapingBallG.style.height = '90px';
         escapingBallG.innerHTML = 'Строка "количество" не является числом.';
         await new Promise(resolve => setTimeout(resolve, 5000));
         escapingBallG.style.display = 'none';
       }
       if(responseProductSave.message === 'success') {
         escapingBallG.classList.add('notification');
-        escapingBallG.style.width = '300px';
-        escapingBallG.style.height = '50px';
+        escapingBallG.style.width = '350px';
+        escapingBallG.style.height = '90px';
         escapingBallG.style.color = '#0AFE23';
         escapingBallG.innerHTML = 'Товар успешно выставлен на продажу.';
         await new Promise(resolve => setTimeout(resolve, 5000));
@@ -223,9 +231,9 @@ export class Modal {
       }
       if(responseProductSave.message === 'hasOrder') {
         escapingBallG.classList.add('notification');
-        escapingBallG.style.width = '300px';
-        escapingBallG.style.height = '50px';
-        escapingBallG.style.color = 'black';
+        escapingBallG.style.width = '350px';
+        escapingBallG.style.height = '90px';
+        escapingBallG.style.color = 'white';
         escapingBallG.innerHTML = 'Товар такого типа уже выставлен. Измените количество в уже выставленном товаре.';
         await new Promise(resolve => setTimeout(resolve, 10000));
         escapingBallG.style.display = 'none';

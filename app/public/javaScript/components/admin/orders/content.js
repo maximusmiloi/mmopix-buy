@@ -12,41 +12,43 @@ export class Content {
       let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
       const contentRows = async(data) => {
         for(let product of data.reverse()) {
-          const array = [ 
-            ['seller', product.login],
-            ['Игра', product.name[0]], 
-            ['Тип', product.type], 
-            ['Регион', product.region[0]],
-            ['Сервер', product.server[0]],
-            ['Количество', product.available],
-          ]
-          const contentRow = document.createElement('div');
-          contentRow.classList.add('product-content-row');
-          contentRow.dataset.id = product.id;
+          if(product.state && product.state === true) {
+            const array = [ 
+              ['seller', product.login],
+              ['Игра', product.name[0]], 
+              ['Тип', product.type], 
+              ['Регион', product.region[0]],
+              ['Сервер', product.server[0]],
+              ['Количество', product.available],
+            ]
+            const contentRow = document.createElement('div');
+            contentRow.classList.add('product-content-row');
+            contentRow.dataset.id = product.id;
+      
+            array.forEach(element => {
+              const contentCell = document.createElement('div');
+              contentCell.classList.add('product-content-cell');
+      
+              const contentCellDiv1 = document.createElement('div');
+              const contentCellDiv2 = document.createElement('div');
+      
+              contentCellDiv1.textContent = element[0];
+              contentCellDiv1.style.color = '#B0B0B0';
+              contentCellDiv2.textContent = element[1];
+              contentCell.append(contentCellDiv1, contentCellDiv2);
+              contentRow.appendChild(contentCell);
+            })
     
-          array.forEach(element => {
-            const contentCell = document.createElement('div');
-            contentCell.classList.add('product-content-cell');
-    
-            const contentCellDiv1 = document.createElement('div');
-            const contentCellDiv2 = document.createElement('div');
-    
-            contentCellDiv1.textContent = element[0];
-            contentCellDiv1.style.color = '#B0B0B0';
-            contentCellDiv2.textContent = element[1];
-            contentCell.append(contentCellDiv1, contentCellDiv2);
-            contentRow.appendChild(contentCell);
-          })
-  
-          contentContainer.append(contentRow);
-        }
+            contentContainer.append(contentRow);
+          }
+          }
       }
       //pagination
       if(numberPage > 0) {
         const data0Page = this.data.reverse().slice(0, 9).reverse();
         contentRows(data0Page);
       } else {
-        contentRows(this.data);
+        contentRows(this.data.reverse());
       }
 
       while(numberPage >= 1) {

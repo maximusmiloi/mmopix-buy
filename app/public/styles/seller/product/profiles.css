@@ -36,9 +36,15 @@
   color: #8778D9;
   gap: 5px;
 }
-.profiles-container button {
+.profiles-container-verif button {
 	width: 15%;
 	height: 39px;
+}
+.profiles-button-save {
+  width: 15%;
+	height: 39px;
+}
+.profiles-container button {
 	color: #1F1A3A;
   font-family: 'TTMilks';
   font-size: 16px;
