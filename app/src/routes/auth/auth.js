@@ -113,10 +113,12 @@ router.post('/telegramhook', async(req, res) => {
           const token = text.split(' ')[1];
           // Ищем пользователя с этим токеном и обновляем его telegramId
           try {
-            const requestTelegramBot = await fetch(`https://api.telegram.org/bot:7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${chatId}&text=Поздравляем, бот для уведомлений подключён. Теперь Вы будете получать уведомления о состоянии своих заказов.`);
+            const requestTelegramBot = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/sendMessage?chat_id=${chatId}&text=Поздравляем, бот для уведомлений подключён. Теперь Вы будете получать уведомления о состоянии своих заказов.`);
             const resTelegramBot = await requestTelegramBot.json();
+            const requestTelegramName = await fetch(`https://api.telegram.org/bot7392220371:AAFFVCrssnxR_-_LhrAbSlv4CiQNF_fbJGE/getChat?chat_id=${chatId}`);
+            const resTelegramName = await requestTelegramName.json();
             console.log(resTelegramBot);
-            const user = await User.findOneAndUpdate({ token }, { telegramId: chatId }, { new: true });
+            const user = await User.findOneAndUpdate({ token }, { telegramId: chatId, telegram: `@${resTelegramName.result.username}` }, { new: true });
             if (user) {
               console.log(`User ${username} updated with telegramId: ${chatId}`);
             } else {

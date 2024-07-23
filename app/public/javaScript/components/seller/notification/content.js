@@ -19,12 +19,26 @@ export class ContentNotifications {
       const imgButton = document.createElement('img');
       imgButton.src = 'img/logos_telegram.png';
 
+      const containerButton = document.createElement('div');
+      containerButton.classList.add('container-button-not');
       const button = document.createElement('button');
       button.classList.add('notification-content-container-button');
       button.id = 'notification-button';
       button.textContent = 'Подключить';
       button.append(imgButton);
 
+      const indicatorNot = document.createElement('div');
+      indicatorNot.classList.add('indicator-telegram');
+      if(this.data.user.telegramId && this.data.user.telegramId > 0 && this.data.user.token && this.data.user.token.length > 0) {
+        indicatorNot.style.color = 'green';
+        indicatorNot.textContent = 'Тегерам подключен';
+        indicatorNot.style.border = '3px solid green';
+      } else {
+        indicatorNot.style.color = 'gray';
+        indicatorNot.textContent = 'Тегерам не подключен';
+        indicatorNot.style.border = '3px dashed gray';
+      }
+      containerButton.append(button, indicatorNot);
       button.addEventListener('click', async event => {
         const req = await fetch('/seller/checktoken');
         const res = await req.json();
@@ -37,7 +51,7 @@ export class ContentNotifications {
         }
         
       })
-      contentContainer.append(h2, p, button);
+      contentContainer.append(h2, p, containerButton);
       return contentContainer;
     } catch(error){
       console.log(error.message);

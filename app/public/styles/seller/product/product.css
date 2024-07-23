@@ -6,6 +6,11 @@
   font-weight: normal;
   font-style: normal;
 }
+:root {
+  --switch-width: 80px; /* ширина переключателя */
+  --switch-height: 34px; /* высота переключателя */
+  --switch-padding: 4px; /* внутренний отступ */
+}
 .product-button_create-gold {
   width: 134px;
   height: 29px;
@@ -78,9 +83,84 @@ button {
   font-family: 'TTMilks';
   cursor: pointer;
 }
-/* .enable-disable-chapter {
-  
-} */
+
+.enable-disable-chapter {
+  display: none;
+}
+
+.enable-disable-chapter + label {
+  position: relative;
+  display: inline-block;
+  width: var(--switch-width);
+  height: var(--switch-height);
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  user-select: none;
+}
+
+.enable-disable-chapter + label .slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #c71111;
+  border-radius: var(--switch-height);
+  transition: background-color 0.3s ease;
+}
+
+.enable-disable-chapter + label .slider::before {
+  content: "";
+  position: absolute;
+  width: calc(var(--switch-height) - var(--switch-padding) * 2);
+  height: calc(var(--switch-height) - var(--switch-padding) * 2);
+  background-color: white;
+  border-radius: 50%;
+  top: var(--switch-padding);
+  left: var(--switch-padding);
+  transition: transform 0.3s ease;
+}
+
+.enable-disable-chapter + label .text {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: white;
+}
+
+.enable-disable-chapter + label .text.off {
+  color: #fff;
+  left: 10px;
+  transition: opacity 0.3s ease;
+}
+
+.enable-disable-chapter + label .text.on {
+  color: #fff;
+  right: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.enable-disable-chapter:checked + label .slider {
+  background-color: #4caf50;
+}
+
+.enable-disable-chapter:checked + label .slider::before {
+  transform: translateX(calc(var(--switch-width) - var(--switch-height)));
+}
+
+.enable-disable-chapter:checked + label .text.off {
+  opacity: 0;
+}
+
+.enable-disable-chapter:checked + label .text.on {
+  opacity: 1;
+}
+
 
 @media only screen and (max-width: 1024px) {
   .main-header {

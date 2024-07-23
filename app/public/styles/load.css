@@ -1,10 +1,30 @@
+@font-face {
+  font-family: 'TTMilks';
+  src: url('../fonts/TTMilks/TTMilks-DemiBold.woff2') format('woff2');
+/*        url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'),
+       url('../fonts/TTMilks/TTMilksScript-Regular.woff2') format('woff2'), */
+  font-weight: normal;
+  font-style: normal;
+}
 .notification {
-	width: 450px;
-	height: 50px;
-	background: #8778D9;
-	color: white;
+	position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 60%;
+  background-color: #141027;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  z-index: 1000;
+  display: none; 
+	border: 1px solid gray;
+  flex-direction: column;
+  padding: 20px; 
 	justify-content: center;
 	align-items: center;
+  font-family: 'TTMilks';
+  /* overflow: auto; */
 }
 #escapingBallG{
 	position: fixed;

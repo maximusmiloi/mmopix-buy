@@ -219,10 +219,10 @@ export class ContentOrders {
       //pagination
       if(numberPage > 0) {
 
-        const data0Page = this.data.slice(0, 9).reverse();
+        const data0Page = this.data.reverse().slice(0, 9).reverse();
         contentRows(data0Page);
       } else {
-        contentRows(this.data);
+        contentRows(this.data.reverse());
       }
 
       while(numberPage >= 1) {
@@ -292,5 +292,5 @@ export class ContentOrders {
       console.log(error.message);
       return error.message;
     }
-  }
+  } 
 }

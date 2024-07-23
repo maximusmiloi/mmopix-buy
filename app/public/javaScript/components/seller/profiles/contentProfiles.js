@@ -61,6 +61,7 @@ export class ContentProfiles {
       profilesEditInfoContainter.append(label, input);
     })
     const saveInfoButton = document.createElement('button');
+    saveInfoButton.classList.add('profiles-button-save');
     saveInfoButton.textContent = 'Сохранить';
     profilesEditInfoContainter.appendChild(saveInfoButton);
     contentContainer.append(nameContainer, verifContainer, profilesEditInfoContainter);
@@ -93,15 +94,22 @@ export class ContentProfiles {
       const resSaveProfiles = await reqSaveProfiles.json();
       if(resSaveProfiles.message === 'success') {
         escapingBallG.classList.add('notification');
-        escapingBallG.style.width = '300px';
-        escapingBallG.style.height = '50px';
+        escapingBallG.style.width = '350px';
+        escapingBallG.style.height = '90px';
         escapingBallG.innerHTML = 'Данные обновлены.';
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        escapingBallG.style.display = 'none';
+      } else if (resSaveProfiles.message === 'wrongText') {
+        escapingBallG.classList.add('notification');
+        escapingBallG.style.width = '350px';
+        escapingBallG.style.height = '90px';
+        escapingBallG.innerHTML = 'Данные Discord или Telegram должны начинаться со знака "@"';
         await new Promise(resolve => setTimeout(resolve, 5000));
         escapingBallG.style.display = 'none';
       } else {
         escapingBallG.classList.add('notification');
-        escapingBallG.style.width = '300px';
-        escapingBallG.style.height = '50px';
+        escapingBallG.style.width = '350px';
+        escapingBallG.style.height = '90px';
         escapingBallG.innerHTML = 'Ошибка сохранения данных.';
         await new Promise(resolve => setTimeout(resolve, 5000));
         escapingBallG.style.display = 'none';

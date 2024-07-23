@@ -60,7 +60,7 @@ import {ContentOrders} from "./components/seller/orders/content.js";
         
         const requestDataChapters = await fetch('/seller/getchapters');
         const dataChapters = await requestDataChapters.json();
-        
+        console.log(dataChapters)
         if (input.value === 'orders') {
           if(flagSwitcher !== 'orders') {
             flagSwitcher = 'orders';
@@ -128,7 +128,7 @@ import {ContentOrders} from "./components/seller/orders/content.js";
             localStorage.setItem('seller-order-page', 1);
             const requestOrders = await fetch('/seller/getorders');
             const responseOrders = await requestOrders.json();
-
+            
             const createFilter = new Filter('Добавить товар', dataChapters.chapters);
             const filter = createFilter.renderGold();
             content.appendChild(filter);
@@ -184,6 +184,8 @@ import {ContentOrders} from "./components/seller/orders/content.js";
         }
         if (input.value === 'notifications') {
           if(flagSwitcher !== 'notifications') {
+            const reqUserInfo = await fetch('/seller/userinfo');
+            const resUserInfo = await reqUserInfo.json();
             flagSwitcher = 'notifications';
             localStorage.setItem('seller-order-page', 1);
             const mainContent = document.getElementById('main-content');
@@ -193,7 +195,7 @@ import {ContentOrders} from "./components/seller/orders/content.js";
             const notificationContainer = document.createElement('div');
             notificationContainer.classList.add('notifications-container');
 ;
-            const createContent = new ContentNotifications();
+            const createContent = new ContentNotifications(resUserInfo);
             const content = createContent.render();
             notificationContainer.append(content);
             mainContent.append(notificationContainer);

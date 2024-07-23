@@ -6,26 +6,43 @@ export class Content {
   }
   render() {
     try {
+      console.log(this.data)
       const contentContainer = document.createElement('div');
       contentContainer.classList.add('product-content-container');
       const paginationContainer = document.createElement('div');
       paginationContainer.classList.add('pagination-container');
 
       const contentRows = async(data) => {
-
+        console.log(data)
         if(data.length < 1 || !data) {
           const div = document.createElement('div');
           div.style.textAlign = 'center';
           div.textContent = 'Нажмите "Добавить товар", чтобы выставить товар на продажу';
           return contentContainer.append(div);
         }
+        let elementCount = 0;
         for(let product of data.reverse()) {
+          elementCount++;
           const productState = document.createElement('input');
-          productState.id = 'enable-disable-chapter';
+          const productStateLabel = document.createElement('label');
+          const span1 = document.createElement('span');
+          span1.classList.add('slider');
+          const span2 = document.createElement('span');
+          span2.classList.add('text');
+          span2.classList.add('off');
+          span2.textContent = 'Выкл';
+          const span3 = document.createElement('span');
+          span3.classList.add('text');
+          span3.classList.add('on');
+          span3.textContent = 'Вкл';
+          productStateLabel.append(span1,span2,span3);
+          productStateLabel.htmlFor = `switch-${elementCount}`;
+          productState.id = `switch-${elementCount}`;
           productState.classList.add('enable-disable-chapter');
           productState.type = 'checkbox';
+
           productState.checked = product.state;
-          productState.style.width = '50px';
+          productState.style.width = '70px';
           productState.style.height = '20px';
           
           let chapter;
@@ -47,7 +64,7 @@ export class Content {
             }
           }
           const array = [
-            /* ['ID', product.id], */
+            ['ID', product.id],
             ['Примерный курс', price ? price : 'Не обновлён'],
             ['Игра', product.name[0]], 
             ['Тип', product.type], 
@@ -75,14 +92,16 @@ export class Content {
           })
     
           const containerState = document.createElement('div');
-          const containerStateDiv1 = document.createElement('div');
-          containerStateDiv1.textContent = 'Вкл/Выкл';
+          containerState.classList.add('product-content-cell');
+/*           const containerStateDiv1 = document.createElement('div');
+          containerStateDiv1.textContent = 'Вкл/Выкл'; */
           const containerStateDiv2 = document.createElement('div');
-          containerStateDiv2.append(productState);
-          containerState.append(containerStateDiv1, containerStateDiv2);
+          containerStateDiv2.append(productState, productStateLabel);
+          containerState.append(/* containerStateDiv1, */ containerStateDiv2);
           contentRow.append(containerState);
     
           const containerButton = document.createElement('div');
+          containerButton.classList.add('product-content-cell');
           const containerButtonDiv1 = document.createElement('div');
           const buttonDelete = document.createElement('button');
           buttonDelete.textContent = 'Удалить';
@@ -111,7 +130,7 @@ export class Content {
       let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
       //pagination
       if(numberPage > 0) {
-        const data0Page = this.data.slice(0, 9).reverse();
+        const data0Page = this.data.reverse().slice(0, 9).reverse();
         contentRows(data0Page);
       } else {
         contentRows(this.data);
@@ -232,8 +251,8 @@ export class Content {
   }
   stateRow(button, contentContainer) {
     button.addEventListener('click', async(event) => {
-      const escapingBallG = document.getElementById('escapingBallG');
-      escapingBallG.style.display = 'flex';
+      /* const escapingBallG = document.getElementById('escapingBallG'); */
+      /* escapingBallG.style.display = 'flex'; */
       const rowElement = event.target.parentElement.parentElement.parentElement;
       const id = rowElement.dataset.id;
 
@@ -241,11 +260,11 @@ export class Content {
       const responseEditProduct = await requestEditProduct.json();
 
       if(responseEditProduct.message === 'success') {
-        escapingBallG.style.width = '200px';
-        escapingBallG.style.color = 'green';
-        escapingBallG.innerHTML = 'Сохранено';
-        await new Promise(resolve => setTimeout(resolve, 3000));
-        escapingBallG.style.display = 'none';
+/*         escapingBallG.style.width = '200px';
+        escapingBallG.style.color = 'green'; */
+        /* escapingBallG.innerHTML = 'Сохранено'; */
+        await new Promise(resolve => setTimeout(resolve, 300));
+        /* escapingBallG.style.display = 'none'; */
       }
     })
   }
