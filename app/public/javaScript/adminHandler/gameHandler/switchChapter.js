@@ -31,7 +31,6 @@ export const createContentChapter = async(value, gameData, chapterData) =>{
   const content = new Content(chapterData);
   const createContent = content.render();
   mainFilterElementGames.appendChild(createContent);
-
   if (value === 'chapters') {
     const buttonCreateChapterGold = document.querySelector(`.main-filter-button`);
     const buttonEditChapter = document.querySelectorAll('.main-content-container-button-edit');
@@ -56,18 +55,26 @@ export const createContentChapter = async(value, gameData, chapterData) =>{
         })
         buttonCreateChapter.addEventListener('click', async(event) => {
           indicatorLoad.style.display = 'block';
-  
+          
           const selects = event.target.parentElement.parentElement.querySelectorAll('select');
+          const inputCourse = document.getElementById('chapter-course-input');
+          const inputCourseText = document.getElementById('chapter-course-input-text');
+          const inputCourseFactor = document.getElementById('chapter-course-input-factor');
+          const valueCourse = inputCourse.value;
+          const valueCourseText = inputCourseText.value;
+          const valueCourseFactor = inputCourseFactor.value;
+          const courseArray = [valueCourse, valueCourseText, valueCourseFactor];
           const values = Array.from(selects).map(select => {
             return select.value.split(',').map(item => item.trim());
           });
           const optionsCreateChapter = {
             method: 'POST',
-            body: JSON.stringify({values}),
+            body: JSON.stringify({values, courseArray}),
             headers: {
               'Content-Type': 'application/json',
             }
           }
+
           const requestCreateChapter = await fetch(`/admin/createnewchapter`, optionsCreateChapter);
           const responseCreateChapter = await requestCreateChapter.json();
           if(responseCreateChapter.message === 'success') {
@@ -129,7 +136,7 @@ export const createContentChapter = async(value, gameData, chapterData) =>{
             return input.value.split(',').map(item => item.trim());
           });
           function transformArray(arr) {
-            const newArr = arr.slice(1);
+            const newArr = arr.slice(4);
             const result = [];
             for (let i = 0; i < newArr.length; i += 2) {
               result.push([newArr[i], newArr[i + 1]]);
@@ -138,10 +145,17 @@ export const createContentChapter = async(value, gameData, chapterData) =>{
             return result;
           }
           const optionsArray = transformArray(values);
-          const methodsDelivery = values[0]
+          const methodsDelivery = values[0];
+          const inputCourse = document.getElementById('chapter-course-input');
+          const inputCourseText = document.getElementById('chapter-course-input-text');
+          const inputCourseFactor = document.getElementById('chapter-course-input-factor');
+          const valueCourse = inputCourse.value;
+          const valueCourseText = inputCourseText.value;
+          const valueCourseFactor = inputCourseFactor.value;
+          const courseArray = [valueCourse, valueCourseText, valueCourseFactor];
           const optionsCreateChapter = {
             method: 'POST',
-            body: JSON.stringify({optionsArray, idChapter, methodsDelivery}),
+            body: JSON.stringify({optionsArray, idChapter, methodsDelivery, courseArray}),
             headers: {
               'Content-Type': 'application/json',
             }

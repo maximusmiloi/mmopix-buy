@@ -6,17 +6,29 @@
   gap: 20px;
 }
 
+.finance-container input {
+  width: 40%;
+  height: 29px;
+  border: 1px solid #8778D9;
+  background-color: #2F2566;
+  color: white;
+}
 .finance-container button {
 	height: 39px;
 	color: #1F1A3A;
   font-family: 'TTMilks';
   font-size: 20px;
   border-radius: 10px;
-	background: linear-gradient(to bottom, #575757 21%, #F4C27D);;
+  background: linear-gradient(to bottom, #F4C27D 0%, #5C411C 100%);
+  border: 1px solid linear-gradient(to bottom, #575757 21%, #F9F9F9 100%);
+  cursor: pointer;
 }  
 .finance-container button:hover {
-  background: #1F1A3A;
+  background-color: #1F1A3A;
+  background-image: none;
   color: #F4C27D;
+  border: 2px solid #F4C27D;
+  box-shadow: 0 4px 8px rgba(255, 122, 0, 0.5);
 }
 .finance-panel_button-save {
   width: 101px;
@@ -50,7 +62,7 @@
 }
 .payment-method-container {
   display: flex;
-  justify-content: end;
+  justify-content: start;
   gap: 15px;
 }
 .payment-method-container label {
@@ -144,7 +156,7 @@
   justify-content: center;
 /*   align-items: center; */
 }
-button {
+.order-content-cell button {
   width: 100px;
   height: 30%;
   background-color: #E3A64B;

@@ -19,19 +19,61 @@ export class Modal {
 
 //GAMES
     if(this.value === 'games') {
+      console.log(this.values)
       this.values.forEach((element, index) => {
 
         const label = document.createElement('label');
         label.htmlFor = element + `-${index}`;
         label.textContent = element;
         const input = document.createElement('input');
+        console.log(this.data);
+
+
         if(this.data) {
           [input.id, input.type, input.value] = [element + `-${index}`, 'text', this.data[element]];
+          input.classList.add(element + `-${index}`);
         } else {
-          [input.id, input.type] = [element + `-${index}`, 'text']
+          [input.id, input.type] = [element + `-${index}`, 'text'];
+          input.classList.add(element + `-${index}`);
         }
-        
-        content.append(label, input)
+        console.log(element)
+        if(element === 'Region'/*  || element === 'region' */) {
+          console.log(element)
+          function insertPenultimate(parent, ...elements) {
+            const children = parent.children;
+            const penultimateIndex = children.length > 0 ? children.length - 1 : 0;
+            const referenceNode = children[penultimateIndex];
+          
+            elements.forEach(element => {
+              parent.insertBefore(element, referenceNode);
+            });
+          }
+          const buttonAddRegion = document.createElement('button');
+          buttonAddRegion.classList.add('modal-games-add-region-button');
+          buttonAddRegion.textContent = 'Добавить';
+          buttonAddRegion.addEventListener('click', async(event) => {
+            const optionsContainerElement = document.createElement('div');
+            optionsContainerElement.classList.add('modal-games-add-region-container');
+            const input = document.createElement('input');
+            if(this.data) {
+              [input.id, input.type, input.value] = [element + `-${index}`, 'text', this.data[element]];
+            } else {
+              [input.id, input.type] = [element + `-${index}`, 'text'];
+            }
+            const buttonRegionDelete = document.createElement('button');
+            buttonRegionDelete.textContent = 'удалить';
+            buttonRegionDelete.classList.add('modal-games-delete-region-button');
+            optionsContainerElement.append(input,buttonRegionDelete);
+            insertPenultimate(content, optionsContainerElement);
+            buttonRegionDelete.addEventListener('click', event => {
+              input.remove();
+              buttonRegionDelete.remove();
+            })
+          });
+          content.append(label, input, buttonAddRegion);
+        } else {
+          content.append(label, input);
+        }
       });
     }
 //CHAPTERS
@@ -58,6 +100,16 @@ export class Modal {
       const selectRegion = modalElement.renderSelect('chapter-region-select', 'region', this.data, 'init');
       content.append(labelRegion, selectRegion);
 
+      const divCourse = document.createElement('div');
+      divCourse.classList.add('chapter-course-input-container');
+      const labelCourse = modalElement.renderLabelNew('chapter-course-label', 'За', 'chapter-course-label');
+      const inputCourse  = modalElement.renderInputNew('chapter-course-input'/* , 'region', this.data, 'init' */);
+      const labelCourseText = modalElement.renderLabelNew('chapter-course-label-text', 'Чего', 'chapter-course-label-text');
+      const inputCourseText = modalElement.renderInputNew('chapter-course-input-text'/* , 'region', this.data, 'init' */);
+      const inputCourseFactor = modalElement.renderInputNew('chapter-course-input-factor'/* , 'region', this.data, 'init' */)
+      divCourse.append(labelCourse, inputCourse, labelCourseText, inputCourseText, inputCourseFactor);
+      content.append(/* labelCourse, */ divCourse);
+
 
 /*       const labelMethodDelivery = modalElement.renderLabel('chapter-method_delivery', 'Method Delivery', 'chapter-method_delivery-label');
       const inputMethodDelivery = modalElement.renderInput('chapter-region-select', this.dataChapter, 'init');
@@ -75,7 +127,19 @@ export class Modal {
 
         const labelRegion = modalElement.renderLabel('chapter-region', 'Region', 'chapter-region-label');
         const selectRegion = modalElement.renderSelect('chapter-region-select', 'region', this.data, eventGameValue);
-        insertPenultimate(content, labelRegion, selectRegion);
+        const divCourseHave = document.querySelector('.chapter-course-input-container');
+        if(divCourseHave) {
+          divCourseHave.remove();
+        }
+        const divCourse = document.createElement('div');
+        divCourse.classList.add('chapter-course-input-container');
+        const labelCourse = modalElement.renderLabelNew('chapter-course-label', 'За', 'chapter-course-label');
+        const inputCourse  = modalElement.renderInputNew('chapter-course-input'/* , 'region', this.data, 'init' */);
+        const labelCourseText = modalElement.renderLabelNew('chapter-course-label-text', 'Чего', 'chapter-course-label-text');
+        const inputCourseText = modalElement.renderInputNew('chapter-course-input-text'/* , 'region', this.data, 'init' */);
+        const inputCourseFactor = modalElement.renderInputNew('chapter-course-input-factor'/* , 'region', this.data, 'init' */)
+        divCourse.append(labelCourse, inputCourse, labelCourseText, inputCourseText, inputCourseFactor);
+        insertPenultimate(content, labelRegion, selectRegion, divCourse);
 
 /*         const labelMethodDelivery = modalElement.renderLabel('chapter-method_delivery', 'Method Delivery', 'chapter-method_delivery-label');
         const inputMethodDelivery = modalElement.renderInput('chapter-region-select', this.data, eventGameValue);
@@ -140,6 +204,21 @@ export class Modal {
     inputMethods.id = 'modal-chapter-edit-methods';
     inputMethods.value = dataElement.methodDelivery;
 
+    const modalElement = new ModalElement();
+    console.log(dataElement)
+    const divCourse = document.createElement('div');
+    divCourse.classList.add('chapter-course-input-container');
+    const labelCourse = modalElement.renderLabelNew('chapter-course-label', 'За', 'chapter-course-label');
+    const inputCourse  = modalElement.renderInputNew('chapter-course-input'/* , 'region', this.data, 'init' */);
+    const labelCourseText = modalElement.renderLabelNew('chapter-course-label-text', 'Чего', 'chapter-course-label-text');
+    const inputCourseText = modalElement.renderInputNew('chapter-course-input-text'/* , 'region', this.data, 'init' */);
+    const inputCourseFactor = modalElement.renderInputNew('chapter-course-input-factor'/* , 'region', this.data, 'init' */)
+    if(dataElement && dataElement.courseG2G && dataElement.courseG2G[0]) {
+      inputCourse.value = dataElement.courseG2G[0];
+      inputCourseText.value = dataElement.courseG2G[1];
+      inputCourseFactor.value = dataElement.courseG2G[2];
+    }
+    divCourse.append(labelCourse, inputCourse, labelCourseText, inputCourseText, inputCourseFactor);
     const labeloptions = document.createElement('label');
     labeloptions.textContent = 'Опции';
     const optionsContainer = document.createElement('div');
@@ -205,7 +284,7 @@ export class Modal {
       buttonCreate.textContent = button[1];
       buttonsContainer.appendChild(buttonCreate);
     })
-    content.append(labelMethods, inputMethods, labeloptions, optionsContainer, buttonAddOption,  buttonsContainer);
+    content.append(labelMethods, inputMethods, divCourse,  labeloptions, optionsContainer, buttonAddOption,  buttonsContainer);
 
     return content;
   }

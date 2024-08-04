@@ -44,6 +44,7 @@ export class Panel {
         const labelMethod = elements.renderLabel('payment-method', `${element[0]}: `);
         const inputMethod = elements.renderInput('payment-method');
         const spanMethod = elements.renderSpan('payment-method-span');
+        const spanMethodFix = elements.renderSpan('payment-method-span-fix');
         this.data.user.payments.forEach(pay => {
           if(pay[0] === element[0]) {
             inputMethod.value = pay[1];
@@ -52,7 +53,10 @@ export class Panel {
         /* inputMethod.value = element[1]; */
         inputMethod.dataset.name = element[0];
         spanMethod.textContent = `${element[1]} %`;
-        infoContainer.append(labelMethod, inputMethod, spanMethod)
+        if(element[2] && element[2] !== 0 && element[2] !== '0' && element[2] !== undefined && element[2] !== 'undefined') {
+          spanMethodFix.textContent = `+ ${element[2]} $`;
+        }
+        infoContainer.append(labelMethod, inputMethod, spanMethod, spanMethodFix);
         inputContainer.append(infoContainer);
       });
       methodsContainer.appendChild(inputContainer);
@@ -133,26 +137,53 @@ export class Panel {
         }
         const reqPaymentSave = await fetch('/seller/orderpayment', options);
         const resPaymentSave = await reqPaymentSave.json();
-        
+        console.log(resPaymentSave)
         if(resPaymentSave.message === 'success') {
           escapingBallG.classList.add('notification');
           escapingBallG.style.width = '300px';
           escapingBallG.style.height = '50px';
-          escapingBallG.style.color = 'black';
+          escapingBallG.style.color = 'white';
           escapingBallG.innerHTML = 'Сохранено';
-          await new Promise(resolve => setTimeout(resolve, 10000));
+          await new Promise(resolve => setTimeout(resolve, 3000));
           escapingBallG.style.display = 'none';
-        }
-        if(resPaymentSave.message === 'limitBalance') {
+        } else if(resPaymentSave.message === 'limitBalance') {
           escapingBallG.classList.add('notification');
           escapingBallG.style.width = '300px';
           escapingBallG.style.height = '50px';
-          escapingBallG.style.color = 'red';
+          escapingBallG.style.color = 'white';
           escapingBallG.style.background = 'black';
           escapingBallG.innerHTML = 'Недостаточно баланса :)';
-          await new Promise(resolve => setTimeout(resolve, 10000));
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          escapingBallG.style.display = 'none';
+        } else if(resPaymentSave.message === 'requisitesEmpty') {
+          escapingBallG.classList.add('notification');
+          escapingBallG.style.width = '350px';
+          escapingBallG.style.height = '70px';
+          escapingBallG.style.color = 'white';
+          escapingBallG.style.background = 'black';
+          escapingBallG.innerHTML = 'Реквизиты данного метода не заполнены';
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          escapingBallG.style.display = 'none';
+        }  else if(resPaymentSave.message === 'notFoundMethod') {
+          escapingBallG.classList.add('notification');
+          escapingBallG.style.width = '400px';
+          escapingBallG.style.height = '150px';
+          escapingBallG.style.color = 'white';
+          escapingBallG.style.background = 'black';
+          escapingBallG.innerHTML = 'Реквизита метода не заполнены. Введите реквизиты в соответствующее поле и нажмите "Сохранить"';
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          escapingBallG.style.display = 'none';
+        } else {
+          escapingBallG.classList.add('notification');
+          escapingBallG.style.width = '300px';
+          escapingBallG.style.height = '50px';
+          escapingBallG.style.color = 'white';
+          escapingBallG.style.background = 'black';
+          escapingBallG.innerHTML = 'Ошибка. Обратитесь к администратору';
+          await new Promise(resolve => setTimeout(resolve, 3000));
           escapingBallG.style.display = 'none';
         }
+
       })
       panelContainer.append(createModal)
     })
@@ -180,9 +211,9 @@ export class Panel {
         escapingBallG.classList.add('notification');
         escapingBallG.style.width = '300px';
         escapingBallG.style.height = '50px';
-        escapingBallG.style.color = 'black';
+        escapingBallG.style.color = 'white';
         escapingBallG.innerHTML = 'Сохранено';
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
         escapingBallG.style.display = 'none';
       }
     })

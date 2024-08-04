@@ -27,7 +27,9 @@ body {
   margin-top: 50px;
   justify-content: center;
   align-items: center;
+  width: 100%;
   gap: 40px;
+  background: #151129;
 }
 .payment-icons-container {
   display: flex;

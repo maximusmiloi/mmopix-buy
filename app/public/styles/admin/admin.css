@@ -24,7 +24,7 @@ main {
   display: flex;
   flex-direction: column;
 	align-items: center;
-	height: 1320px;
+	height: 80%;
 	background: #1C1737;
 /* 	background-image: url('../../img/background-admin-games.png');
   background-size: cover;
@@ -197,23 +197,23 @@ main-header  .main-content-radio:last-child label {
 	flex-direction: column;
 	gap: 10px;
 	width: 100%;
-	border: 1px solid white;
 	border-radius: 10px;
 	margin-top: 20px;
 /* 	align-items: center; */
 	/* position: relative; */
 
 }
-.main-content-container > div {
+.main-content-container-element {
 	display: flex;
 	justify-content: start;
-	height: 68px;
+  align-items: center;
+	height: 100px;
 	width: 100%;;
-	gap: 20px;
+	gap: 15px;
 	border-radius: 10px;
 	background-color: rgba(135, 120, 217, 0.4);
 }
-.main-content-container > div::before {
+.main-content-container-element::before {
   content: "";
   width: 20px;
   flex-shrink: 0;
@@ -229,7 +229,7 @@ main-header  .main-content-radio:last-child label {
 	color: white;
 	background: red;
 }
-.main-filter-button,
+/* .main-filter-button, */
 .finance-panel_button-container button {
 	width: 164px;
 	height: 29px;
@@ -237,6 +237,28 @@ main-header  .main-content-radio:last-child label {
 	background-color: #212121;
 	border: 1px solid white;
 	border-radius: 5px;
+}
+.main-filter-button {
+  width: 130px;
+  height: 100%;
+  background-color: #E3A64B;
+  color: #1F1A3A;
+  font-family: 'TTMilks';
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px;
+}
+.main-filter-button {
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  transition: .2s linear;
+  background: #E3A64B;
+}
+.main-filter-button:hover {
+  -webkit-transform: rotateZ(5deg);
+  -ms-transform: rotateZ(5deg);
+  transform: rotateZ(5deg);
 }
 .product-content-container {
   display: flex;
@@ -303,7 +325,7 @@ main-header  .main-content-radio:last-child label {
 .finance-panel_inputs-container div {
 	display: flex;
 	gap: 20px;
-	width: 25%;
+	width: 50%;
 }
 .finance-panel_inputs-container input {
 	width: 15%;
@@ -314,10 +336,32 @@ main-header  .main-content-radio:last-child label {
 .update-prices {
 	height: 100%;
 }
-.main-filter-button-prices_update {
+/* .main-filter-button-prices_update {
 	height: 24px;
 	color: #1F1A3A;
 	background: #F4C27D;
+} */
+.main-filter-button-prices_update  {
+  width: 130px;
+  height: 100%;
+  background-color: #1F1A3A;
+  color: #E3A64B;
+  font-family: 'TTMilks';
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px;
+}
+.main-filter-button-prices_update  {
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  transition: .2s linear;
+  background: #1F1A3A;
+}
+.main-filter-button-prices_update:hover {
+  -webkit-transform: rotateZ(5deg);
+  -ms-transform: rotateZ(5deg);
+  transform: rotateZ(5deg);
 }
 /* .main-content-container::before {
   content: "";
@@ -397,6 +441,10 @@ main-header  .main-content-radio:last-child label {
   border: 1px solid #8778D9;
   background-color: #2F2566;
   color: white;
+}
+.chapter-course-input-container {
+	display: flex;
+	gap: 5px;
 }
 /* Мобильные устройства (портрет) */
 @media only screen and (max-width: 480px) {

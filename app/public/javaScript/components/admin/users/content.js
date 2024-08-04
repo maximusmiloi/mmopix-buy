@@ -9,7 +9,6 @@ export class Content {
       contentContainer.classList.add('user-content-container');
       const paginationContainer = document.createElement('div');
       paginationContainer.classList.add('pagination-container');
-      let numberPage = (this.data.length / 10) < 1 ? 0 : Math.floor(this.data.length / 10);
       const contentRows = async(data) => {
         for(let user of data.reverse()) {
           const array = [ 
@@ -40,39 +39,76 @@ export class Content {
         }
       }
       //pagination
+      let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
       if(numberPage > 0) {
+
         const data0Page = this.data.reverse().slice(0, 9).reverse();
         contentRows(data0Page);
       } else {
-        contentRows(this.data);
+        contentRows(this.data.reverse());
       }
 
-      while(numberPage >= 1) {
+      /*       while(numberPage >= 1) {
         const containerPage = document.createElement('span');
         containerPage.classList.add('pagination-page');
         containerPage.textContent = numberPage;
         paginationContainer.insertBefore(containerPage, paginationContainer.firstChild)
         numberPage = numberPage - 1;
-      }
+      } */
+      const containerPageContainer = document.createElement('div');
+      containerPageContainer.classList.add('pagination-page-container');
+      /*       const containerPage = document.createElement('input');
+      containerPage.classList.add('pagination-page');
+      const containerPageSpan = document.createElement('span');
+      containerPageSpan.textContent = `из ${numberPage}`;
+      containerPageContainer.append(containerPage, containerPageSpan); */
+      const containerPage = document.createElement('input');
+      containerPage.classList.add('pagination-page');
+      containerPage.value = 0;
+      const containerPageSpan = document.createElement('span');
+      containerPageSpan.textContent = `из ${numberPage}`;
+      containerPageContainer.append(containerPage, containerPageSpan);
+      paginationContainer.insertBefore(containerPageContainer, paginationContainer.firstChild);
       contentContainer.appendChild(paginationContainer);
       const page = paginationContainer.querySelectorAll('.pagination-page');
 
-      const currentPage = localStorage.getItem('admin-order-page');
+      const currentPage = localStorage.getItem('seller-order-page');
+
+      function paginate(array, pageNumber, itemsPerPage) {
+        let startIndex = ((pageNumber * 10) -10);
+        if(startIndex > 0) {
+          startIndex - 1;
+        }
+        const endIndex = pageNumber * 10;
+        return array.slice(startIndex, endIndex).reverse();
+      }
       page.forEach(element => {
         if(+element.textContent === +currentPage) {
           element.style.color = '#FF7A00';
         }
-        element.addEventListener('click', async(event) => {
+        element.addEventListener('change', async(event) => {
           page.forEach(p => {
             p.style.color = 'white';
           });
-          localStorage.setItem('admin-order-page', event.target.textContent);
-        
+          localStorage.setItem('seller-order-page', event.target.value);
+
           event.target.style.color = '#FF7A00';
           contentContainer.innerHTML = ''; 
-          const data0Page = this.data.reverse().slice(0, 9).reverse();
+          /* const data0Page = this.data.reverse().slice(0, 9); */
+          const data0Page = paginate(this.data, event.target.value, this.data.length);
           contentRows(data0Page);
           contentContainer.appendChild(paginationContainer);
+          const row = contentContainer.querySelectorAll('.order-content-row');
+
+          row.forEach(element => {
+            element.addEventListener('click', async(event) => {
+              const dataElement = this.data.find(el => el.id == element.dataset.id);
+
+              const modal = new Modal(dataElement);
+              const createModal = modal.renderOrderModal();
+              contentContainer.appendChild(createModal);
+            })
+          })
         })
       });
       //pagination

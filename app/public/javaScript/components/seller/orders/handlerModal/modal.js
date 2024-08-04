@@ -314,7 +314,7 @@ export class Modal {
 
     const modalButtonDenied = document.createElement('button');
     modalButtonDenied.classList.add('modal-button');
-    modalButtonDenied.style.color = 'red';
+    modalButtonDenied.style.color = 'White';
     modalButtonDenied.textContent = 'Отказаться';
 
     const modalButtonDone = document.createElement('button');

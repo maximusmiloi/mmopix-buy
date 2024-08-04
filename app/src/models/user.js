@@ -21,6 +21,7 @@ const userSchema = new Schema({
   orders: Array,
   payments: Array,
   paymentOrders: Array,
+  verif: Boolean,
 })
 
 const User = mongoose.model('User', userSchema);

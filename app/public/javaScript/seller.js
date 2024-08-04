@@ -6,6 +6,7 @@ import {Panel} from "./components/seller/finances/panel.js";
 import {ContentFinance} from "./components/seller/finances/content.js";
 import {ContentNotifications} from "./components/seller/notification/content.js";
 import {SwitcherOrders} from "./components/seller/orders/switcher.js";
+import {SwitcherProducts} from "./components/seller/products/switcher.js";
 import {FilterOrders} from "./components/seller/orders/filter.js";
 import {ContentOrders} from "./components/seller/orders/content.js";
 
@@ -60,7 +61,6 @@ import {ContentOrders} from "./components/seller/orders/content.js";
         
         const requestDataChapters = await fetch('/seller/getchapters');
         const dataChapters = await requestDataChapters.json();
-        console.log(dataChapters)
         if (input.value === 'orders') {
           if(flagSwitcher !== 'orders') {
             flagSwitcher = 'orders';
@@ -129,8 +129,13 @@ import {ContentOrders} from "./components/seller/orders/content.js";
             const requestOrders = await fetch('/seller/getorders');
             const responseOrders = await requestOrders.json();
             
-            const createFilter = new Filter('Добавить товар', dataChapters.chapters);
-            const filter = createFilter.renderGold();
+            const switcher = new SwitcherProducts();
+            const createSwitcher = switcher.renderPanel1();
+            content.appendChild(createSwitcher);
+
+
+            const createFilter = new Filter(dataChapters.chapters);
+            const filter = createFilter.renderGold('Добавить товар');
             content.appendChild(filter);
 
             const createContent = new Content(responseOrders, dataChapters.chapters);

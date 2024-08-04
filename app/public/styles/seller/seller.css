@@ -14,7 +14,9 @@
 body {
 	display: flex;
   justify-content: center;
-  background: #1C1737;
+	align-items: center;
+	flex-direction: column;
+  /* background: #1C1737; */
   color: white;
   margin: 0 auto;
   font-family: 'TTMilks';

@@ -29,7 +29,7 @@ export class Modal {
     modal.append(labelServers, selectServers);
 
     const labelPrice = modalElement.renderLabel('modal-price', 'Ориентировочная цена');
-    const spanPrice = modalElement.renderSpan('modal-price');
+    const spanPrice = modalElement.renderP('modal-price');
     modal.append(labelPrice, spanPrice);
 
     const labelQuantity = modalElement.renderLabel('modal-quantity', 'Количество');
@@ -117,14 +117,25 @@ export class Modal {
             return option;
           }
         });
+        console.log(prices[0].courseG2G[2]);
+        console.log(price[0][2][0]);
 
-        spanPrice.textContent = price[0][2];
+        if(prices[0] && prices[0].courseG2G && prices[0].courseG2G[0] && prices[0].courseG2G[1]) {
+          spanPrice.textContent = (+price[0][2][0] * (+prices[0].courseG2G[2])) + ` $ за ${prices[0].courseG2G[0]} ${prices[0].courseG2G[1]}`;
+        } else {
+          spanPrice.textContent = price[0][2][0];
+        }
       } else {
         const prices = data.filter(item => item.name === name && item.region === region);
         clearSelect(spanPrice);
 
-        if(prices[0] && prices[0].options[0] && prices[0].options[0][2]) {
-          spanPrice.textContent = prices[0].options[0][2];
+        if(prices[0] && prices[0].options[0] && prices[0].options[0][2]) { 
+          if(prices[0].courseG2G && prices[0].courseG2G[0] && prices[0].courseG2G[1] && prices[0].courseG2G[2]) {
+            spanPrice.textContent = `${(+prices[0].options[0][2][0] * (+prices[0].courseG2G[2]))} $ за ${prices[0].courseG2G[0]} ${prices[0].courseG2G[1]}` ;
+          } else {
+            spanPrice.textContent = prices[0].options[0][2][0];
+          }
+
         } else {
           spanPrice.textContent = '';
         }

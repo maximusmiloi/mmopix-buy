@@ -4,11 +4,13 @@ footer {
   align-items: center;
   flex-direction: column;
   gap: 20px;
+  background: #151129;
+  margin-top: 32px;
 }
 footer section {
   display: flex;
   flex-direction: column;
-  color: #B0B0B0;
+  color: #8778D9;
   max-width: 1280px;
   padding: 0 20px;
   gap: 50px;
@@ -16,6 +18,10 @@ footer section {
 footer section a {
   text-decoration: none;
   color: #B0B0B0;
+}
+footer section a:hover {
+  text-decoration: none;
+  color: #8778D9;
 }
 .footer-top {
   display: flex;
@@ -27,6 +33,12 @@ footer section a {
   flex-direction: column;
 }
 .footer-top-right  div {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.footer-top-left  div {
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
 }

@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const paymentSchema = new Schema({
   id: Number,
+  courseRUB: Number,
   methods: Array,
   idOrder: Number,
   orders: Array, 

@@ -127,22 +127,37 @@ export class Content {
         contentRows(gameData);
         contentContainer.appendChild(paginationContainer);
       })
-      let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
       //pagination
+      let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
       if(numberPage > 0) {
+
         const data0Page = this.data.reverse().slice(0, 9).reverse();
         contentRows(data0Page);
       } else {
-        contentRows(this.data);
+        contentRows(this.data.reverse());
       }
 
-      while(numberPage >= 1) {
+/*       while(numberPage >= 1) {
         const containerPage = document.createElement('span');
         containerPage.classList.add('pagination-page');
         containerPage.textContent = numberPage;
         paginationContainer.insertBefore(containerPage, paginationContainer.firstChild)
         numberPage = numberPage - 1;
-      }
+      } */
+      const containerPageContainer = document.createElement('div');
+      containerPageContainer.classList.add('pagination-page-container');
+/*       const containerPage = document.createElement('input');
+      containerPage.classList.add('pagination-page');
+      const containerPageSpan = document.createElement('span');
+      containerPageSpan.textContent = `из ${numberPage}`;
+      containerPageContainer.append(containerPage, containerPageSpan); */
+      const containerPage = document.createElement('input');
+      containerPage.classList.add('pagination-page');
+      containerPage.value = 0;
+      const containerPageSpan = document.createElement('span');
+      containerPageSpan.textContent = `из ${numberPage}`;
+      containerPageContainer.append(containerPage, containerPageSpan);
+      paginationContainer.insertBefore(containerPageContainer, paginationContainer.firstChild);
       contentContainer.appendChild(paginationContainer);
       const page = paginationContainer.querySelectorAll('.pagination-page');
 
@@ -160,18 +175,29 @@ export class Content {
         if(+element.textContent === +currentPage) {
           element.style.color = '#FF7A00';
         }
-        element.addEventListener('click', async(event) => {
+        element.addEventListener('change', async(event) => {
           page.forEach(p => {
             p.style.color = 'white';
           });
-          localStorage.setItem('seller-order-page', event.target.textContent);
-
+          localStorage.setItem('seller-order-page', event.target.value);
+ 
           event.target.style.color = '#FF7A00';
           contentContainer.innerHTML = ''; 
           /* const data0Page = this.data.reverse().slice(0, 9); */
-          const data0Page = paginate(this.data, event.target.innerHTML, this.data.length);
+          const data0Page = paginate(this.data, event.target.value, this.data.length);
           contentRows(data0Page);
           contentContainer.appendChild(paginationContainer);
+          const row = contentContainer.querySelectorAll('.order-content-row');
+
+          row.forEach(element => {
+            element.addEventListener('click', async(event) => {
+              const dataElement = this.data.find(el => el.id == element.dataset.id);
+    
+              const modal = new Modal(dataElement);
+              const createModal = modal.renderOrderModal();
+              contentContainer.appendChild(createModal);
+            })
+          })
         })
       });
       //pagination

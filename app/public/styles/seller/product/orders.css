@@ -62,10 +62,43 @@
   align-self: center;
   width: 100%;
   background: rgb(21,17,41,0.5);
-  
+}
+.order-filter-container input {
+  width: 40%;
+  height: 29px;
+  border: 1px solid #8778D9;
+  background-color: #2F2566;
+  color: white;
+  border-radius: 5px;
+}
+.order-filter-container  input::placeholder {
+  color: #8778D9;
+  font-weight: bold;
+  font-size: 16px;
+}
+.order-filter-container  select {
+  color: #8778D9;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 5px;
+}
+.order-filter-status-select {
+  max-width: 100px;
+}
+option {
+/*   background-color: #f2f2f2; */
+  color: #8778D9;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+option:hover {
+  background-color: #e0e0e0;
 }
 .main-header {
   max-width: 1280px;
+}
+.main-header:first-of-type {
   border-bottom: #8778D9 3px solid;
 }
 
@@ -126,9 +159,9 @@
   justify-content: center;
 /*   align-items: center; */
 }
-.pagination-page {
+/* .pagination-page {
 	cursor: pointer;
-}
+} */
 .seller-order-modal {
   display: none;
 	position: fixed;
@@ -136,17 +169,28 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 40%;
-  height: 90%;
+  height: 70%;
   background-color: #141027;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
   z-index: 1000;
-  display: none; 
   flex-direction: column;
   padding: 20px; 
   font-family: 'TTMilks';
   overflow: auto;
-  gap: 15px;
+  gap: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease; /* Анимация появления */
+}
+@keyframes slideIn {
+  from {
+      opacity: 0;
+      transform: translate(50%, -50%); /* Начальное положение справа */
+  }
+  to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+  }
 }
 .modal-row-container {
   display: flex;

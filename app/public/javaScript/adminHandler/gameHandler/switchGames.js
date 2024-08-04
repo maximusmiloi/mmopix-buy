@@ -62,9 +62,21 @@ export const createContentGames = async(value, responseData) =>{
           indicatorLoad.style.display = 'block';
   
           const inputs = event.target.parentElement.parentElement.querySelectorAll('input');
-          const values = Array.from(inputs).map(input => {
+          
+          const values = [];
+          const regionArray = [];
+          inputs.forEach((input, index) => {
+            if(index === 0) {
+              values.push([input.value]);
+            } else {
+              regionArray.push(input.value);
+            }
+          })
+          values.push(regionArray);
+/*           const values = Array.from(inputs).map(input => {
             return input.value.split(',').map(item => item.trim());
-          });
+          }); */
+          console.log(values)
           const optionsCreateGame = {
             method: 'POST',
             body: JSON.stringify({values}),

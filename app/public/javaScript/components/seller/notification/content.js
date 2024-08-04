@@ -16,16 +16,17 @@ export class ContentNotifications {
       p.classList.add('notification-content-container-p');
       p.textContent = 'Вы будете получать оповещения когда на Ваш товар найдётся продавец или покупатель.';
 
-      const imgButton = document.createElement('img');
-      imgButton.src = 'img/logos_telegram.png';
+/*       const imgButton = document.createElement('img');
+      imgButton.src = 'img/logos_telegram.png'; */
 
       const containerButton = document.createElement('div');
       containerButton.classList.add('container-button-not');
       const button = document.createElement('button');
       button.classList.add('notification-content-container-button');
       button.id = 'notification-button';
-      button.textContent = 'Подключить';
-      button.append(imgButton);
+      /* button.append(); */
+      button.innerHTML = `<img src="img/logos_telegram.png"> <div>Подключить</div>`;
+      
 
       const indicatorNot = document.createElement('div');
       indicatorNot.classList.add('indicator-telegram');
