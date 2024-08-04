@@ -218,7 +218,7 @@ main-header  .main-content-radio:last-child label {
   width: 20px;
   flex-shrink: 0;
 }
-.main-content-container div div {
+.main-content-container div div:not(.pagination-page-container) {
 	display: flex;
 	flex: 1; 
 	flex-direction: column;

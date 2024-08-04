@@ -38,10 +38,9 @@ export class Content {
               contentCell.append(contentCellDiv1, contentCellDiv2);
               contentRow.appendChild(contentCell);
             })
-    
             contentContainer.append(contentRow);
           }
-          }
+        }
       }
       //pagination
       let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
@@ -117,7 +116,7 @@ export class Content {
       });
       //pagination
 
-      const row = contentContainer.querySelectorAll('.product-content-row');
+/*       const row = contentContainer.querySelectorAll('.product-content-row');
       row.forEach(element => {
         element.addEventListener('click', async(event) => {
           const dataElement = this.data.find(el => {
@@ -129,7 +128,7 @@ export class Content {
           const createModal = modal.renderProductModal();
           contentContainer.appendChild(createModal);
         })
-      })
+      }) */
       return contentContainer;
     } catch(error){
       console.log(error.message);

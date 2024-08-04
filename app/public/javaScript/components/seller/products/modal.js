@@ -117,9 +117,6 @@ export class Modal {
             return option;
           }
         });
-        console.log(prices[0].courseG2G[2]);
-        console.log(price[0][2][0]);
-
         if(prices[0] && prices[0].courseG2G && prices[0].courseG2G[0] && prices[0].courseG2G[1]) {
           spanPrice.textContent = (+price[0][2][0] * (+prices[0].courseG2G[2])) + ` $ за ${prices[0].courseG2G[0]} ${prices[0].courseG2G[1]}`;
         } else {
