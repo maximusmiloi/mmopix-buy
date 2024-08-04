@@ -13,8 +13,9 @@ export class Modal {
     const textElement = document.createElement('div');
     textElement.textContent = text;
     modal.append(text);
+    console.log(this.data)
     const select = document.createElement('select');
-    this.data.user.payments.forEach(pay => {
+    this.data.paymentMethods.forEach(pay => {
       const option = document.createElement('option');
       option.textContent = pay[0];
       option.value = pay[0];
@@ -28,7 +29,11 @@ export class Modal {
       const procent = this.data.paymentMethods.find(method => method[0] === select.value);
       const initialValue = event.target.value;
       const percentage = procent[1];
-      const result = initialValue - (initialValue * (percentage / 100));
+      let result = initialValue - (initialValue * (percentage / 100));
+      console.log(procent[2])
+      if(procent[2] && procent[2] !== '0' && procent[2] !== 0 && procent[2] !== undefined && procent[2] !== 'undefined') {
+        result = result - procent[2];
+      }
       span.innerHTML = `Сумма к получению: <span style="color: orange"> ${result} $ </span>`;
     });
     select.addEventListener('change', event => {

@@ -10,16 +10,14 @@
 }
 .user-content-row {
 	display: flex;
-	justify-content: space-between;
+	justify-content: start;
   align-items: center;
-	height: 15%;
+	height: 100px;
 	width: 100%;;
-	gap: 20px;
+	gap: 15px;
 	border-radius: 10px;
 	background-color: rgba(135, 120, 217, 0.4);
-  padding-top: 10px;
-  padding-bottom: 10px;
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .user-content-row::before{

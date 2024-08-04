@@ -43,6 +43,8 @@ router.post('/createnewchapter', isAuthenticated,  async(req,res) => {
     const chapterAll = await Chaptersgold.find();
     const name = req.body.values[0][0];
     const region = req.body.values[1][0];
+    const courseArray = req.body.courseArray;
+    console.log(courseArray)
     const findObject = async(array, field1, value1, field2, value2, field3, value3) => {
       return array.find(obj =>
         obj[field1] === value1 &&
@@ -60,6 +62,7 @@ router.post('/createnewchapter', isAuthenticated,  async(req,res) => {
         options: [],
         type: 'gold',
         state: true,
+        courseG2G: courseArray,
       })
       chapter.save();
       return res.status(200).json({message: 'success'})
@@ -243,7 +246,10 @@ router.post('/editchapter', isAuthenticated, async(req, res) => {
     const methodsDelivery = req.body.methodsDelivery;
     const options = req.body.optionsArray;
     const _id = req.body.idChapter;
-    await Chaptersgold.updateOne({ _id }, { $set: { options: options, methodDelivery: methodsDelivery} })
+    const courseArray = req.body.courseArray;
+    console.log(options)
+    console.log(courseArray)
+    await Chaptersgold.updateOne({ _id }, { $set: { options: options, methodDelivery: methodsDelivery, courseG2G: courseArray} })
     return res.status(200).json({message: 'success'});
   } catch(error) {
     return res.status(400).json({message: error.message})
@@ -581,10 +587,16 @@ router.post('/paymentsave', async(req,res) => {
       })
       payment.save();
     } else {
+      console.log(updatePayments)
       updatePayments.forEach(element => {
+        console.log(element)
         payments.methods.forEach(method => {
-          if(method[0] == element[0]) {
-            method[1] = element[1];
+          console.log(method)
+          if(method[0] == element[0][0]) {
+            method[1] = element[0][1];
+            if(element[0][2]) {
+              method[2] = element[0][2];
+            }
           }
         })
       })
@@ -594,7 +606,7 @@ router.post('/paymentsave', async(req,res) => {
         })
       }
       payments.markModified('methods');
-      payments.save()
+      payments.save();
     }
     
 /*     if(!payments || payments.length < 1) {
@@ -635,6 +647,20 @@ router.get('/checktoken', isAuthenticated,  async(req, res) => {
     } else {
       return res.status(200).json({message: 'error'});
     }
+  } catch(error) {
+    console.log(error)
+    return res.status(400).json({message: error.message})
+  }
+})
+router.get('/coursechange', async(req, res) => {
+  try {
+    if(!req.user || req.user.role !== 'admin') {
+      return res.redirect('/auth/login');
+    }
+    console.log(req.query.value);
+    const valueRUB = req.query.value;
+    await Payment.updateOne({ $set: { courseRUB: valueRUB} })
+    return res.status(200).json({message: 'success'});
   } catch(error) {
     console.log(error)
     return res.status(400).json({message: error.message})

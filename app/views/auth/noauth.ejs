@@ -1,24 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Mmopix-store</title>
+  <title>Steam App</title>
+  <link rel="stylesheet" href="/styles/reg/log.css">
   <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="stylesheet" href="/styles/home.css">
   <link rel="stylesheet" href="/styles/header.css">
-  <link rel="stylesheet" href="/styles/load.css">
-  <link rel="stylesheet" href="/styles/modal.css">
-  <link rel="stylesheet" href="/styles/footer.css">
   <link rel="stylesheet" href="/styles/payment.css">
-  <link rel="stylesheet" href="/styles/handlers/message.css">
-  <link rel="stylesheet" href="/styles/seller/seller.css">
-  <link rel="stylesheet" href="/styles/seller/product/product.css">
-  <link rel="stylesheet" href="/styles/seller/product/notifications.css">
-  <link rel="stylesheet" href="/styles/seller/product/modal.css">
-  <link rel="stylesheet" href="/styles/seller/product/profiles.css">
-  <link rel="stylesheet" href="/styles/seller/product/finances.css">
-  <link rel="stylesheet" href="/styles/seller/product/orders.css">
-  <link rel="stylesheet" href="/styles/pagination.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles/footer.css">
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <body>
     <!-- Yandex.Metrika counter -->
@@ -38,64 +29,56 @@
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/97885298" style="position:absolute; left:-9999px;" alt="" /></div></noscript> -->
     <!-- /Yandex.Metrika counter -->
+  <div id="home-container" class="home-container">
     <header>
       <div class="logo-contact">
         <section id="logo" class="logo">
           <a href="/">
-            <img src="img/logo.png">
+            <img src="../img/logo.png">
           </a>
         </section>
         <nav>
           <a id="contact"  class="contact" href="/contact">Контакты</a>
         </nav>
       </div>
-      <section id="profile-info" class="profile-info"></section>
+      <section id="profile-info" class="profile-info">
+      </section>
   <!--       <div id="profile-info-balance" class="profile-info-balance">
-  
+
         </div>
         <div id="profile-info-link" class="profile-info-link">
           <a id="profile-info-menu" class="profile-info-link-menu"></a>
           <button id="logout">Выйти</button>
         </div>
-       -->
+      -->
     </header>
-  <div id="seller-container" class="seller-container">
-    <main>
-      <div id="escapingBallG">
-        <div id="escapingBall_1" class="escapingBallG"></div>
+    <main style="display: flex; justify-content: center; align-items: center; height: 80%; flex-direction: column; gap: 30px;">
+      <h2>
+        Упс! Видимо это действите требует авторизации. Войдите в аккаунт, пожалуйста.
+      </h2>
+      <div class="main-content-top-elements-button">
+        <a href="/auth/login">Войти в аккаунт</a>
       </div>
-      <div class="modal-overlay"></div>
-      <div id="message-panel" class="message-panel"></div>
-      <div id="modal" class="modal"></div>
-
-      <section id="main-panel" class="main-panel">
-        <div class="main-panel-radio">
-          <input id="select-1" class="main-panel-radio-input" type="radio" name="select" value="orders" checked/>
-          <label for="select-1"> Заказы</label>
-        </div>
-  
-        <div class="main-panel-radio">
-          <input id="select-2" class="main-panel-radio-input" type="radio" name="select" value="products" />
-          <label for="select-2">Торговля</label>
-        </div>
-  
-        <div class="main-panel-radio">
-          <input id="select-3" class="main-panel-radio-input" type="radio" name="select" value="profiles" />
-          <label for="select-3">Профиль</label>
-        </div>
-  
-        <div class="main-panel-radio">
-          <input id="select-4" class="main-panel-radio-input" type="radio" name="select" value="finances" />
-          <label for="select-4">Финансы</label>
-        </div>
-  
-        <div class="main-panel-radio">
-          <input id="select-5" class="main-panel-radio-input" type="radio" name="select" value="notifications" />
-          <label for="select-5">Уведомления</label>
-        </div>
-      </section>
-      <section id="main-content" class="main-content"></section>
+      <h4 style="color: gray">
+        Если у Вас ещё нет аккаунта, рекомендуем пройти быструю регистрацию <a href="/auth/registration" style="color: #FF7A00"> зарегистрироваться</a>
+      </h4>
     </main>
+
+    <!-- <h1>Логин</h1> -->
+<!--     <div id="container" class="container">
+      <div id="login-container" class="login-container">
+        <label for="login">Логин</label>
+        <input type="text" id="login" name="login">
+      </div>
+      <div id="password-container" class="password-container">
+        <label for="password">Пароль</label>
+        <input type="text" id="password" name="password">
+      </div>
+        <button id="button-log">Войти</button>
+        <div class="login-button"></div>
+        <div class="indicator-log" id="indicator-log"></div>
+        <script type="module" src="/javaScript/login.js"></script>
+    </div> -->
     <section id="payment-icons" class="payment-icons">
       <div id="payment-icons-container" class="payment-icons-container">
         <img src="/img/pay/brandico_mastercard.png">
@@ -107,7 +90,7 @@
         <img src="/img/pay/cryptocurrency_usdt.png">
       </div>
     </section>
-    <footer>
+    <footer id="footer" class="footer">
       <section id="footer-container" class="footer-container">
         <div id="footer-top" class="footer-top">
           <div id="footer-top-left" class="footer-top-left">
@@ -132,7 +115,8 @@
       </section>
     </footer>
   </div>
-  <script type="module" src="/javaScript/seller.js"></script>
+
+    <script type="module" src="/javaScript/login.js"></script>
 <!--   <script type="module" src="/javascript/main.js"></script>
   <script type="module" src="/javascript/loadingIndicator.js"></script> -->
 </body>

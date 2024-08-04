@@ -11,6 +11,7 @@ const chaptergoldSchema = new Schema({
 /*   variant: Array, */
   options: Array,
   state: Boolean,
+  courseG2G: Array,
 })
   
 const Chaptergold = mongoose.model('Chaptergold', chaptergoldSchema);

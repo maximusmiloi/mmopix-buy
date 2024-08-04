@@ -39,6 +39,26 @@
   justify-content: center;
 /*   align-items: center; */
 }
+.finance_methods-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.finance_methods-container label{
+  width: 100%;
+}
+.finance_methods-container input {
+  width: 100%;
+}
+.finance-panel_inputs-container {
+  display: flex;
+}
+#payment-course {
+  width: 10%;
+}
+/* .finance_methods-container {
+  width: 100%;
+} */
 /* button {
   width: 100px;
   height: 30%;

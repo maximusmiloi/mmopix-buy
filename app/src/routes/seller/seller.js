@@ -19,7 +19,7 @@ router.get(`/`, isAuthenticated, (req,res) => {
     if(req.user.role === 'seller') {
       return res.render('seller/seller', {user});
     } else {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
   } catch ( error ) {
     console.log(error.message);
@@ -29,7 +29,7 @@ router.get('/getchapters', isAuthenticated, async(req, res) => {
   try {
     const user = req.user;
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     const chapters = await Chaptersgold.find();
     const orders = await Order.findOne();
@@ -71,7 +71,7 @@ router.post('/saveproduct', isAuthenticated,  async(req,res) => {
   const userData = req.user;
   try{
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     let message;
     console.log(req.body)
@@ -164,7 +164,7 @@ router.get('/getorders', isAuthenticated, async(req, res) => {
   const user = req.user;
   try {
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     const userNumberproducts = req.user.products;
     const products = await Product.findOne();
@@ -202,7 +202,7 @@ router.get('/getorderone', isAuthenticated,  async(req, res) => {
   const user = req.user;
   try{
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     const idProduct = req.query.id;
     const products = await Product.findOne();
@@ -216,7 +216,7 @@ router.get('/getorderone', isAuthenticated,  async(req, res) => {
 router.get('/deleteuserproduct', isAuthenticated,  async(req, res) => {
     try {
       if(!req.user || req.user.role !== 'seller') {
-        return res.redirect('/auth/login');
+        return res.redirect('auth/noauth');
       }
       
       let message;
@@ -242,7 +242,7 @@ router.get('/deleteuserproduct', isAuthenticated,  async(req, res) => {
 router.post('/edituserproduct', isAuthenticated,  async(req, res) => {
   try {
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     let message;
     const productData = req.body;
@@ -277,7 +277,7 @@ router.post('/edituserproduct', isAuthenticated,  async(req, res) => {
 router.get('/stateproduct', isAuthenticated,  async (req, res) => {
   try{
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     const id = req.query.id;
     const state = req.query.state;
@@ -298,7 +298,7 @@ router.get('/stateproduct', isAuthenticated,  async (req, res) => {
 router.get('/userinfo', isAuthenticated,  async(req, res) => {
   try {
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     const user = req.user;
     const paymentInfo = await Payment.findOne();
@@ -317,7 +317,7 @@ router.get('/userinfo', isAuthenticated,  async(req, res) => {
 router.post('/paymentsave', isAuthenticated, async(req, res) => {
   try {
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     const user = req.user;
     const value = req.body.arrayPayments;
@@ -331,12 +331,22 @@ router.post('/paymentsave', isAuthenticated, async(req, res) => {
 router.post('/orderpayment', isAuthenticated, async(req, res) => {
   try {
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     const user = req.user;
     const value = req.body.value;
     const method = req.body.methodValue;
-    const requisites = user.payments.find(pay => pay[0] === method)[1];
+    let requisites = user.payments.find(pay => pay[0] === method);
+    if(requisites) {
+      
+      if(requisites[1].length < 3) {
+        return res.status(200).json({message: 'requisitesEmpty'});
+      }
+      requisites = requisites[0];
+    }
+    if(!requisites) {
+      return res.status(200).json({message: 'notFoundMethod'});
+    }
     if(+value > user.balance) {
       return res.status(200).json({message: 'limitBalance'});
     }
@@ -401,7 +411,7 @@ router.post('/orderpayment', isAuthenticated, async(req, res) => {
 router.post('/profilessave', isAuthenticated,  async(req, res) => {
   try {
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     const user = req.user;
     const userData = await User.findOne({login: req.user.login});
@@ -443,7 +453,7 @@ router.post('/profilessave', isAuthenticated,  async(req, res) => {
 router.post('/acceptorder', isAuthenticated,  async(req, res) => {
   try {
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     const id = req.body.id;
     const seller = req.body.seller;
@@ -473,7 +483,7 @@ router.post('/acceptorder', isAuthenticated,  async(req, res) => {
 router.post('/doneorder', isAuthenticated,  async(req, res) => {
   try {
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     const id = req.body.id;
     const seller = req.body.seller;
@@ -499,7 +509,7 @@ router.post('/doneorder', isAuthenticated,  async(req, res) => {
 router.post('/deniedorder', isAuthenticated,  async(req, res) => {
   try {
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     const id = req.body.id;
     const seller = req.body.seller;
@@ -529,7 +539,7 @@ router.post('/deniedorder', isAuthenticated,  async(req, res) => {
 router.get('/checktoken', isAuthenticated,  async(req, res) => {
   try {
     if(!req.user || req.user.role !== 'seller') {
-      return res.redirect('/auth/login');
+      return res.redirect('auth/noauth');
     }
     const login = req.user.login;
     const userInfo = await User.findOne({login: login})

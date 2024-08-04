@@ -100,8 +100,6 @@ export class ContentOrders {
       const paginationContainer = document.createElement('div');
       paginationContainer.classList.add('pagination-container');
 
-      let numberPage = (this.data.length / 10) < 1 ? 0 : Math.floor(this.data.length / 10);
-
       const contentRows = async(data) => {
         if(data.length < 1 || !data) {
           const div = document.createElement('div');
@@ -131,26 +129,114 @@ export class ContentOrders {
     
             const contentCellDiv1 = document.createElement('div');
             const contentCellDiv2 = document.createElement('div');
-    
-            contentCellDiv1.textContent = element[0];
-            contentCellDiv1.style.color = '#B0B0B0';
-            contentCellDiv2.textContent = element[1];
+/*             contentCellDiv1.style.textAlign = 'center';
+            contentCellDiv2.style.textAlign = 'center'; */
+            if(element[0] === 'Статус') { 
+              contentCellDiv1
+            } else {
+              contentCellDiv1.textContent = element[0];
+              contentCellDiv1.style.color = '#B0B0B0';
+            }
+            if(element[0] === 'Цена') { 
+              /* contentCellDiv2.style.textAlign = 'center'; */
+              contentCellDiv2.style.color = '#FF7A00';
+              contentCellDiv2.style.fontSize = '16px';
+              contentCellDiv2.style.fontWeight = '900';
+            }
+            if(element[0] === 'Номер') { 
+              /* contentCellDiv2.style.textAlign = 'center'; */
+              contentCellDiv2.style.color = '#B0B0B0';
+              contentCellDiv2.style.fontSize = '16px';
+              contentCellDiv2.style.fontWeight = '900';
+            }
+            if(element[0] === 'Дата создания') { 
+              /* contentCellDiv2.style.textAlign = 'center'; */
+              contentCellDiv2.style.color = '#B0B0B0';
+              contentCellDiv2.style.fontSize = '16px';
+              contentCellDiv2.style.fontWeight = '900';
+            }
+            if(element[0] === 'Статус') {
+              if(element[1] === 'done') {
+                contentCellDiv2.style.textAlign = 'center';
+                contentCellDiv2.style.width = '80%';
+                contentCellDiv2.style.height = '15px';
+                contentCellDiv2.style.border = '1px solid #0AFE23';
+                contentCellDiv2.style.borderRadius = '5px';
+                contentCellDiv2.style.background = 'rgba(10, 254, 35, 0.1)';
+                contentCellDiv2.style.color = '#0AFE23';
+                contentCellDiv2.style.padding = '10px 2px';
+                contentCellDiv2.textContent = 'Выполнен';
+              }
+              if(element[1] === 'canceled') {
+                contentCellDiv2.style.textAlign = 'center';
+                contentCellDiv2.style.width = '80%';
+                contentCellDiv2.style.height = '15px';
+                contentCellDiv2.style.border = '1px solid #FC0505';
+                contentCellDiv2.style.borderRadius = '5px';
+                contentCellDiv2.style.background = 'rgba(88, 16, 36, 0.1)';
+                contentCellDiv2.style.color = '#FC0505';
+                contentCellDiv2.style.padding = '10px 2px';
+                contentCellDiv2.textContent = 'Отменен';
+              }
+              if(element[1] === 'new') {
+                contentCellDiv2.style.textAlign = 'center';
+                contentCellDiv2.style.width = '80%';
+                contentCellDiv2.style.height = '15px';
+                contentCellDiv2.style.border = '1px solid #229ED9';
+                contentCellDiv2.style.borderRadius = '5px';
+                contentCellDiv2.style.background = 'rgba(27, 59, 95, 0.1)';
+                contentCellDiv2.style.color = '#229ED9';
+                contentCellDiv2.style.padding = '10px 2px';
+                contentCellDiv2.textContent = 'Новый';
+              }
+              if(element[1] === 'inwork') {
+                contentCellDiv2.style.textAlign = 'center';
+                contentCellDiv2.style.width = '80%';
+                contentCellDiv2.style.height = '15px';
+                contentCellDiv2.style.border = '1px solid #E3A64B';
+                contentCellDiv2.style.borderRadius = '5px';
+                contentCellDiv2.style.background = 'rgba(81, 61, 56, 0.1)';
+                contentCellDiv2.style.color = '#E3A64B';
+                contentCellDiv2.style.padding = '10px 2px';
+                contentCellDiv2.textContent = 'В работе';
+              }
+              if(element[1] === 'check') {
+                contentCellDiv2.style.textAlign = 'center';
+                contentCellDiv2.style.width = '80%';
+                contentCellDiv2.style.height = '15px';
+                contentCellDiv2.style.border = '1px solid #ABFFB3';
+                contentCellDiv2.style.borderRadius = '5px';
+                contentCellDiv2.style.background = 'rgba(65, 86, 85, 0.1)';
+                contentCellDiv2.style.color = '#ABFFB3';
+                contentCellDiv2.style.padding = '10px 2px';
+                contentCellDiv2.textContent = 'В работе';
+              }
+            } else {
+              contentCellDiv2.textContent = element[1];
+            }
+            
+
             contentCell.append(contentCellDiv1, contentCellDiv2);
             contentRow.appendChild(contentCell);
           })
           if(order.status === 'new') {
+            contentRow.style.border = '1px solid #229ED9';
             contentRow.style.background = 'rgba(34,158,218,0.4)';  
           }
           if(order.status === 'inwork') {
+            contentRow.style.border = '1px solid #E3A64B';
             contentRow.style.background = 'rgba(227,166,75,0.4)';  
           }
           if(order.status === 'canceled') {
+            contentRow.style.border = '1px solid #FC0505';
             contentRow.style.background = 'rgba(252,5,5,0.4)';  
           }
           if(order.status === 'check') {
+            contentRow.style.border = '1px solid #ABFFB3';
             contentRow.style.background = 'rgba(171,255,179,0.4)';  
           }
           if(order.status === 'done') {
+            contentRow.style.border = '1px solid #0AFE23';
             contentRow.style.background = 'rgba(10,254,35,0.4)';  
           }
           contentContainer.append(contentRow);
@@ -217,6 +303,7 @@ export class ContentOrders {
         })
       })
       //pagination
+      let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
       if(numberPage > 0) {
 
         const data0Page = this.data.reverse().slice(0, 9).reverse();
@@ -225,13 +312,27 @@ export class ContentOrders {
         contentRows(this.data.reverse());
       }
 
-      while(numberPage >= 1) {
+/*       while(numberPage >= 1) {
         const containerPage = document.createElement('span');
         containerPage.classList.add('pagination-page');
         containerPage.textContent = numberPage;
         paginationContainer.insertBefore(containerPage, paginationContainer.firstChild)
         numberPage = numberPage - 1;
-      }
+      } */
+      const containerPageContainer = document.createElement('div');
+      containerPageContainer.classList.add('pagination-page-container');
+/*       const containerPage = document.createElement('input');
+      containerPage.classList.add('pagination-page');
+      const containerPageSpan = document.createElement('span');
+      containerPageSpan.textContent = `из ${numberPage}`;
+      containerPageContainer.append(containerPage, containerPageSpan); */
+      const containerPage = document.createElement('input');
+      containerPage.classList.add('pagination-page');
+      containerPage.value = 0;
+      const containerPageSpan = document.createElement('span');
+      containerPageSpan.textContent = `из ${numberPage}`;
+      containerPageContainer.append(containerPage, containerPageSpan);
+      paginationContainer.insertBefore(containerPageContainer, paginationContainer.firstChild);
       contentContainer.appendChild(paginationContainer);
       const page = paginationContainer.querySelectorAll('.pagination-page');
 
@@ -249,16 +350,16 @@ export class ContentOrders {
         if(+element.textContent === +currentPage) {
           element.style.color = '#FF7A00';
         }
-        element.addEventListener('click', async(event) => {
+        element.addEventListener('change', async(event) => {
           page.forEach(p => {
             p.style.color = 'white';
           });
-          localStorage.setItem('seller-order-page', event.target.textContent);
+          localStorage.setItem('seller-order-page', event.target.value);
  
           event.target.style.color = '#FF7A00';
           contentContainer.innerHTML = ''; 
           /* const data0Page = this.data.reverse().slice(0, 9); */
-          const data0Page = paginate(this.data, event.target.innerHTML, this.data.length);
+          const data0Page = paginate(this.data, event.target.value, this.data.length);
           contentRows(data0Page);
           contentContainer.appendChild(paginationContainer);
           const row = contentContainer.querySelectorAll('.order-content-row');

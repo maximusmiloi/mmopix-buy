@@ -81,6 +81,7 @@ main {
   background-image: none;
   color: #F4C27D;
   border: 2px solid #F4C27D;
+  box-shadow: 0 4px 8px rgba(255, 122, 0, 1);
 }
 /* .main-content-top-elements-button button a{
  color: #1F1A3A;

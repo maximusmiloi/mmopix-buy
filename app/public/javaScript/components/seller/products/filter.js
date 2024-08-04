@@ -1,7 +1,6 @@
 import { Modal } from './modal.js'
 export class Filter {
-  constructor(button, dataChapters) {
-    this.button = button;
+  constructor(dataChapters) {
     this.data = dataChapters;
   }
   eventButtonCreateOrder(buttonCreate) {
@@ -15,13 +14,13 @@ export class Filter {
       body.appendChild(createModal)
     })
   }
-  renderGold() {
+  renderGold(text) {
     const containerFilter = document.createElement('section');
     containerFilter.classList.add('product-filter-container');
     const buttonCreate = document.createElement('button');
     buttonCreate.id = 'product-button_create-gold';
     buttonCreate.classList.add('product-button_create-gold');
-    buttonCreate.textContent = this.button;
+    buttonCreate.textContent = text;
     this.eventButtonCreateOrder(buttonCreate);
 
     const salectGame = document.createElement('select');

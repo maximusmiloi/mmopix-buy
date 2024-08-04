@@ -7,22 +7,46 @@
   font-style: normal;
 }
 .modal {
+  display: none;
 	position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 40%;
-  height: 60%;
+  height: 70%;
   background-color: #141027;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
   z-index: 1000;
-  display: none; 
   flex-direction: column;
   padding: 20px; 
   font-family: 'TTMilks';
   overflow: auto;
+  gap: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease; /* Анимация появления */
 }
+.seller-product-modal {
+  display: none;
+	position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 70%;
+  background-color: #141027;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  z-index: 1000;
+  flex-direction: column;
+  padding: 20px; 
+  font-family: 'TTMilks';
+  overflow: auto;
+  gap: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease; /* Анимация появления */
+}
+
 .modal-content {
 	display: flex;
 	flex-direction: column;
@@ -70,7 +94,7 @@
   background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный цвет */
   z-index: 999; /* z-index ниже модального окна, но выше всего остального */
 }
-input {
+.modal-content input {
   width: 40%;
   height: 29px;
   border: 1px solid #8778D9;
@@ -98,6 +122,12 @@ select {
 	color: white;
   background-color: #E3A64B;
 }
+.modal-games-add-region-button {
+  width: 94.25px;
+	height: 24px;
+	color: white;
+  background-color: #E3A64B;
+}
 .chapter-options-buttons-delete {
   width: 94.25px;
 	height: 24px;
@@ -105,6 +135,12 @@ select {
   background-color: red;
 }
 .modal-chapter-edit-options-button_delete {
+  width: 94.25px;
+	height: 24px;
+	color: white;
+  background-color: red;
+}
+.modal-games-delete-region-button {
   width: 94.25px;
 	height: 24px;
 	color: white;
@@ -133,19 +169,29 @@ select {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 40%;
-  height: 90%;
+  height: 70%;
   background-color: #141027;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
   z-index: 1000;
-  display: none; 
   flex-direction: column;
   padding: 20px; 
   font-family: 'TTMilks';
   overflow: auto;
   gap: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease; /* Анимация появления */
 }
-
+@keyframes slideIn {
+  from {
+      opacity: 0;
+      transform: translate(50%, -50%); /* Начальное положение справа */
+  }
+  to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+  }
+}
 .modal-button {
   margin-top: 50px;
 	width: 136px;

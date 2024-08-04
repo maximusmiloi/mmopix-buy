@@ -56,6 +56,13 @@ router.get(`/login`, async(req,res) => {
     res.status(400).json({message: 'pageNotFound'});
   }
 })
+router.get(`/noauth`, async(req,res) => {
+  try {
+    return res.status(200).render('auth/noauth');
+  } catch(error) {
+    res.status(400).json({message: 'pageNotFound'});
+  }
+})
 /* router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) { return next(err); }

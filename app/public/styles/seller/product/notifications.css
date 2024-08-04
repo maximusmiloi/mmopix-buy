@@ -1,23 +1,36 @@
 .notification-content-container-button {
+  display: flex;
   width: 147px;
   height: 34px;
-  background: linear-gradient(90deg, rgba(244,194,125,1) 0%, rgba(92,65,28,1) 100%);
+  background: linear-gradient(to bottom, #F4C27D 0%, #5C411C 100%);
+  border: 1px solid linear-gradient(to bottom, #575757 21%, #F9F9F9 100%);
   border-radius: 10px;
   color: #1F1A3A;
-  border: 1px solid  #575757; 
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px;
+  padding: 10px 30px;
   border: none;
   background-color: #007bff;
   color: #1F1A3A;
   cursor: pointer;
   font-size: 16px;
+  gap: 5px;
+}  
+.notification-content-container-button:hover {
+  background-color: #1F1A3A;
+  background-image: none;
+  color: #F4C27D;
+  border: 2px solid #F4C27D;
+  box-shadow: 0 4px 8px rgba(255, 122, 0, 0.5);
+}
+.notification-content-container-button div {
+  order: 2;
 }
 .notification-content-container-button img {
-  margin-left: 10px;
+  /* margin-left: 10px; */
+  order: 1;
   width: 20px;
   height: 20px;
 }

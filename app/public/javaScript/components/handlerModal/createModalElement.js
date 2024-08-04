@@ -9,6 +9,13 @@ export class ModalElement {
     label.id = id;
     return label;
   }
+  renderLabelNew(forElement, text, id) {
+    const label = document.createElement('label');
+    label.htmlFor = forElement;
+    label.textContent = text;
+    label.id = id;
+    return label;
+  }
   renderSelect(id, value, data, init) {
     const select = document.createElement('select')
     select.id = id;
@@ -85,7 +92,11 @@ export class ModalElement {
     }
     return input;
   } 
-
+  renderInputNew(id) {
+    const span = document.createElement('input');
+    span.id = id;
+    return span;
+  }
   renderGoldOptions(id) {
     const divElement = document.createElement('div');
     divElement.classList.add('chapter-options');

@@ -6,6 +6,8 @@ export class Panel {
     this.data = data;
   }
   render() {
+    const escapingBallG = document.getElementById('escapingBallG');
+    
     const panelContainer = document.createElement('div');
     panelContainer.id = 'finance-panel_container';
     panelContainer.classList.add('finance-panel_container');
@@ -15,11 +17,17 @@ export class Panel {
       inputContainer.classList.add('finance-panel_inputs-container');
       const elements = new Elements();
       this.data.methods.forEach(element => {
-        const infoContainer = document.createElement('div')
+        const infoContainer = document.createElement('div');
+        infoContainer.classList.add('container-info-payment');
         const labelMethod = elements.renderLabel('payment-method', `${element[0]}: `);
         labelMethod.dataset.method = element[0];
         const inputMethod = elements.renderInput('payment-method');
         const spanMethod = elements.renderSpan('payment-method-span');
+        const inputMethodFix = elements.renderInput('payment-method-fix');
+        inputMethodFix.value = element[2];
+        inputMethodFix.dataset.name = element[0];
+        const spanMethodFix = elements.renderSpan('payment-method-span');
+        spanMethodFix.textContent = '$';
         const buttonMethod = elements.renderButton('payment-method-button', 'Удалить');
         buttonMethod.style.width = '100px';
         buttonMethod.style.background = 'red';
@@ -34,10 +42,35 @@ export class Panel {
         inputMethod.value = element[1];
         inputMethod.dataset.name = element[0];
         spanMethod.textContent = '%';
-        infoContainer.append(labelMethod, inputMethod, spanMethod, buttonMethod)
-        inputContainer.append(infoContainer);
+
+        infoContainer.append(labelMethod, inputMethod, spanMethod, inputMethodFix, spanMethodFix, buttonMethod);
+        inputContainer.append(infoContainer/* , courseContainer */);
+
       });
-      panelContainer.appendChild(inputContainer);
+      const courseContainer = document.createElement('div');
+      const labelCourse = elements.renderLabel('payment-course', `Курс рубля: `);
+      const courseInput = elements.renderInput('payment-course');
+      if(this.data.courseRUB) {
+        courseInput.value = this.data.courseRUB;
+      }
+      courseContainer.append(labelCourse, courseInput);
+      courseInput.addEventListener('change', async (event) => {
+        escapingBallG.style.display = 'flex';
+        console.log(event.target.value);
+        const reqChangeCourse = await fetch(`/admin/coursechange?value=${event.target.value}`);
+        const resChangeCourse = await reqChangeCourse.json();
+        if(resChangeCourse.message === 'success') {
+          escapingBallG.classList.add('notification');
+          escapingBallG.style.width = '300px';
+          escapingBallG.style.height = '50px';
+          escapingBallG.style.color = 'white';
+          escapingBallG.innerHTML = 'Сохранено';
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          escapingBallG.style.display = 'none';
+        }
+      })
+      panelContainer.append(inputContainer);  
+      panelContainer.appendChild(courseContainer);
       /* const  */
     }
 
@@ -58,6 +91,7 @@ export class Panel {
 
     this.eventButtonAdd(buttonAdd, panelContainer);
     this.eventButtonSave(buttonSave, panelContainer);
+
     panelContainer.append(buttonContainer);
     return panelContainer;
   }
@@ -77,14 +111,18 @@ export class Panel {
       const inputContainer = document.createElement('div');
       inputContainer.id = 'finance-panel_inputs-container';
       inputContainer.classList.add('finance-panel_inputs-container');
+      const methodsContainer = document.createElement('div');
+      methodsContainer.classList.add('finance_methods-container');
       const labelNameMethod = elements.renderLabel('payment-name-method', 'Название метода');
       const inputNameMethod = elements.renderInput('payment-name-method');
-      const labelMethod = elements.renderLabel('payment-comission-method', 'Комиссия');
+      const labelMethod = elements.renderLabel('payment-comission-method', 'Комиссия в %');
       const inputMethod = elements.renderInput('payment-comission-method');
+      const labelMethodFix = elements.renderLabel('payment-comission-method-fix', 'Комиссия фикса в $');
+      const inputMethodFix = elements.renderInput('payment-comission-method-fix');
+      methodsContainer.append(labelMethod, inputMethod, labelMethodFix, inputMethodFix);
  /*      inputMethod.value = element[1];
       spanMethod.textContent = element[1] */;
-      
-      inputContainer.append(labelNameMethod, inputNameMethod, labelMethod, inputMethod);
+      inputContainer.append(labelNameMethod, inputNameMethod, methodsContainer);
       insertPenultimate(panelContainer, inputContainer)
     })
   }
@@ -93,17 +131,38 @@ export class Panel {
       const escapingBallG = document.getElementById('escapingBallG');
       escapingBallG.style.display = 'flex';
       const inputs = panelContainer.querySelectorAll('input');
+      const infoContainers = document.querySelectorAll('.container-info-payment');
       const arrayAdd = [];
       const arrayUpdate = [];
       inputs.forEach((input, index) => {
         if(input.id == 'payment-name-method') {
-          arrayAdd.push([input.value, inputs[index+1].value])
+          arrayAdd.push([input.value, inputs[index+1].value, inputs[index+2].value]);
         }
-        if(input.id == 'payment-method') {
-          arrayUpdate.push([input.dataset.name, input.value])
-        }
+/*         if(input.id == 'payment-method') {
+          console.log(input.dataset.name);
+          let valueFix;
+          const fixElement = document.getElementById('payment-method-fix');
+          
+          if(input.id == 'payment-method-fix') {
+            valueFix = input.value;
+          }
+          arrayUpdate.push([input.dataset.name, input.value, valueFix]);
+        } */
       })
-
+      infoContainers.forEach(element => {
+        const inputs = element.querySelectorAll('input');
+        const array = [];
+        inputs.forEach(input => {
+          if(input.id == 'payment-method') {
+            array.push([input.dataset.name, input.value]);
+          } else {
+            array[0].push(input.value);
+          }
+        })
+        console.log(element);
+        arrayUpdate.push(array);
+      })
+      console.log(arrayUpdate)
       const options = {
         method: 'POST',
         body: JSON.stringify({arrayAdd, arrayUpdate}),
@@ -117,9 +176,9 @@ export class Panel {
         escapingBallG.classList.add('notification');
         escapingBallG.style.width = '300px';
         escapingBallG.style.height = '50px';
-        escapingBallG.style.color = 'black';
+        escapingBallG.style.color = 'white';
         escapingBallG.innerHTML = 'Сохранено';
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        await new Promise(resolve => setTimeout(resolve, 3000));
         escapingBallG.style.display = 'none';
       }
     })
