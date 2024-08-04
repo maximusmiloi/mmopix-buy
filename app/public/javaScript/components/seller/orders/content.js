@@ -309,7 +309,7 @@ export class ContentOrders {
         const data0Page = this.data.reverse().slice(0, 9).reverse();
         contentRows(data0Page);
       } else {
-        contentRows(this.data.reverse());
+        contentRows(this.data);
       }
 
 /*       while(numberPage >= 1) {

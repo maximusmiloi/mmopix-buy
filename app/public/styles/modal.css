@@ -101,6 +101,13 @@
   background-color: #2F2566;
   color: white;
 }
+.admin-product-modal input {
+  width: 40%;
+  height: 29px;
+  border: 1px solid #8778D9;
+  background-color: #2F2566;
+  color: white;
+}
 select {
   width: 230px;
   height: 29px;
