@@ -38,18 +38,27 @@ export class Content {
               contentCell.append(contentCellDiv1, contentCellDiv2);
               contentRow.appendChild(contentCell);
             })
-    
             contentContainer.append(contentRow);
+            contentRow.addEventListener('click', async(event) => {
+              const dataElement = this.data.find(el => {
+                if(el.id == contentRow.dataset.id) {
+                  return el;
+                }
+              });
+              const modal = new Modal(dataElement);
+              const createModal = modal.renderProductModal();
+              contentContainer.appendChild(createModal);
+            })
           }
-          }
+        }
       }
       //pagination
       let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
       if(numberPage > 0) {
-        const data0Page = this.data.reverse().slice(0, 9).reverse();
+        const data0Page = this.data/* .reverse() */.slice(0, 9).reverse();
         contentRows(data0Page);
       } else {
-        contentRows(this.data.reverse());
+        contentRows(this.data);
       }
 
     /*       while(numberPage >= 1) {
@@ -102,7 +111,7 @@ export class Content {
           const data0Page = paginate(this.data, event.target.value, this.data.length);
           contentRows(data0Page);
           contentContainer.appendChild(paginationContainer);
-          const row = contentContainer.querySelectorAll('.order-content-row');
+/*           const row = contentContainer.querySelectorAll('.order-content-row');
 
           row.forEach(element => {
             element.addEventListener('click', async(event) => {
@@ -112,12 +121,12 @@ export class Content {
               const createModal = modal.renderOrderModal();
               contentContainer.appendChild(createModal);
             })
-          })
+          }) */
         })
       });
       //pagination
 
-      const row = contentContainer.querySelectorAll('.product-content-row');
+/*       const row = contentContainer.querySelectorAll('.product-content-row');
       row.forEach(element => {
         element.addEventListener('click', async(event) => {
           const dataElement = this.data.find(el => {
@@ -129,7 +138,7 @@ export class Content {
           const createModal = modal.renderProductModal();
           contentContainer.appendChild(createModal);
         })
-      })
+      }) */
       return contentContainer;
     } catch(error){
       console.log(error.message);
@@ -143,7 +152,8 @@ export class Content {
       const paginationContainer = document.createElement('div');
       paginationContainer.classList.add('pagination-container');
       const contentRows = async(data) => {
-        for(let order of data) {
+        for(let order of data.reverse()) {
+          console.log(order)
           const array = [
             ['Номер заказа', order.id],
             ['seller', order.seller],
@@ -188,18 +198,24 @@ export class Content {
           if(order.status === 'done') {
             contentRow.style.background = 'rgba(10,254,35,0.4)';  
           }
+
           contentContainer.append(contentRow);
+          contentRow.addEventListener('click', async(event) => {
+            const dataElement = this.data.find(el => el.id == contentRow.dataset.id);
+            const modal = new Modal(dataElement);
+            const createModal = modal.renderOrderModal();
+            contentContainer.appendChild(createModal);
+          })
         }
       }
 
       //pagination
       let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
       if(numberPage > 0) {
-
         const data0Page = this.data.reverse().slice(0, 9).reverse();
         contentRows(data0Page);
       } else {
-        contentRows(this.data.reverse());
+        contentRows(this.data);
       }
 
       /*       while(numberPage >= 1) {
@@ -252,7 +268,7 @@ export class Content {
           const data0Page = paginate(this.data, event.target.value, this.data.length);
           contentRows(data0Page);
           contentContainer.appendChild(paginationContainer);
-          const row = contentContainer.querySelectorAll('.order-content-row');
+          const row = contentContainer.querySelectorAll('.product-content-row');
 
           row.forEach(element => {
             element.addEventListener('click', async(event) => {
@@ -266,7 +282,7 @@ export class Content {
         })
       });
       //pagination
-      const row = contentContainer.querySelectorAll('.product-content-row');
+/*       const row = contentContainer.querySelectorAll('.product-content-row');
       row.forEach(element => {
         element.addEventListener('click', async(event) => {
           const dataElement = this.data.find(el => el.id == element.dataset.id);
@@ -274,7 +290,7 @@ export class Content {
           const createModal = modal.renderOrderModal();
           contentContainer.appendChild(createModal);
         })
-      })
+      }) */
       return contentContainer;
     } catch(error){
       console.log(error.message);

@@ -158,7 +158,7 @@ export class Content {
           const contentContainerItem = this.renderGames(element);
           contentContainerItem.setAttribute('data-index', element._id);
           contentContainerItem.id = 'main-content-container-element';
-          contentContainerItem.classList.add('main-content-container-element')
+          contentContainerItem.classList.add('main-content-container-element');
           contentContainer.appendChild(contentContainerItem)
         });
         
@@ -217,11 +217,12 @@ export class Content {
         contentRows(data0Page);
         contentContainer.appendChild(paginationContainer);
 
-        
+
         const indicatorLoad = document.getElementById('escapingBallG'); 
         const buttonEditChapter = document.querySelectorAll('.main-content-container-button-edit');
         const buttonEditDelete = document.querySelectorAll('.main-content-container-button-delete');
         const changeStateChapter = document.querySelectorAll('.enable-disable-chapter');
+        console.log(this.data)
         buttonEditDelete.forEach(button => {
           button.addEventListener('click', async(event) => { 
             const idGame = event.target.dataset.id;

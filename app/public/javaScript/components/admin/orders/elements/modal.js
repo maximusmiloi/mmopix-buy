@@ -241,6 +241,7 @@ export class Modal {
       if(escapingBallG) {
         escapingBallG.style.display = 'none';
       }
+      /* overlay.remove(); */
       modal.remove();
     })
     modalButtonSave.addEventListener('click', async event => {
@@ -274,6 +275,7 @@ export class Modal {
     return modal;
   }
   renderStatusInwork(data) {
+    console.log(data)
     const overlay = document.querySelector('.modal-overlay');
     overlay.style.display = 'flex';
     const modal = document.createElement('div');
@@ -294,6 +296,8 @@ export class Modal {
     spanAvailable.textContent = data.available;
     const labelPrice = modalElement.renderLabel('modal-price', 'Цена');
     const spanPrice = modalElement.renderSpan('modal-price');
+    const labelNick = modalElement.renderLabel('modal-nick', 'Ник покупателя');
+    const spanNick = modalElement.renderSpan('modal-nick');
     spanPrice.textContent = data.price;
     const labelStatus = modalElement.renderLabel('modal-status', 'Статус');
     const selectStatus = modalElement.renderSelect('modal-status');
@@ -322,7 +326,9 @@ export class Modal {
       labelPrice,
       spanPrice,
       labelStatus,
-      selectStatus
+      selectStatus,
+      labelNick,
+      spanNick
     );
     modalButtonClose.addEventListener('click', async(event) => {
       const overlay = document.querySelector('.modal-overlay');
