@@ -269,9 +269,13 @@ main-header  .main-content-radio:last-child label {
   gap: 15px;
   font-family: 'TTMilks';
 	margin-top: 20px;
+	max-height: none;
+  overflow: visible;
 }
 .product-content-row {
 	display: flex;
+	flex-direction: row;
+  margin-bottom: 10px;
 	justify-content: start;
   align-items: center;
 	height: 100px;
@@ -281,7 +285,6 @@ main-header  .main-content-radio:last-child label {
 	background-color: rgba(135, 120, 217, 0.4);
 	cursor: pointer;
 }
-
 .product-content-row::before{
   content: "";
   width: 20px;

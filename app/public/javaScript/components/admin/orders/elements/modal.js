@@ -296,9 +296,13 @@ export class Modal {
     spanAvailable.textContent = data.available;
     const labelPrice = modalElement.renderLabel('modal-price', 'Цена');
     const spanPrice = modalElement.renderSpan('modal-price');
+    spanPrice.textContent = data.price;
     const labelNick = modalElement.renderLabel('modal-nick', 'Ник покупателя');
     const spanNick = modalElement.renderSpan('modal-nick');
-    spanPrice.textContent = data.price;
+    spanNick.textContent = data.buyer;
+    const labelDiscription = modalElement.renderLabel('modal-discription', 'Описание');
+    const spanDiscription = modalElement.renderSpan('modal-discription');
+    spanDiscription.textContent = data.discription;
     const labelStatus = modalElement.renderLabel('modal-status', 'Статус');
     const selectStatus = modalElement.renderSelect('modal-status');
     ['new', 'inwork', 'check', 'canceled', 'done'].forEach(status => {
@@ -328,7 +332,9 @@ export class Modal {
       labelStatus,
       selectStatus,
       labelNick,
-      spanNick
+      spanNick,
+      labelDiscription,
+      spanDiscription
     );
     modalButtonClose.addEventListener('click', async(event) => {
       const overlay = document.querySelector('.modal-overlay');

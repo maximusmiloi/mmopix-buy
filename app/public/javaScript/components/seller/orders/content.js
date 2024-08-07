@@ -129,8 +129,6 @@ export class ContentOrders {
     
             const contentCellDiv1 = document.createElement('div');
             const contentCellDiv2 = document.createElement('div');
-/*             contentCellDiv1.style.textAlign = 'center';
-            contentCellDiv2.style.textAlign = 'center'; */
             if(element[0] === 'Статус') { 
               contentCellDiv1
             } else {
@@ -138,19 +136,16 @@ export class ContentOrders {
               contentCellDiv1.style.color = '#B0B0B0';
             }
             if(element[0] === 'Цена') { 
-              /* contentCellDiv2.style.textAlign = 'center'; */
               contentCellDiv2.style.color = '#FF7A00';
               contentCellDiv2.style.fontSize = '16px';
               contentCellDiv2.style.fontWeight = '900';
             }
             if(element[0] === 'Номер') { 
-              /* contentCellDiv2.style.textAlign = 'center'; */
               contentCellDiv2.style.color = '#B0B0B0';
               contentCellDiv2.style.fontSize = '16px';
               contentCellDiv2.style.fontWeight = '900';
             }
             if(element[0] === 'Дата создания') { 
-              /* contentCellDiv2.style.textAlign = 'center'; */
               contentCellDiv2.style.color = '#B0B0B0';
               contentCellDiv2.style.fontSize = '16px';
               contentCellDiv2.style.fontWeight = '900';
@@ -248,7 +243,6 @@ export class ContentOrders {
 
         let searchData = this.data.filter(el => el.id === +search.value);
         contentContainer.innerHTML = ''; 
-          /* const data0Page = this.data.reverse().slice(0, 9); */
           contentRows(searchData);
           contentContainer.appendChild(paginationContainer);
           const row = contentContainer.querySelectorAll('.order-content-row');
@@ -267,7 +261,6 @@ export class ContentOrders {
       selectGame.addEventListener('change', async event => {
         let selectData = this.data.filter(el => el.game[0] === selectGame.value);
         contentContainer.innerHTML = ''; 
-        /* const data0Page = this.data.reverse().slice(0, 9); */
         contentRows(selectData);
         contentContainer.appendChild(paginationContainer);
         const row = contentContainer.querySelectorAll('.order-content-row');
@@ -287,7 +280,6 @@ export class ContentOrders {
       selectStatus.addEventListener('change', async event => {
         let selectData = this.data.filter(el => el.status === selectStatus.value);
         contentContainer.innerHTML = ''; 
-        /* const data0Page = this.data.reverse().slice(0, 9); */
         contentRows(selectData);
         contentContainer.appendChild(paginationContainer);
         const row = contentContainer.querySelectorAll('.order-content-row');
@@ -311,24 +303,11 @@ export class ContentOrders {
       } else {
         contentRows(this.data);
       }
-
-/*       while(numberPage >= 1) {
-        const containerPage = document.createElement('span');
-        containerPage.classList.add('pagination-page');
-        containerPage.textContent = numberPage;
-        paginationContainer.insertBefore(containerPage, paginationContainer.firstChild)
-        numberPage = numberPage - 1;
-      } */
       const containerPageContainer = document.createElement('div');
       containerPageContainer.classList.add('pagination-page-container');
-/*       const containerPage = document.createElement('input');
-      containerPage.classList.add('pagination-page');
-      const containerPageSpan = document.createElement('span');
-      containerPageSpan.textContent = `из ${numberPage}`;
-      containerPageContainer.append(containerPage, containerPageSpan); */
       const containerPage = document.createElement('input');
       containerPage.classList.add('pagination-page');
-      containerPage.value = 0;
+      containerPage.value = 1;
       const containerPageSpan = document.createElement('span');
       containerPageSpan.textContent = `из ${numberPage}`;
       containerPageContainer.append(containerPage, containerPageSpan);
@@ -358,7 +337,6 @@ export class ContentOrders {
  
           event.target.style.color = '#FF7A00';
           contentContainer.innerHTML = ''; 
-          /* const data0Page = this.data.reverse().slice(0, 9); */
           const data0Page = paginate(this.data, event.target.value, this.data.length);
           contentRows(data0Page);
           contentContainer.appendChild(paginationContainer);

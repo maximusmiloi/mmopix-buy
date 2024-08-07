@@ -2,254 +2,261 @@ import { ModalElement} from './handlerModal/modalElement.js'
 export class Modal { 
   constructor(data) {
     this.data = data;
+    this.modalElement = new ModalElement(data);
+    this.escapingBallG = document.getElementById('escapingBallG');
   }
+
   renderFilterModal() {
     const modal = document.createElement('div');
     modal.id = 'seller-product-modal';
     modal.classList.add('seller-product-modal');
     modal.style.display = 'flex';
-    const escapingBallG = document.getElementById('escapingBallG');
 
-    const modalElement = new ModalElement(this.data);
+    const elements = this.createElements();
+    const buttonContainer = this.createButtonContainer();
 
-    const labelGame = modalElement.renderLabel('modal-game', 'Игра');
-    const selectGame = modalElement.renderSelect('modal-game');
-    modal.append(labelGame, selectGame);
+    const fragment = document.createDocumentFragment();
+    elements.forEach(el => fragment.appendChild(el));
+    fragment.appendChild(buttonContainer);
 
-    const labelRegion = modalElement.renderLabel('modal-region', 'Регион');
-    const selectRegion = modalElement.renderSelect('modal-region');
-    modal.append(labelRegion, selectRegion);
+    modal.appendChild(fragment);
+    return modal;
+  }
 
-    const labelMethod = modalElement.renderLabel('modal-method', 'Метод доставки');
-    const divMethod = modalElement.renderDiv('modal-method');
-    modal.append(labelMethod, divMethod);
+  createElements() {
+    const elements = [];
 
-    const labelServers = modalElement.renderLabel('modal-servers', 'Сервера');
-    const selectServers = modalElement.renderSelect('modal-servers');
-    modal.append(labelServers, selectServers);
+    const labelGame = this.modalElement.renderLabel('modal-game', 'Игра');
+    const selectGame = this.modalElement.renderSelect('modal-game');
+    elements.push(labelGame, selectGame);
 
-    const labelPrice = modalElement.renderLabel('modal-price', 'Ориентировочная цена');
-    const spanPrice = modalElement.renderP('modal-price');
-    modal.append(labelPrice, spanPrice);
+    const labelRegion = this.modalElement.renderLabel('modal-region', 'Регион');
+    const selectRegion = this.modalElement.renderSelect('modal-region');
+    elements.push(labelRegion, selectRegion);
 
-    const labelQuantity = modalElement.renderLabel('modal-quantity', 'Количество');
-    const inputQuantity = modalElement.renderInput('modal-quantity');
-    modal.append(labelQuantity, inputQuantity);
+    const labelMethod = this.modalElement.renderLabel('modal-method', 'Метод доставки');
+    const divMethod = this.modalElement.renderDiv('modal-method');
+    elements.push(labelMethod, divMethod);
 
+    const labelServers = this.modalElement.renderLabel('modal-servers', 'Сервера');
+    const selectServers = this.modalElement.renderSelect('modal-servers');
+    elements.push(labelServers, selectServers);
+
+    const labelPrice = this.modalElement.renderLabel('modal-price', 'Ориентировочная цена');
+    const spanPrice = this.modalElement.renderP('modal-price');
+    elements.push(labelPrice, spanPrice);
+
+    const labelQuantity = this.modalElement.renderLabel('modal-quantity', 'Количество');
+    const inputQuantity = this.modalElement.renderInput('modal-quantity');
+    elements.push(labelQuantity, inputQuantity);
+
+    this.populateNameSelect(selectGame);
+    this.updateRegionAndServer(selectRegion, selectServers, selectGame.value, spanPrice, divMethod);
+
+    this.attachEventListeners(selectGame, selectRegion, selectServers, spanPrice, divMethod);
+
+    return elements;
+  }
+
+  createButtonContainer() {
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('modal-button-container');
+
     const modalButtonClose = document.createElement('button');
     modalButtonClose.classList.add('modal-button');
     modalButtonClose.textContent = 'Закрыть';
+
     const modalButtonSave = document.createElement('button');
     modalButtonSave.classList.add('modal-button');
     modalButtonSave.textContent = 'Выставить';
+
     buttonContainer.append(modalButtonClose, modalButtonSave);
 
-    //this.eventSelectGame(selectGame, labelGame, modal);
-    function populateNameSelect(data) {
-      const names = [...new Set(data.map(item => item.name))];
-      clearSelect(selectGame);
-      names.forEach(name => {
-        const option = document.createElement('option');
-        option.value = name;
-        option.textContent = name;
-        selectGame.appendChild(option);
-      });
-    }
-    function populateRegionSelect(name, data) {
-      const regions = [...new Set(data.filter(item => item.name === name).map(item => item.region))];
-      clearSelect(selectRegion);
-      clearSelect(divMethod);
-      regions.forEach(region => {
-        const option = document.createElement('option');
-        option.value = region;
-        option.textContent = region;
-        selectRegion.appendChild(option);
-      });
-    }
-    function populateMethods(name, region, data) {
-      const methods = data.filter(item => item.name === name && item.region === region);
-      clearSelect(divMethod);
-      
-      if(methods[0].methodDelivery && methods[0].methodDelivery.length > 0) {
-        methods[0].methodDelivery.forEach(el => {
-          const checkBoxMethod = modalElement.renderCheckBox('modal-method-checkbox', el);
-          divMethod.appendChild(checkBoxMethod);
-        })
-      }
-      /* spanMethod.textContent = methods[0].methodDelivery; */
-    }
-    function populateOptionsSelect(name, region, data) {
+    modalButtonClose.addEventListener('click', this.closeModal.bind(this));
+    modalButtonSave.addEventListener('click', this.saveProduct.bind(this));
 
-      const filteredItems = data.filter(item => item.name === name && item.region === region);
-      filteredItems.sort((a, b) => a.localeCompare(b));
+    return buttonContainer;
+  }
 
-      clearSelect(selectServers);
-      if (filteredItems.length > 0) {
-        const optionSort = filteredItems[0].options.sort((a, b) => {
-          // Сравниваем первые элементы вложенных массивов
-          if (a[0] < b[0]) {
-            return -1;
-          } else if (a[0] > b[0]) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });;
-        optionSort.forEach(optionArray => {
-          const option = document.createElement('option');
-          option.value = optionArray[0][0];
-          option.textContent = optionArray[0][0];
-          selectServers.appendChild(option);
-        });
-      }
-    }
-    function populatePrices(name, region, server, data) {
-
-      if(server) {
-        clearSelect(spanPrice);
-        const prices = data.filter(item => item.name === name && item.region === region);
-
-        const price = prices[0].options.filter(option => {
-
-          if(option[0][0] == server){
-            return option;
-          }
-        });
-        if(prices[0] && prices[0].courseG2G && prices[0].courseG2G[0] && prices[0].courseG2G[1]) {
-          spanPrice.textContent = (+price[0][2][0] * (+prices[0].courseG2G[2])) + ` $ за ${prices[0].courseG2G[0]} ${prices[0].courseG2G[1]}`;
-        } else {
-          spanPrice.textContent = price[0][2][0];
-        }
-      } else {
-        const prices = data.filter(item => item.name === name && item.region === region);
-        clearSelect(spanPrice);
-
-        if(prices[0] && prices[0].options[0] && prices[0].options[0][2]) { 
-          if(prices[0].courseG2G && prices[0].courseG2G[0] && prices[0].courseG2G[1] && prices[0].courseG2G[2]) {
-            spanPrice.textContent = `${(+prices[0].options[0][2][0] * (+prices[0].courseG2G[2]))} $ за ${prices[0].courseG2G[0]} ${prices[0].courseG2G[1]}` ;
-          } else {
-            spanPrice.textContent = prices[0].options[0][2][0];
-          }
-
-        } else {
-          spanPrice.textContent = '';
-        }
-        
-      }
-    }
-    function clearSelect(select) {
-      while (select.firstChild) {
-        select.removeChild(select.firstChild);
-      }
-    }
-    populateNameSelect(this.data);
-    populateRegionSelect(this.data[0].name, this.data);
-    populateMethods(this.data[0].name, this.data[0].region, this.data);
-    populateOptionsSelect(this.data[0].name, this.data[0].region, this.data);
-    populatePrices(this.data[0].name, this.data[0].region, '' , this.data);
-
+  attachEventListeners(selectGame, selectRegion, selectServers, spanPrice, divMethod) {
     selectGame.addEventListener('change', () => {
-      const selectedName = selectGame.value;
-      populateRegionSelect(selectedName, this.data);
-      const selectedRegion = selectRegion.value;
-      populateOptionsSelect(selectedName, selectedRegion, this.data);
+      this.updateRegionAndServer(selectRegion, selectServers, selectGame.value, spanPrice, divMethod);
     });
+
     selectRegion.addEventListener('change', () => {
-      const selectedName = selectGame.value;
-      const selectedRegion = selectRegion.value;
-      populateMethods(selectedName, selectedRegion, this.data)
-      populateOptionsSelect(selectedName, selectedRegion, this.data);
+      this.updateServerAndMethods(selectServers, selectGame.value, selectRegion.value, spanPrice, divMethod);
     });
+
     selectServers.addEventListener('change', () => {
       const selectedName = selectGame.value;
       const selectedRegion = selectRegion.value;
-      const selectedServers = selectServers.value;
-      populatePrices(selectedName, selectedRegion, selectedServers,  this.data);
+      const selectedServer = selectServers.value;
+      this.populatePrices(spanPrice, selectedName, selectedRegion, selectedServer);
     });
-    modalButtonClose.addEventListener('click', async(event) => {
-      const overlay = document.querySelector('.modal-overlay');
-      overlay.style.display = 'none';
-      if(escapingBallG) {
-        escapingBallG.style.display = 'none';
-      }
-      modal.remove();
-    })
-    modalButtonSave.addEventListener('click', async(event) => {
-      escapingBallG.style.display = 'flex';
+  }
 
+  closeModal() {
+    const overlay = document.querySelector('.modal-overlay');
+    overlay.style.display = 'none';
+    if (this.escapingBallG) {
+      this.escapingBallG.style.display = 'none';
+    }
+    document.getElementById('seller-product-modal').remove();
+  }
 
-      const selects = event.target.parentElement.parentElement.querySelectorAll('select');
+  async saveProduct(event) {
+    this.escapingBallG.style.display = 'flex';
 
-      const inputsMethod = event.target.parentElement.parentElement.querySelectorAll('input');
-      const methodsArray = [];
-      inputsMethod.forEach(el => {
-        if(el.checked) {
-          methodsArray.push(el.value);
-        }
-      })
-      /* const inputValue = input.value; */
-      const availableInput = document.querySelector('.modal-quantity');
-      const available = availableInput.value;
-      const values = Array.from(selects).map(select => {
-        return select.value.split(',').map(item => item.trim());
+    const modal = event.target.closest('.seller-product-modal');
+    const selects = modal.querySelectorAll('select');
+    const inputsMethod = modal.querySelectorAll('input');
+    const methodsArray = Array.from(inputsMethod).filter(el => el.checked).map(el => el.value);
+    const availableInput = modal.querySelector('.modal-quantity').value;
+
+    const values = Array.from(selects).map(select => select.value.split(',').map(item => item.trim()));
+
+    const options = {
+      method: 'POST',
+      body: JSON.stringify({ values, available: availableInput, methodsArray }),
+      headers: { 'Content-Type': 'application/json' }
+    };
+
+    const response = await fetch('/seller/saveproduct', options);
+    const responseData = await response.json();
+
+    this.handleResponse(responseData);
+  }
+
+  handleResponse(response) {
+    let message = '';
+    switch (response.message) {
+      case 'notContant':
+        message = 'ОШИБКА! Перейдите в раздел "Профиль" и заполните контактные данные: Telegram или Discord.';
+        break;
+      case 'emptyInput':
+        message = 'Строка "Количество" пуста.';
+        break;
+      case 'notNumber':
+        message = 'Строка "количество" не является числом.';
+        break;
+      case 'success':
+        message = 'Товар успешно выставлен на продажу.';
+        break;
+      case 'hasOrder':
+        message = 'Товар такого типа уже выставлен. Измените количество в уже выставленном товаре.';
+        break;
+      default:
+        message = 'Неизвестная ошибка.';
+        break;
+    }
+
+    this.showNotification(message, response.message === 'success');
+  }
+
+  showNotification(message, isSuccess) {
+    this.escapingBallG.classList.add('notification');
+    this.escapingBallG.style.width = '350px';
+    this.escapingBallG.style.height = '90px';
+    this.escapingBallG.style.color = isSuccess ? '#0AFE23' : 'white';
+    this.escapingBallG.innerHTML = message;
+
+    setTimeout(() => {
+      this.escapingBallG.style.display = 'none';
+    }, isSuccess ? 5000 : 10000);
+  }
+
+  populateNameSelect(selectGame) {
+    const names = [...new Set(this.data.map(item => item.name))];
+    this.clearSelect(selectGame);
+    names.forEach(name => {
+      const option = document.createElement('option');
+      option.value = name;
+      option.textContent = name;
+      selectGame.appendChild(option);
+    });
+  }
+
+  updateRegionAndServer(selectRegion, selectServers, selectedName, spanPrice, divMethod) {
+    this.populateRegionSelect(selectRegion, selectedName);
+    const firstRegion = selectRegion.options[0]?.value;
+    if (firstRegion) {
+      this.updateServerAndMethods(selectServers, selectedName, firstRegion, spanPrice, divMethod);
+    }
+  }
+
+  updateServerAndMethods(selectServers, selectedName, selectedRegion, spanPrice, divMethod) {
+    this.populateMethods(divMethod, selectedName, selectedRegion);
+    this.populateOptionsSelect(selectServers, selectedName, selectedRegion);
+    const firstServer = selectServers.options[0]?.value;
+    this.populatePrices(spanPrice, selectedName, selectedRegion, firstServer);
+  }
+
+  populateRegionSelect(selectRegion, name) {
+    const regions = [...new Set(this.data.filter(item => item.name === name).map(item => item.region))];
+    this.clearSelect(selectRegion);
+    regions.forEach(region => {
+      const option = document.createElement('option');
+      option.value = region;
+      option.textContent = region;
+      selectRegion.appendChild(option);
+    });
+  }
+
+  populateMethods(divMethod, name, region) {
+    const methods = this.data.filter(item => item.name === name && item.region === region);
+    this.clearSelect(divMethod);
+    if (methods.length > 0 && methods[0].methodDelivery) {
+      methods[0].methodDelivery.forEach(method => {
+        const checkBoxMethod = this.modalElement.renderCheckBox('modal-method-checkbox', method);
+        divMethod.appendChild(checkBoxMethod);
       });
-      const options = {
-        method: 'POST',
-        body: JSON.stringify({values, available, methodsArray}),
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      }
-      const requestProductSave = await fetch('/seller/saveproduct', options);
-      const responseProductSave = await requestProductSave.json();
-      if(responseProductSave.message === 'notContant') {
-        escapingBallG.classList.add('notification');
-        escapingBallG.style.width = '350px';
-        escapingBallG.style.height = '90px';
-        escapingBallG.innerHTML = 'ОШИБКА! Перейдите в раздел "Профиль" и заполните контактные данные: Telegram или Discord.';
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        escapingBallG.style.display = 'none';
-      }
-      if(responseProductSave.message === 'emptyInput') {
-        escapingBallG.classList.add('notification');
-        escapingBallG.style.width = '350px';
-        escapingBallG.style.height = '90px';
-        escapingBallG.innerHTML = 'Строка "Количество" пуста.';
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        escapingBallG.style.display = 'none';
-      }
-      if(responseProductSave.message === 'notNumber') {
-        escapingBallG.classList.add('notification');
-        escapingBallG.style.width = '350px';
-        escapingBallG.style.height = '90px';
-        escapingBallG.innerHTML = 'Строка "количество" не является числом.';
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        escapingBallG.style.display = 'none';
-      }
-      if(responseProductSave.message === 'success') {
-        escapingBallG.classList.add('notification');
-        escapingBallG.style.width = '350px';
-        escapingBallG.style.height = '90px';
-        escapingBallG.style.color = '#0AFE23';
-        escapingBallG.innerHTML = 'Товар успешно выставлен на продажу.';
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        escapingBallG.style.display = 'none';
-      }
-      if(responseProductSave.message === 'hasOrder') {
-        escapingBallG.classList.add('notification');
-        escapingBallG.style.width = '350px';
-        escapingBallG.style.height = '90px';
-        escapingBallG.style.color = 'white';
-        escapingBallG.innerHTML = 'Товар такого типа уже выставлен. Измените количество в уже выставленном товаре.';
-        await new Promise(resolve => setTimeout(resolve, 10000));
-        escapingBallG.style.display = 'none';
-      }
+    }
+  }
 
-    })
-    modal.append(buttonContainer)
-    return modal;
+  populateOptionsSelect(selectServers, name, region) {
+    const filteredItems = this.data.filter(item => item.name === name && item.region === region);
+    filteredItems.sort((a, b) => a[0][0].localeCompare(b[0][0]));
+
+    this.clearSelect(selectServers);
+    if (filteredItems.length > 0) {
+      const optionSort = filteredItems[0].options.sort((a, b) => a[0][0].localeCompare(b[0][0]));
+      optionSort.forEach(optionArray => {
+        const option = document.createElement('option');
+        option.value = optionArray[0][0];
+        option.textContent = optionArray[0][0];
+        selectServers.appendChild(option);
+      });
+    }
+  }
+
+  populatePrices(spanPrice, name, region, server) {
+    const prices = this.data.filter(item => item.name === name && item.region === region);
+    this.clearSelect(spanPrice);
+    if (server && prices.length > 0) {
+      const price = prices[0].options.find(option => option[0][0] === server);
+      console.log(prices[0])
+      if (price &&  prices[0] && prices[0].courseG2G && prices[0].courseG2G[0] && price[2]) {
+        spanPrice.textContent = prices[0].courseG2G
+          ? `${+price[2][0] * +prices[0].courseG2G[2]} $ за ${prices[0].courseG2G[0]} ${prices[0].courseG2G[1]}`
+          : price[2][0];
+      } else {
+        spanPrice.style.color = 'gray';
+        spanPrice.textContent = 'Цена не определена';
+      }
+    } else if (prices.length > 0 && prices[0].options.length > 0) {
+      spanPrice.textContent = prices[0].courseG2G
+        ? `${+prices[0].options[0][2][0] * +prices[0].courseG2G[2]} $ за ${prices[0].courseG2G[0]} ${prices[0].courseG2G[1]}`
+        : prices[0].options[0][2][0];
+    } else {
+      spanPrice.style.color = 'gray';
+      spanPrice.textContent = 'Цена не определена';
+    }
+  }
+
+  clearSelect(select) {
+    while (select.firstChild) {
+      select.removeChild(select.firstChild);
+    }
   }
   renderNotificationModal(text, id) {
     const modal = document.createElement('div');

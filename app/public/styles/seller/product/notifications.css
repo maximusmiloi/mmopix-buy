@@ -46,9 +46,11 @@
   justify-content: center;
   width: 100%;
   padding-top: 30px;
+  padding-left: 20px;
   padding-bottom: 30px;
   /* background: #151129; */
   gap: 15px;
+  
 }
 .indicator-telegram {
   display: flex;

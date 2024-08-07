@@ -1,7 +1,8 @@
 import { Elements } from './elements.js';
 export class Modal { 
-  constructor(data) {
+  constructor(data, courseRUB) {
     this.data = data;
+    this.courseRUB = courseRUB;
   }
   render(text, id) {
     const modal = document.createElement('div');
@@ -13,7 +14,6 @@ export class Modal {
     const textElement = document.createElement('div');
     textElement.textContent = text;
     modal.append(text);
-    console.log(this.data)
     const select = document.createElement('select');
     this.data.paymentMethods.forEach(pay => {
       const option = document.createElement('option');
@@ -34,7 +34,7 @@ export class Modal {
       if(procent[2] && procent[2] !== '0' && procent[2] !== 0 && procent[2] !== undefined && procent[2] !== 'undefined') {
         result = result - procent[2];
       }
-      span.innerHTML = `Сумма к получению: <span style="color: orange"> ${result} $ </span>`;
+      span.innerHTML = `Сумма к получению: <span style="color: orange"> ${result} $ или ${(result * this.courseRUB).toFixed(2)} Рублей </span>`;
     });
     select.addEventListener('change', event => {
       input.value = '';
