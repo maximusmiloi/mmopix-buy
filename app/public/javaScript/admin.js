@@ -31,151 +31,158 @@ import createNotificationsContent from './adminHandler/notificationsHandler/noti
   }
 })();
 
-(async () => {
+(async() => {
   try {
-    document.addEventListener("DOMContentLoaded", async() => {
+    document.addEventListener("DOMContentLoaded", () => {
       let flagSwitcher;
       const escapingBallG = document.getElementById('escapingBallG');
       const ovarlay = document.querySelector('.modal-overlay');
       const mainPanelElement = document.querySelectorAll('.main-panel-radio label');
-
-      const showLoading = () => {
-        ovarlay.style.display = 'block';
-        escapingBallG.style.display = 'flex';
-      };
-
-      const hideLoading = () => {
-        ovarlay.style.display = 'none';
-        escapingBallG.style.display = 'none';
-      };
-
       const saveSelectedRadio = (value) => {
         localStorage.setItem('selectedRadio', value);
       };
+    
+      const getSelectedRadio = () => {
+        return localStorage.getItem('selectedRadio');
+      };
+      const handleRadioClick = async(input) => {
+        if (input) {
+          input.checked = true;
+          const value = input.value;
+          if (value === 'games') {
+            if(flagSwitcher !== 'games') {
+              flagSwitcher = 'games';
+              ovarlay.style.display = 'block';
+              escapingBallG.style.display = 'flex';
+              localStorage.setItem('admin-order-page', 1);
+              const requestGetGames = await fetch('/admin/getgames');
+              const responseGetGame = await requestGetGames.json();
 
-      const getSelectedRadio = () => localStorage.getItem('selectedRadio');
-
-      const handleRadioClick = async (input) => {
-        if (!input) return;
-
-        input.checked = true;
-        const value = input.value;
-
-        if (value === 'games') {
-          if (flagSwitcher !== 'games') {
-            flagSwitcher = 'games';
-            showLoading();
-            localStorage.setItem('admin-order-page', 1);
-
-            try {
-              const response = await fetch('/admin/getgames');
-              if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-              const data = await response.json();
-
-              createContentGames(value, data[0]);
-              createButtonCreateGame(data);
-            } catch (error) {
-              console.error(`Failed to fetch games data: ${error.message}`);
-            } finally {
-              hideLoading();
+              const createButtonCreateGame = async() => {
+                const labelsHeader = document.querySelectorAll('.main-panel2-radio label');
+                labelsHeader.forEach(label => {
+                  label.addEventListener('click', (event) => {
+                    const input = document.querySelector(`#${label.getAttribute('for')}`);
+                    if (input) {
+                      input.checked = true;
+                      const value = input.value;
+                      if(value === 'games') {
+                        ovarlay.style.display = 'block';
+                        escapingBallG.style.display = 'flex';
+                        localStorage.setItem('admin-order-page', 1);
+                        createContentGames(value, responseGetGame[0]);
+                        createButtonCreateGame();
+                        ovarlay.style.display = 'none';
+                        escapingBallG.style.display = 'none';
+                      }
+                      if(value === 'chapters') {
+                        ovarlay.style.display = 'block';
+                        escapingBallG.style.display = 'flex';
+                        localStorage.setItem('admin-order-page', 1);
+                        createContentChapter(value, responseGetGame[0], responseGetGame[1]);
+                        createButtonCreateGame();
+                        ovarlay.style.display = 'none';
+                        escapingBallG.style.display = 'none';
+                      }
+                    }
+                  })
+                })
+              }
+              createContentGames(value, responseGetGame[0]);
+              createButtonCreateGame();
+              ovarlay.style.display = 'none';
+              escapingBallG.style.display = 'none';
             }
-          }
-        } else if (value === 'orders') {
-          if (flagSwitcher !== 'orders') {
-            flagSwitcher = 'orders';
-            showLoading();
-            localStorage.setItem('admin-order-page', 1);
-            const contentContainer = document.querySelector('.content');
-            contentContainer.innerHTML = '';
-            createOrdersContent();
-            hideLoading();
-          }
-        } else if (value === 'profiles') {
-          if (flagSwitcher !== 'profiles') {
-            flagSwitcher = 'profiles';
-            showLoading();
-            localStorage.setItem('admin-order-page', 1);
-            const contentContainer = document.querySelector('.content');
-            contentContainer.innerHTML = '';
-            const div = document.createElement('div');
-            div.style.textAlign = 'center';
-            div.textContent = 'Этот раздел ещё не создан, пёс. Ты не имеешь имени. Ты не имеешь личности. Ты никто.';
-            contentContainer.append(div);
-            hideLoading();
-          }
-        } else if (value === 'finances') {
-          if (flagSwitcher !== 'finances') {
-            flagSwitcher = 'finances';
-            showLoading();
-            localStorage.setItem('admin-order-page', 1);
-            const contentContainer = document.querySelector('.content');
-            contentContainer.innerHTML = '';
-            createFinancesContent();
-            hideLoading();
-          }
-        } else if (value === 'notifications') {
-          if (flagSwitcher !== 'notifications') {
-            flagSwitcher = 'notifications';
-            showLoading();
-            localStorage.setItem('admin-order-page', 1);
-            const contentContainer = document.querySelector('.content');
-            contentContainer.innerHTML = '';
-            createNotificationsContent();
-            hideLoading();
-          }
-        } else if (value === 'users') {
-          if (flagSwitcher !== 'users') {
-            flagSwitcher = 'users';
-            showLoading();
-            localStorage.setItem('admin-order-page', 1);
-            const contentContainer = document.querySelector('.content');
-            contentContainer.innerHTML = '';
-            createUsersContent();
-            hideLoading();
-          }
-        } else {
-          const mainContentElement = document.querySelector('.main-content');
-          const mainFilterElement = document.querySelector('.main-filter');
-          const mainFilterElementGames = document.querySelector('.main-filter-games');
-          if (mainContentElement && mainFilterElement && mainFilterElementGames) {
+          } else if (value === `orders`) {
+            ovarlay.style.display = 'block';
+            escapingBallG.style.display = 'flex';
+            if(flagSwitcher !== 'orders') {
+              flagSwitcher = 'orders';
+              localStorage.setItem('admin-order-page', 1);
+              const contentContainer  = document.querySelector('.content');
+              contentContainer.innerHTML = '';
+              createOrdersContent();
+            }
+            ovarlay.style.display = 'none';
+            escapingBallG.style.display = 'none';
+          } else if (value === `profiles`) {
+            ovarlay.style.display = 'block';
+            escapingBallG.style.display = 'flex';
+            if(flagSwitcher !== 'profiles') {
+              flagSwitcher = 'profiles';
+              localStorage.setItem('admin-order-page', 1);
+              const contentContainer  = document.querySelector('.content');
+              contentContainer.innerHTML = '';
+              const div = document.createElement('div');
+              console.log(`prifles here`);
+              div.style.textAlign = 'center';
+              div.textContent = 'Этот раздел ещё не создан, пёс. Ты не имеешь имени. Ты не имеешь личности. Ты никто.';
+              contentContainer.append(div);
+              ovarlay.style.display = 'none';
+              escapingBallG.style.display = 'none';
+            }
+          } else if (value === `finances`) {
+            ovarlay.style.display = 'block';
+            escapingBallG.style.display = 'flex';
+            if(flagSwitcher !== 'finances') {
+              flagSwitcher = 'finances';
+              localStorage.setItem('admin-order-page', 1);
+
+              const contentContainer  = document.querySelector('.content');
+              contentContainer.innerHTML = '';
+              createFinancesContent();
+            }
+            ovarlay.style.display = 'none';
+            escapingBallG.style.display = 'none';
+          } else if (value === `notifications`) {
+            ovarlay.style.display = 'block';
+            escapingBallG.style.display = 'flex';
+            if(flagSwitcher !== 'notifications') {
+              flagSwitcher = 'notifications';
+              localStorage.setItem('admin-order-page', 1);
+              const contentContainer  = document.querySelector('.content');
+              contentContainer.innerHTML = '';
+              createNotificationsContent();
+            }
+            ovarlay.style.display = 'none';
+            escapingBallG.style.display = 'none';
+          } else if (value === `users`) {
+            ovarlay.style.display = 'block';
+            escapingBallG.style.display = 'flex';
+            if(flagSwitcher !== 'users') {
+              flagSwitcher = 'users';
+              localStorage.setItem('admin-order-page', 1);
+              const contentContainer  = document.querySelector('.content');
+              contentContainer.innerHTML = '';
+              createUsersContent();
+            }
+            ovarlay.style.display = 'none';
+            escapingBallG.style.display = 'none';
+          } 
+          else {
             mainContentElement.innerHTML = '';
             mainFilterElement.innerHTML = '';
             mainFilterElementGames.innerHTML = '';
           }
         }
-      };
-
-      const createButtonCreateGame = async (responseGetGame) => {
-        const labelsHeader = document.querySelectorAll('.main-panel2-radio label');
-        labelsHeader.forEach(label => {
-          label.addEventListener('click', async (event) => {
-            const input = document.querySelector(`#${label.getAttribute('for')}`);
-            await handleRadioClick(input);
-            saveSelectedRadio(input.value);
-          });
-        });
-      };
-
+      }
       const savedValue = getSelectedRadio();
       if (savedValue) {
         const savedInput = document.querySelector(`input[value="${savedValue}"]`);
         if (savedInput) {
           savedInput.checked = true;
-          await handleRadioClick(savedInput);
+          handleRadioClick(savedInput); 
         }
       }
-
       mainPanelElement.forEach(label => {
         const input = document.querySelector(`#${label.getAttribute('for')}`);
-        if (input) {
-          label.addEventListener('click', async (event) => {
-            await handleRadioClick(input);
-            saveSelectedRadio(input.value);
-          });
-        }
+        label.addEventListener('click', async(event) => {
+          await handleRadioClick(input); 
+          saveSelectedRadio(input.value); 
+        });
       });
-    });
-  } catch (error) {
-    console.error(error);
+    })
+  } catch(error) {
+    console.log(error)
   }
 })();
