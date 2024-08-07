@@ -119,6 +119,8 @@ export class ContentProfiles {
   }
   eventButtonVerif(verifButton, contentContainer) {
     verifButton.addEventListener('click', event => {
+      const overlay = document.querySelector('.modal-overlay');
+      overlay.style.display = 'block';
       const notification = this.notificationModal('Данная функция ещё недоступнна', 'profiles-notification')
       contentContainer.append(notification);
     })

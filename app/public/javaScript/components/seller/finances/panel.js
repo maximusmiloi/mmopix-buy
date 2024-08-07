@@ -1,8 +1,9 @@
 import {Elements} from './elements/elements.js';
 import {Modal} from './elements/modal.js';
 export class Panel {
-  constructor(data) {
+  constructor(data, courseRUB) {
     this.data = data;
+    this.courseRUB = courseRUB;
   }
   render() {
     const elements = new Elements();
@@ -72,51 +73,16 @@ export class Panel {
     buttonContainer.append(buttonSave);
     methodsContainer.appendChild(buttonContainer);
     panelContainer.append(balanceContainer, methodsContainer);
-    this.eventButtonOrder(buttonOrder, panelContainer, this.data);
+    this.eventButtonOrder(buttonOrder, panelContainer, this.data, this.courseRUB);
     this.eventButtonSave(buttonSave, panelContainer, methodsContainer);
-/*     if(this.data && this.data !== null && this.data !== 'null') {
-      const inputContainer = document.createElement('div');
-      inputContainer.id = 'finance-panel_inputs-container';
-      inputContainer.classList.add('finance-panel_inputs-container');
-      const elements = new Elements();
-      this.data.methods.forEach(element => {
-        const infoContainer = document.createElement('div')
-        const labelMethod = elements.renderLabel('payment-method', `${element[0]}: `);
-        const inputMethod = elements.renderInput('payment-method');
-        const spanMethod = elements.renderSpan('payment-method-span');
-        inputMethod.value = element[1];
-        inputMethod.dataset.name = element[0];
-        spanMethod.textContent = '%';
-        infoContainer.append(labelMethod, inputMethod, spanMethod)
-        inputContainer.append(infoContainer);
-      });
-      panelContainer.appendChild(inputContainer);
-    }
-
-    const buttonContainer = document.createElement('div');
-    buttonContainer.id = 'finance-panel_button-container';
-    buttonContainer.classList.add('finance-panel_button-container');
-
-    const buttonAdd = document.createElement('button');
-    buttonAdd.id = 'finance-panel_button-add';
-    buttonAdd.classList.add('finance-panel_button-add');
-    buttonAdd.textContent = 'Добавить метод';
-
-    const buttonSave = document.createElement('button');
-    buttonSave.id = 'finance-panel_button-save';
-    buttonSave.classList.add('finance-panel_button-save');
-    buttonSave.textContent = 'Сохранить';
-    buttonContainer.append(buttonAdd, buttonSave);
-
-    this.eventButtonAdd(buttonAdd, panelContainer);
-    this.eventButtonSave(buttonSave, panelContainer);
-    panelContainer.append(buttonContainer); */
     return panelContainer;
   }
 
-  eventButtonOrder(button, panelContainer, data) {
+  eventButtonOrder(button, panelContainer, data, courseRUB) {
     button.addEventListener('click', async(event) => {
-      const modal = new Modal(data);
+      const overlay = document.querySelector('.modal-overlay');
+      overlay.style.display = 'block';
+      const modal = new Modal(data, courseRUB);
       const createModal = modal.render('Методы оплаты', 'modal-finances-button');
       const buttonOrder = createModal.querySelector('#modal-finances-button');
 

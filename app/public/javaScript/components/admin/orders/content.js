@@ -9,138 +9,99 @@ export class Content {
       contentContainer.classList.add('product-content-container');
       const paginationContainer = document.createElement('div');
       paginationContainer.classList.add('pagination-container');
-      const contentRows = async(data) => {
-        for(let product of data.reverse()) {
-          if(product.state && product.state === true) {
-            const array = [ 
+  
+      // Функция для создания строк с данными
+      const contentRows = (data) => {
+        data.forEach(product => {
+          if (product.state && product.state === true) {
+            const array = [
               ['id', product.id],
               ['seller', product.login],
-              ['Игра', product.name[0]], 
-              ['Тип', product.type], 
+              ['Игра', product.name[0]],
+              ['Тип', product.type],
               ['Регион', product.region[0]],
               ['Сервер', product.server[0]],
               ['Количество', product.available],
-            ]
+            ];
             const contentRow = document.createElement('div');
             contentRow.classList.add('product-content-row');
             contentRow.dataset.id = product.id;
-      
+  
             array.forEach(element => {
               const contentCell = document.createElement('div');
               contentCell.classList.add('product-content-cell');
-      
+  
               const contentCellDiv1 = document.createElement('div');
               const contentCellDiv2 = document.createElement('div');
-      
+  
               contentCellDiv1.textContent = element[0];
               contentCellDiv1.style.color = '#B0B0B0';
               contentCellDiv2.textContent = element[1];
               contentCell.append(contentCellDiv1, contentCellDiv2);
               contentRow.appendChild(contentCell);
-            })
-            contentContainer.append(contentRow);
-            contentRow.addEventListener('click', async(event) => {
-              const dataElement = this.data.find(el => {
-                if(el.id == contentRow.dataset.id) {
-                  return el;
-                }
-              });
+            });
+  
+            contentRow.addEventListener('click', (event) => {
+              const dataElement = this.data.find(el => el.id == contentRow.dataset.id);
               const modal = new Modal(dataElement);
               const createModal = modal.renderProductModal();
               contentContainer.appendChild(createModal);
-            })
+            });
+  
+            contentContainer.appendChild(contentRow);
           }
-        }
-      }
-      //pagination
-      let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
-      if(numberPage > 0) {
-        const data0Page = this.data/* .reverse() */.slice(0, 9).reverse();
-        contentRows(data0Page);
-      } else {
-        contentRows(this.data);
-      }
+        });
+      };
+  
+      // Функция для пагинации
+      const paginate = (array, pageNumber, itemsPerPage) => {
+        const startIndex = (pageNumber - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedArray = array.slice(startIndex, endIndex);
+        return paginatedArray;
+      };
 
-    /*       while(numberPage >= 1) {
-        const containerPage = document.createElement('span');
-        containerPage.classList.add('pagination-page');
-        containerPage.textContent = numberPage;
-        paginationContainer.insertBefore(containerPage, paginationContainer.firstChild)
-        numberPage = numberPage - 1;
-      } */
+      const sortedData = this.data.slice().sort((a, b) => b.id - a.id);
+      const filteredData = sortedData.filter(product => product.state === true);
+  
+      const numberPage = Math.ceil(filteredData.length / 10);
+  
+      const currentPage = parseInt(localStorage.getItem('seller-order-page')) || 1;
+      const data0Page = paginate(filteredData, currentPage, 10);
+  
+      contentRows(data0Page);
+  
       const containerPageContainer = document.createElement('div');
       containerPageContainer.classList.add('pagination-page-container');
-    /*       const containerPage = document.createElement('input');
-      containerPage.classList.add('pagination-page');
-      const containerPageSpan = document.createElement('span');
-      containerPageSpan.textContent = `из ${numberPage}`;
-      containerPageContainer.append(containerPage, containerPageSpan); */
+  
       const containerPage = document.createElement('input');
       containerPage.classList.add('pagination-page');
-      containerPage.value = 0;
+      containerPage.value = currentPage;
+      containerPage.min = 1;
+      containerPage.max = numberPage;
+  
       const containerPageSpan = document.createElement('span');
-      containerPageSpan.textContent = `из ${numberPage}`;
+      containerPageSpan.textContent = ` из ${numberPage}`;
       containerPageContainer.append(containerPage, containerPageSpan);
       paginationContainer.insertBefore(containerPageContainer, paginationContainer.firstChild);
+  
       contentContainer.appendChild(paginationContainer);
-      const page = paginationContainer.querySelectorAll('.pagination-page');
-
-      const currentPage = localStorage.getItem('seller-order-page');
-
-      function paginate(array, pageNumber, itemsPerPage) {
-        let startIndex = ((pageNumber * 10) -10);
-        if(startIndex > 0) {
-          startIndex - 1;
-        }
-        const endIndex = pageNumber * 10;
-        return array.slice(startIndex, endIndex).reverse();
-      }
-      page.forEach(element => {
-        if(+element.textContent === +currentPage) {
-          element.style.color = '#FF7A00';
-        }
-        element.addEventListener('change', async(event) => {
-          page.forEach(p => {
-            p.style.color = 'white';
-          });
-          localStorage.setItem('seller-order-page', event.target.value);
-
-          event.target.style.color = '#FF7A00';
-          contentContainer.innerHTML = ''; 
-          /* const data0Page = this.data.reverse().slice(0, 9); */
-          const data0Page = paginate(this.data, event.target.value, this.data.length);
+  
+      containerPage.addEventListener('change', (event) => {
+        const newPage = parseInt(event.target.value, 10);
+        if (newPage >= 1 && newPage <= numberPage) {
+          localStorage.setItem('seller-order-page', newPage);
+  
+          contentContainer.innerHTML = ''; // Очистка контейнера
+          const data0Page = paginate(filteredData, newPage, 10);
+          console.log(`Data for new page ${newPage}:`, data0Page);
           contentRows(data0Page);
           contentContainer.appendChild(paginationContainer);
-/*           const row = contentContainer.querySelectorAll('.order-content-row');
-
-          row.forEach(element => {
-            element.addEventListener('click', async(event) => {
-              const dataElement = this.data.find(el => el.id == element.dataset.id);
-
-              const modal = new Modal(dataElement);
-              const createModal = modal.renderOrderModal();
-              contentContainer.appendChild(createModal);
-            })
-          }) */
-        })
+        }
       });
-      //pagination
-
-/*       const row = contentContainer.querySelectorAll('.product-content-row');
-      row.forEach(element => {
-        element.addEventListener('click', async(event) => {
-          const dataElement = this.data.find(el => {
-            if(el.id == element.dataset.id) {
-              return el;
-            }
-          });
-          const modal = new Modal(dataElement);
-          const createModal = modal.renderProductModal();
-          contentContainer.appendChild(createModal);
-        })
-      }) */
+  
       return contentContainer;
-    } catch(error){
+    } catch (error) {
       console.log(error.message);
       return error.message;
     }
@@ -151,149 +112,111 @@ export class Content {
       contentContainer.classList.add('product-content-container');
       const paginationContainer = document.createElement('div');
       paginationContainer.classList.add('pagination-container');
-      const contentRows = async(data) => {
-        for(let order of data.reverse()) {
-          console.log(order)
+  
+      // Функция для отрисовки строк
+      const contentRows = (data) => {
+        contentContainer.innerHTML = ''; // Очистка контейнера перед добавлением новых элементов
+        data.forEach(order => {
           const array = [
             ['Номер заказа', order.id],
             ['seller', order.seller],
-            ['Игра', order.game[0]], 
-            ['Тип', order.type], 
+            ['Игра', order.game[0]],
+            ['Тип', order.type],
             ['Регион', order.region[0]],
             ['Сервер', order.server[0]],
             ['Количество', order.available],
             ['Статус', order.status],
             ['Цена', `${order.price} $`],
-
-          ]
-
+          ];
+  
           const contentRow = document.createElement('div');
           contentRow.classList.add('product-content-row');
           contentRow.dataset.id = order.id;
-          array.forEach(element => {
+          array.forEach(([label, value]) => {
             const contentCell = document.createElement('div');
             contentCell.classList.add('product-content-cell');
-    
+  
             const contentCellDiv1 = document.createElement('div');
             const contentCellDiv2 = document.createElement('div');
-    
-            contentCellDiv1.textContent = element[0];
+  
+            contentCellDiv1.textContent = label;
             contentCellDiv1.style.color = '#B0B0B0';
-            contentCellDiv2.textContent = element[1];
+            contentCellDiv2.textContent = value;
+  
             contentCell.append(contentCellDiv1, contentCellDiv2);
             contentRow.appendChild(contentCell);
-          })
-          if(order.status === 'new') {
-            contentRow.style.background = 'rgba(34,158,218,0.4)';  
-          }
-          if(order.status === 'inwork') {
-            contentRow.style.background = 'rgba(227,166,75,0.4)';  
-          }
-          if(order.status === 'canceled') {
-            contentRow.style.background = 'rgba(252,5,5,0.4)';  
-          }
-          if(order.status === 'check') {
-            contentRow.style.background = 'rgba(171,255,179,0.4)';  
-          }
-          if(order.status === 'done') {
-            contentRow.style.background = 'rgba(10,254,35,0.4)';  
-          }
-
-          contentContainer.append(contentRow);
-          contentRow.addEventListener('click', async(event) => {
+          });
+  
+          // Установка цвета фона на основе статуса
+          const statusColors = {
+            'new': 'rgba(34,158,218,0.4)',
+            'inwork': 'rgba(227,166,75,0.4)',
+            'canceled': 'rgba(252,5,5,0.4)',
+            'check': 'rgba(171,255,179,0.4)',
+            'done': 'rgba(10,254,35,0.4)'
+          };
+          contentRow.style.background = statusColors[order.status] || 'transparent';
+  
+          contentRow.addEventListener('click', () => {
             const dataElement = this.data.find(el => el.id == contentRow.dataset.id);
             const modal = new Modal(dataElement);
             const createModal = modal.renderOrderModal();
             contentContainer.appendChild(createModal);
-          })
-        }
-      }
-
-      //pagination
-      let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
-      if(numberPage > 0) {
-        const data0Page = this.data.reverse().slice(0, 9).reverse();
-        contentRows(data0Page);
-      } else {
-        contentRows(this.data);
-      }
-
-      /*       while(numberPage >= 1) {
-        const containerPage = document.createElement('span');
-        containerPage.classList.add('pagination-page');
-        containerPage.textContent = numberPage;
-        paginationContainer.insertBefore(containerPage, paginationContainer.firstChild)
-        numberPage = numberPage - 1;
-      } */
+          });
+  
+          contentContainer.append(contentRow);
+        });
+      };
+  
+      // Функция для пагинации
+      const paginate = (array, pageNumber, itemsPerPage) => {
+        const startIndex = (pageNumber - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        return array.slice(startIndex, endIndex);
+      };
+  
+      const itemsPerPage = 10;
+      const sortedData = this.data.sort((a, b) => b.id - a.id);
+  
+      const numberPage = Math.ceil(sortedData.length / itemsPerPage);
+      const currentPage = parseInt(localStorage.getItem('seller-order-page')) || 1;
+      const data0Page = paginate(sortedData, currentPage, itemsPerPage);
+  
+      // Отображение данных для текущей страницы
+      contentRows(data0Page);
+  
+      // Создание и отображение пагинации
       const containerPageContainer = document.createElement('div');
       containerPageContainer.classList.add('pagination-page-container');
-      /*       const containerPage = document.createElement('input');
-      containerPage.classList.add('pagination-page');
-      const containerPageSpan = document.createElement('span');
-      containerPageSpan.textContent = `из ${numberPage}`;
-      containerPageContainer.append(containerPage, containerPageSpan); */
+  
       const containerPage = document.createElement('input');
       containerPage.classList.add('pagination-page');
-      containerPage.value = 0;
+      containerPage.value = currentPage;
+      containerPage.min = 1;
+      containerPage.max = numberPage;
+  
       const containerPageSpan = document.createElement('span');
-      containerPageSpan.textContent = `из ${numberPage}`;
+      containerPageSpan.textContent = ` из ${numberPage}`;
       containerPageContainer.append(containerPage, containerPageSpan);
-      paginationContainer.insertBefore(containerPageContainer, paginationContainer.firstChild);
+      paginationContainer.appendChild(containerPageContainer);
+  
       contentContainer.appendChild(paginationContainer);
-      const page = paginationContainer.querySelectorAll('.pagination-page');
-
-      const currentPage = localStorage.getItem('seller-order-page');
-
-      function paginate(array, pageNumber, itemsPerPage) {
-        let startIndex = ((pageNumber * 10) -10);
-        if(startIndex > 0) {
-          startIndex - 1;
-        }
-        const endIndex = pageNumber * 10;
-        return array.slice(startIndex, endIndex).reverse();
-      }
-      page.forEach(element => {
-        if(+element.textContent === +currentPage) {
-          element.style.color = '#FF7A00';
-        }
-        element.addEventListener('change', async(event) => {
-          page.forEach(p => {
-            p.style.color = 'white';
-          });
-          localStorage.setItem('seller-order-page', event.target.value);
-
-          event.target.style.color = '#FF7A00';
-          contentContainer.innerHTML = ''; 
-          /* const data0Page = this.data.reverse().slice(0, 9); */
-          const data0Page = paginate(this.data, event.target.value, this.data.length);
+  
+      // Обработчик изменения страницы
+      containerPage.addEventListener('change', (event) => {
+        const newPage = parseInt(event.target.value, 10);
+        if (newPage >= 1 && newPage <= numberPage) {
+          localStorage.setItem('seller-order-page', newPage);
+  
+          const data0Page = paginate(sortedData, newPage, itemsPerPage);
           contentRows(data0Page);
-          contentContainer.appendChild(paginationContainer);
-          const row = contentContainer.querySelectorAll('.product-content-row');
-
-          row.forEach(element => {
-            element.addEventListener('click', async(event) => {
-              const dataElement = this.data.find(el => el.id == element.dataset.id);
-
-              const modal = new Modal(dataElement);
-              const createModal = modal.renderOrderModal();
-              contentContainer.appendChild(createModal);
-            })
-          })
-        })
+          contentContainer.appendChild(paginationContainer); // Переместить пагинацию в конец контейнера
+        }
       });
-      //pagination
-/*       const row = contentContainer.querySelectorAll('.product-content-row');
-      row.forEach(element => {
-        element.addEventListener('click', async(event) => {
-          const dataElement = this.data.find(el => el.id == element.dataset.id);
-          const modal = new Modal(dataElement);
-          const createModal = modal.renderOrderModal();
-          contentContainer.appendChild(createModal);
-        })
-      }) */
+  
       return contentContainer;
-    } catch(error){
-      console.log(error.message);
+    } catch (error) {
+      console.error('Error in renderOrders:', error.message);
       return error.message;
     }
   }

@@ -33,205 +33,184 @@ import {ContentOrders} from "./components/seller/orders/content.js";
   }
 })();
 
-(async() => {
-  const  message = document.querySelector('.message-panel')
+(async () => {
+  const message = document.querySelector('.message-panel');
+
   try {
-    
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener('DOMContentLoaded', () => {
       const escapingBallG = document.getElementById('escapingBallG');
-      const ovarlay = document.querySelector('.modal-overlay');
-      let flagSwitcher;
-      const mainPanelElement = document.querySelectorAll('.main-panel-radio label');
+      const overlay = document.querySelector('.modal-overlay');
+      const mainPanelElements = document.querySelectorAll('.main-panel-radio label');
       const content = document.querySelector('.main-content');
-    
+      let flagSwitcher;
+      let debounceTimeout;
+      let dataChaptersCache = null;
+      let userInfoCache = null;
+      let ordersCache = null;
+
       const saveSelectedRadio = (value) => {
         localStorage.setItem('selectedRadio', value);
       };
-    
+
       const getSelectedRadio = () => {
         return localStorage.getItem('selectedRadio');
-        
       };
 
-      if(!localStorage.getItem('selectedRadio')) {
+      const fetchData = async (url) => {
+        const response = await fetch(url);
+        return await response.json();
+      };
+
+      const getDataChapters = async () => {
+        if (!dataChaptersCache) {
+          dataChaptersCache = await fetchData('/seller/getchapters');
+        }
+        return dataChaptersCache;
+      };
+
+      const getUserInfo = async () => {
+        if (!userInfoCache) {
+          userInfoCache = await fetchData('/seller/userinfo');
+        }
+        return userInfoCache;
+      };
+
+      const getOrders = async () => {
+        if (!ordersCache) {
+          ordersCache = await fetchData('/seller/getorders');
+        }
+        return ordersCache;
+      };
+
+      if (!localStorage.getItem('selectedRadio')) {
         localStorage.setItem('selectedRadio', 'orders');
-        handleRadioClick(orders); 
+        handleRadioClick(document.querySelector('input[value="orders"]'));
       }
+
       const handleRadioClick = async (input) => {
+        if (debounceTimeout) clearTimeout(debounceTimeout);
         
-        const requestDataChapters = await fetch('/seller/getchapters');
-        const dataChapters = await requestDataChapters.json();
-        if (input.value === 'orders') {
-          if(flagSwitcher !== 'orders') {
+        debounceTimeout = setTimeout(async () => {
+          const dataChapters = await getDataChapters();
+          
+          const showLoading = () => {
+            overlay.style.display = 'block';
+            escapingBallG.style.display = 'flex';
+          };
+
+          const hideLoading = () => {
+            escapingBallG.style.display = 'none';
+            overlay.style.display = 'none';
+          };
+
+          const clearContent = () => {
+            content.innerHTML = '';
+          };
+
+          showLoading();
+
+          if (input.value === 'orders' && flagSwitcher !== 'orders') {
             flagSwitcher = 'orders';
             localStorage.setItem('seller-order-page', 1);
-            const mainContent = document.getElementById('main-content');
-            mainContent.innerHTML = '';
-            ovarlay.style.display = 'block';
-            escapingBallG.style.display = 'flex';
+            clearContent();
+
             const switcher = new SwitcherOrders();
-            const createSwitcher = switcher.renderPanel1();
-            mainContent.appendChild(createSwitcher);
-            const createSwitcher2 = switcher.renderPanel2();
-            mainContent.appendChild(createSwitcher2);
+            content.appendChild(switcher.renderPanel1());
+            content.appendChild(switcher.renderPanel2());
 
             const filter = new FilterOrders(dataChapters.ordersUser);
-            const filterCreate = filter.render();
-            mainContent.appendChild(filterCreate);
-            const content = new ContentOrders(dataChapters.ordersUser);
-            const contentCreate = content.renderOrders();
-            mainContent.appendChild(contentCreate);
-            escapingBallG.style.display = 'none';
-            ovarlay.style.display = 'none';
-            const inputsSwitcher = createSwitcher.querySelectorAll('input');
-            
-            
-            inputsSwitcher.forEach(input => {
-              
-              input.addEventListener('click', async event => {
-                
-                if(event.target.value === 'newOrders') {
-                  filterCreate.style.display = 'none';
-                  contentCreate.style.display = 'none';
-                }
-                if(event.target.value === 'myOrders') {
-                  filterCreate.style.display = 'flex';
-                  contentCreate.style.display = 'flex';
-                }
-              });
-            });
-            const inputsSwitcher2 = createSwitcher2.querySelectorAll('input');
-            inputsSwitcher2.forEach(input => {
+            const filterElement = filter.render();
+            content.appendChild(filterElement);
 
-              input.addEventListener('click', async event => {
+            const contentOrders = new ContentOrders(dataChapters.ordersUser);
+            const contentElement = contentOrders.renderOrders();
+            content.appendChild(contentElement);
 
-                if(event.target.value === 'Buy') {
-                  filterCreate.style.display = 'none';
-                  contentCreate.style.display = 'none';
-                }
-                if(event.target.value === 'Sell') {
-                  filterCreate.style.display = 'flex';
-                  contentCreate.style.display = 'flex';
-                }
+            const toggleDisplay = (display) => {
+              filterElement.style.display = display;
+              contentElement.style.display = display;
+            };
+
+            document.querySelectorAll('.switcher-orders input').forEach(input => {
+              input.addEventListener('click', (event) => {
+                toggleDisplay(event.target.value === 'newOrders' || event.target.value === 'Buy' ? 'none' : 'flex');
               });
             });
           }
-        }
-        
-        if (input.value === 'products') {
-          
-          if(flagSwitcher !== 'products') {
+
+          if (input.value === 'products' && flagSwitcher !== 'products') {
             flagSwitcher = 'products';
-            content.innerHTML = ''; 
-            ovarlay.style.display = 'block';
-            escapingBallG.style.display = 'flex';
-            localStorage.setItem('seller-order-page', 1);
-            const requestOrders = await fetch('/seller/getorders');
-            const responseOrders = await requestOrders.json();
-            
-            const switcher = new SwitcherProducts();
-            const createSwitcher = switcher.renderPanel1();
-            content.appendChild(createSwitcher);
+            clearContent();
 
+            const responseOrders = await getOrders();
 
-            const createFilter = new Filter(dataChapters.chapters);
-            const filter = createFilter.renderGold('Добавить товар');
-            content.appendChild(filter);
-
-            const createContent = new Content(responseOrders, dataChapters.chapters);
-            const contentOrders = createContent.render();
-            content.appendChild(contentOrders);
-            escapingBallG.style.display = 'none';
-            ovarlay.style.display = 'none';
+            content.appendChild(new SwitcherProducts().renderPanel1());
+            content.appendChild(new Filter(dataChapters.chapters).renderGold('Добавить товар'));
+            content.appendChild(new Content(responseOrders, dataChapters.chapters).render());
           }
-        }
-    
-        if (input.value === 'profiles') {
-          if(flagSwitcher !== 'profiles') { 
+
+          if (input.value === 'profiles' && flagSwitcher !== 'profiles') {
             flagSwitcher = 'profiles';
-            localStorage.setItem('seller-order-page', 1);
-            /* const mainContent = document.getElementById('main-content'); */
-            content.innerHTML = '';
-            escapingBallG.style.display = 'flex';
-            ovarlay.style.display = 'block';
-            const reqUserInfo = await fetch('/seller/userinfo');
-            const resUserInfo = await reqUserInfo.json();
-            const createContent = new ContentProfiles(resUserInfo.user);
-            const mainContent = createContent.render();
-            content.append(mainContent);
-            escapingBallG.style.display = 'none';
-            ovarlay.style.display = 'none';
+            clearContent();
+
+            const resUserInfo = await getUserInfo();
+
+            content.appendChild(new ContentProfiles(resUserInfo.user).render());
           }
-        }
-    
-        if (input.value === 'finances') {
-          if(flagSwitcher !== 'finances') {
+
+          if (input.value === 'finances' && flagSwitcher !== 'finances') {
             flagSwitcher = 'finances';
-            localStorage.setItem('seller-order-page', 1);
-            const mainContent = document.getElementById('main-content');
-            mainContent.innerHTML = '';
-            escapingBallG.style.display = 'flex';
-            ovarlay.style.display = 'block';
+            clearContent();
+
+            const resUserInfo = await getUserInfo();
+
             const financeContainer = document.createElement('div');
             financeContainer.classList.add('finance-container');
-            const reqUserInfo = await fetch('/seller/userinfo');
-            const resUserInfo = await reqUserInfo.json();
 
-            const createPanel = new Panel(resUserInfo);
-            const panel = createPanel.render();
-            const createContent = new ContentFinance(resUserInfo.paymentOrdersUser);
-            const content = createContent.render();
-            mainContent.append(financeContainer);
-            financeContainer.append(panel, content);
-            escapingBallG.style.display = 'none';
-            ovarlay.style.display = 'none';
+            financeContainer.append(
+              new Panel(resUserInfo, resUserInfo.courseRUB).render(),
+              new ContentFinance(resUserInfo.paymentOrdersUser).render()
+            );
+
+            content.appendChild(financeContainer);
           }
-        }
-        if (input.value === 'notifications') {
-          if(flagSwitcher !== 'notifications') {
-            const reqUserInfo = await fetch('/seller/userinfo');
-            const resUserInfo = await reqUserInfo.json();
+
+          if (input.value === 'notifications' && flagSwitcher !== 'notifications') {
+            const resUserInfo = await getUserInfo();
             flagSwitcher = 'notifications';
-            localStorage.setItem('seller-order-page', 1);
-            const mainContent = document.getElementById('main-content');
-            mainContent.innerHTML = '';
-            escapingBallG.style.display = 'flex';
-            ovarlay.style.display = 'block';
+            clearContent();
+
             const notificationContainer = document.createElement('div');
             notificationContainer.classList.add('notifications-container');
-;
-            const createContent = new ContentNotifications(resUserInfo);
-            const content = createContent.render();
-            notificationContainer.append(content);
-            mainContent.append(notificationContainer);
-            escapingBallG.style.display = 'none';
-            ovarlay.style.display = 'none';
+
+            notificationContainer.append(new ContentNotifications(resUserInfo).render());
+            content.appendChild(notificationContainer);
           }
-        }
+
+          hideLoading();
+        }, 300); // Debounce delay
       };
-    
+
       const savedValue = getSelectedRadio();
       if (savedValue) {
         const savedInput = document.querySelector(`input[value="${savedValue}"]`);
         if (savedInput) {
           savedInput.checked = true;
-          handleRadioClick(savedInput); 
+          handleRadioClick(savedInput);
         }
       }
-    
-      mainPanelElement.forEach(elementPanel => {
+
+      mainPanelElements.forEach(elementPanel => {
         const input = document.querySelector(`#${elementPanel.getAttribute('for')}`);
-        elementPanel.addEventListener('click', async(event) => {
-          await handleRadioClick(input); 
-          saveSelectedRadio(input.value); 
+        elementPanel.addEventListener('click', async () => {
+          await handleRadioClick(input);
+          saveSelectedRadio(input.value);
         });
       });
     });
-
-  } catch(error) {
+  } catch (error) {
     console.log(error);
     message.style.display = 'flex';
     message.textContent = error.message;
-    /* message. */
   }
 })();

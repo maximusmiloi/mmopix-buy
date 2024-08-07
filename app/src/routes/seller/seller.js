@@ -302,10 +302,11 @@ router.get('/userinfo', isAuthenticated,  async(req, res) => {
     }
     const user = req.user;
     const paymentInfo = await Payment.findOne();
+    const courseRUB = paymentInfo.courseRUB;
     if(paymentInfo && paymentInfo.orders) {
       const paymentMethods = paymentInfo.methods;
       const paymentOrdersUser = paymentInfo.orders.filter(order => order.user === req.user.login );
-      return res.status(200).json({user, paymentMethods, paymentOrdersUser});
+      return res.status(200).json({user, paymentMethods, paymentOrdersUser, courseRUB});
     } else {
       return res.status(200).json({user});
     }
@@ -422,14 +423,16 @@ router.post('/profilessave', isAuthenticated,  async(req, res) => {
 
 
     if(telegram.length > 1 && telegram.startsWith('@')) {
-      userData.telegram = telegram;
+      await User.updateOne({ login: user.login }, { $set: { telegram: telegram} });
     } else {
       userData.telegram;
     }
-    if(discord.length > 1 && telegram.startsWith('@')) {
-      userData.discord = discord;
+    if(discord.length > 1 && discord.startsWith('@')) {
+      await User.updateOne({ login: user.login }, { $set: { discord: discord} });
     } else {
-      userData.telegram;
+      console.log(`НЕТУ: ${userData.discord}`);
+      console.log(discord)
+      userData.discord;
     }
 
     if(password.length > 5 && twopassword.length > 5 && password === twopassword) {
