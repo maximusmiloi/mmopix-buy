@@ -76,7 +76,6 @@ export const createContentGames = async(value, responseData) =>{
 /*           const values = Array.from(inputs).map(input => {
             return input.value.split(',').map(item => item.trim());
           }); */
-          console.log(values)
           const optionsCreateGame = {
             method: 'POST',
             body: JSON.stringify({values}),

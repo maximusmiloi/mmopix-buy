@@ -234,7 +234,6 @@ export class Modal {
     this.clearSelect(spanPrice);
     if (server && prices.length > 0) {
       const price = prices[0].options.find(option => option[0][0] === server);
-      console.log(prices[0])
       if (price &&  prices[0] && prices[0].courseG2G && prices[0].courseG2G[0] && price[2]) {
         spanPrice.textContent = prices[0].courseG2G
           ? `${+price[2][0] * +prices[0].courseG2G[2]} $ за ${prices[0].courseG2G[0]} ${prices[0].courseG2G[1]}`

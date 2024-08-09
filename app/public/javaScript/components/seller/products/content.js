@@ -6,8 +6,6 @@ export class Content {
   }
   render() {
     try {
-      console.log(this.data);
-  
       const contentContainer = document.createElement('div');
       contentContainer.classList.add('product-content-container');
       const paginationContainer = document.createElement('div');
@@ -16,7 +14,6 @@ export class Content {
       const itemsPerPage = 10;
   
       const contentRows = (data) => {
-        console.log(data);
         contentContainer.innerHTML = ''; // Очистка контейнера перед добавлением новых элементов
   
         if (data.length < 1 || !data) {

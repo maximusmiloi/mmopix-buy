@@ -94,7 +94,6 @@ export class Content {
   
           contentContainer.innerHTML = ''; // Очистка контейнера
           const data0Page = paginate(filteredData, newPage, 10);
-          console.log(`Data for new page ${newPage}:`, data0Page);
           contentRows(data0Page);
           contentContainer.appendChild(paginationContainer);
         }

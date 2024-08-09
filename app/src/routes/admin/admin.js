@@ -247,9 +247,13 @@ router.post('/editchapter', isAuthenticated, async(req, res) => {
     const options = req.body.optionsArray;
     const _id = req.body.idChapter;
     const courseArray = req.body.courseArray;
-    console.log(options)
-    console.log(courseArray)
-    await Chaptersgold.updateOne({ _id }, { $set: { options: options, methodDelivery: methodsDelivery, courseG2G: courseArray} })
+    console.log(methodsDelivery)
+    console.log(options);
+    console.log(courseArray);
+    await Chaptersgold.updateOne(
+      { _id }, 
+      { $set: { options: options, methodDelivery: methodsDelivery, courseG2G: courseArray } }
+    );
     return res.status(200).json({message: 'success'});
   } catch(error) {
     return res.status(400).json({message: error.message})
