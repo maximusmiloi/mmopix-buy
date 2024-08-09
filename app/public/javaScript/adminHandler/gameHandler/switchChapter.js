@@ -125,7 +125,7 @@ export const createContentChapter = async(value, gameData, chapterData) =>{
             const inputs = div.querySelectorAll('input');
             inputs.forEach( input => {
               if(input.value && input.value.length > 0) {
-                inputArray.push(input.value);
+                inputArray.push([input.value]);
               }
             })
             if(inputArray.length > 0) {

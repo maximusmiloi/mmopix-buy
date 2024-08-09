@@ -19,8 +19,18 @@ const fetchAndProcessPage = async (link, cookies1) => {
   };
 
   try {
-    const responseG2GPrice = await axios.get(`${link}&sort=lowest_price`, fetchOptions);
-
+    function removeParameters(url) {
+      // Удаляем параметры sort=lowest_price и include_offline=1
+      return url.replace(/(&?sort=lowest_price|&?include_offline=1)/g, '')
+                .replace(/(\?&)|(\?+$)/, '?')  // Убираем лишний символ & или ? в начале строки параметров
+                .replace(/&$/, '');  // Убираем лишний символ & в конце строки
+    }
+    console.log(link)
+    console.log(removeParameters(link))
+    const urlSend = `${removeParameters(link)}&sort=lowest_price`;
+    console.log(urlSend)
+    const responseG2GPrice = await axios.get(urlSend, fetchOptions);
+    
     {
       const $ = cheerio.load(responseG2GPrice.data);
       const priceContainer = $('.other-seller-offeer_mainbox');
@@ -49,13 +59,12 @@ const fetchAndProcessPage = async (link, cookies1) => {
 
 const processChapter = async (chapter, cookies1) => {
   let isModified = false;
-
   for (const option of chapter.options) {
+    console.log(option)
     const regex = /g2g\.com/;
     if (regex.test(option[1])) {
       const link = option[1][0].trim();
       const result = await fetchAndProcessPage(link, cookies1);
-
       if (result) {
         if (option.length >= 3) {
           option[2] = result;
