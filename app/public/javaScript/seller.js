@@ -82,11 +82,6 @@ import {ContentOrders} from "./components/seller/orders/content.js";
         return ordersCache;
       };
 
-      if (!localStorage.getItem('selectedRadio')) {
-        localStorage.setItem('selectedRadio', 'orders');
-        handleRadioClick(document.querySelector('input[value="orders"]'));
-      }
-
       const handleRadioClick = async (input) => {
         if (debounceTimeout) clearTimeout(debounceTimeout);
         
@@ -190,7 +185,10 @@ import {ContentOrders} from "./components/seller/orders/content.js";
           hideLoading();
         }, 300); // Debounce delay
       };
-
+      if (!localStorage.getItem('selectedRadio')) {
+        localStorage.setItem('selectedRadio', 'orders');
+        handleRadioClick(document.querySelector('input[value="orders"]'));
+      }
       const savedValue = getSelectedRadio();
       if (savedValue) {
         const savedInput = document.querySelector(`input[value="${savedValue}"]`);
