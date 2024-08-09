@@ -43,3 +43,7 @@
   justify-content: center;
 /*   align-items: center; */
 }
+.users-filter-container {
+  display: flex;
+  gap: 10px;
+}

@@ -2,6 +2,7 @@ import { Elements } from './elements.js';
 export class Modal { 
   constructor(data) {
     this.data = data;
+    this.flagClick = false;
   }
   renderProductModal() {
     const overlay = document.querySelector('.modal-overlay');
@@ -99,7 +100,7 @@ export class Modal {
         escapingBallG.style.width = '300px';
         escapingBallG.style.height = '50px';
         escapingBallG.innerHTML = 'Строка "Количество" пуста.';
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        await new Promise(resolve => setTimeout(resolve, 3000));
         escapingBallG.style.display = 'none';
       }
       if(responseProductOrder.message === 'notNumber') {
@@ -107,7 +108,7 @@ export class Modal {
         escapingBallG.style.width = '300px';
         escapingBallG.style.height = '50px';
         escapingBallG.innerHTML = 'Строка "количество" не является числом.';
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        await new Promise(resolve => setTimeout(resolve, 3000));
         escapingBallG.style.display = 'none';
       }
       if(responseProductOrder.message === 'success') {
@@ -116,25 +117,25 @@ export class Modal {
         escapingBallG.style.height = '50px';
         escapingBallG.style.color = '#0AFE23';
         escapingBallG.innerHTML = 'Товар заказан.';
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        await new Promise(resolve => setTimeout(resolve, 3000));
         escapingBallG.style.display = 'none';
       }
       if(responseProductOrder.message === 'hasOrder') {
         escapingBallG.classList.add('notification');
         escapingBallG.style.width = '300px';
         escapingBallG.style.height = '50px';
-        escapingBallG.style.color = 'black';
+        escapingBallG.style.color = 'white';
         escapingBallG.innerHTML = 'Товар такого типа уже выставлен. Измените количество в уже выставленном товаре.';
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        await new Promise(resolve => setTimeout(resolve, 3000));
         escapingBallG.style.display = 'none';
       }
       if(responseProductOrder.message === 'limit') {
         escapingBallG.classList.add('notification');
         escapingBallG.style.width = '300px';
         escapingBallG.style.height = '50px';
-        escapingBallG.style.color = 'black';
+        escapingBallG.style.color = 'white';
         escapingBallG.innerHTML = 'Вы заказали больше, чем есть у продавца.';
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
         escapingBallG.style.display = 'none';
       }
     })
@@ -245,6 +246,8 @@ export class Modal {
       modal.remove();
     })
     modalButtonSave.addEventListener('click', async event => {
+      overlay.style.display = 'none';
+      modal.remove();
       escapingBallG.style.display = 'flex';
       const status = selectStatus.value;
       const seller = data.seller[0];
@@ -263,10 +266,10 @@ export class Modal {
         escapingBallG.classList.add('notification');
         escapingBallG.style.width = '300px';
         escapingBallG.style.height = '50px';
-        escapingBallG.style.color = 'black';
+        escapingBallG.style.color = 'white';
         escapingBallG.innerHTML = 'Сохранено';
         escapingBallG.style.display = 'flex';
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        await new Promise(resolve => setTimeout(resolve, 500));
         escapingBallG.style.display = 'none';
       }
     })
@@ -345,6 +348,8 @@ export class Modal {
       modal.remove();
     })
     modalButtonSave.addEventListener('click', async event => {
+      overlay.style.display = 'none';
+      modal.remove();
       escapingBallG.style.display = 'flex';
       const status = selectStatus.value;
       const seller = data.seller[0];
@@ -363,10 +368,10 @@ export class Modal {
         escapingBallG.classList.add('notification');
         escapingBallG.style.width = '300px';
         escapingBallG.style.height = '50px';
-        escapingBallG.style.color = 'black';
+        escapingBallG.style.color = 'white';
         escapingBallG.innerHTML = 'Сохранено';
         escapingBallG.style.display = 'flex';
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
         escapingBallG.style.display = 'none';
       }
     })
@@ -434,6 +439,8 @@ export class Modal {
       modal.remove();
     })
     modalButtonSave.addEventListener('click', async event => {
+      overlay.style.display = 'none';
+      modal.remove();
       escapingBallG.style.display = 'flex';
       const status = selectStatus.value;
       const seller = data.seller[0];
@@ -452,10 +459,10 @@ export class Modal {
         escapingBallG.classList.add('notification');
         escapingBallG.style.width = '300px';
         escapingBallG.style.height = '50px';
-        escapingBallG.style.color = 'black';
+        escapingBallG.style.color = 'white';
         escapingBallG.innerHTML = 'Сохранено';
         escapingBallG.style.display = 'flex';
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
         escapingBallG.style.display = 'none';
       }
     })
@@ -596,6 +603,8 @@ export class Modal {
       modal.remove();
     })
     modalButtonSave.addEventListener('click', async event => {
+      overlay.style.display = 'none';
+      modal.remove();
       escapingBallG.style.display = 'flex';
       const status = selectStatus.value;
       const seller = data.seller[0];
@@ -615,10 +624,10 @@ export class Modal {
         escapingBallG.classList.add('notification');
         escapingBallG.style.width = '300px';
         escapingBallG.style.height = '50px';
-        escapingBallG.style.color = 'black';
+        escapingBallG.style.color = 'white';
         escapingBallG.innerHTML = 'Сохранено';
         escapingBallG.style.display = 'flex';
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
         escapingBallG.style.display = 'none';
       }
     })

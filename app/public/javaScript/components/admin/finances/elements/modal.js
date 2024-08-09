@@ -35,22 +35,6 @@ export class Modal {
       select.appendChild(option);
     })
     modal.appendChild(select);
-/*     const input = document.createElement('input');
-    modal.appendChild(input);
-    const span = document.createElement('span');
-    input.addEventListener('input', event => {
-      const procent = this.data.paymentMethods.find(method => method[0] === select.value);
-      const initialValue = event.target.value;
-      const percentage = procent[1];
-      const result = initialValue - (initialValue * (percentage / 100));
-      console.log(procent[1]);
-      span.innerHTML = `Сумма к получению: <span style="color: orange"> ${result} $ </span>`;
-    });
-    select.addEventListener('change', event => {
-      input.value = '';
-    });
-    modal.appendChild(span); */
-
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('modal-button-container');
     const modalButtonClose = document.createElement('button');

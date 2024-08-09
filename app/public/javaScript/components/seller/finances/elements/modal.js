@@ -30,7 +30,6 @@ export class Modal {
       const initialValue = event.target.value;
       const percentage = procent[1];
       let result = initialValue - (initialValue * (percentage / 100));
-      console.log(procent[2])
       if(procent[2] && procent[2] !== '0' && procent[2] !== 0 && procent[2] !== undefined && procent[2] !== 'undefined') {
         result = result - procent[2];
       }

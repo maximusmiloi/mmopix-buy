@@ -1,4 +1,4 @@
-//import { Elements } from './elements/elements.js';
+import { Elements } from './elements/elements.js';
 export class Filter {
   constructor(data) {
     this.data = data;
@@ -9,15 +9,26 @@ export class Filter {
     filterContainer.classList.add('users-filter-container');
     const createElements = new Elements();
 
-    const labelGame = createElements.renderLabel('orders-filter-game', 'Игра');
-    const selectGame = createElements.renderSelect('orders-filter-game');
-    filterContainer.append(labelGame, selectGame);
+    const labelLogin = createElements.renderLabel('user-filter-login', 'Логин пользователя: ');
+    const inputLogin= createElements.renderInput('user-filter-login');
+    filterContainer.append(labelLogin, inputLogin);
 
     
-    const labelRegion = createElements.renderLabel('orders-filter-region', 'Регион');
-    const selectRegion = createElements.renderSelect('orders-filter-region');
-    filterContainer.append(labelRegion, selectRegion);
+    const labelSortBalance = createElements.renderLabel('user-filter-sort-balance', 'Сортировка по балансу: ');
+    const buttonSortBalance = createElements.renderButton('user-filter-sort-balance', 'Сортировать: ');
+    filterContainer.append(labelSortBalance, buttonSortBalance);
 
+    const labelBalance = createElements.renderLabel('user-filter-balance', 'Общий баланс: ');
+    const spanBalance = createElements.renderSpan('user-filter-balance');
+
+    let allBalance = 0;
+    this.data.forEach(el => {
+      allBalance = allBalance + el.balance;
+    })
+    spanBalance.textContent = `${allBalance} $`;
+    filterContainer.append(labelBalance, spanBalance);
+    return filterContainer;
+    /* userContainer.append(labelGame, selectGame); */
 /* 
     function populateNameSelect(data) {
       const names = [...new Set(data.map(item => item.name))];
@@ -40,6 +51,5 @@ export class Filter {
         selectRegion.appendChild(option);
       });
     } */
-    return filterContainer;
   }
 }

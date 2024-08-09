@@ -198,6 +198,12 @@ import {ContentOrders} from "./components/seller/orders/content.js";
           savedInput.checked = true;
           handleRadioClick(savedInput);
         }
+      } else {
+        const savedInput = document.querySelector(`input[value="orders"]`);
+        if (savedInput) {
+          savedInput.checked = true;
+          handleRadioClick(savedInput);
+        }
       }
 
       mainPanelElements.forEach(elementPanel => {

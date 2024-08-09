@@ -338,12 +338,13 @@ router.post('/orderpayment', isAuthenticated, async(req, res) => {
     const value = req.body.value;
     const method = req.body.methodValue;
     let requisites = user.payments.find(pay => pay[0] === method);
+    console.log(requisites)
     if(requisites) {
       
       if(requisites[1].length < 3) {
         return res.status(200).json({message: 'requisitesEmpty'});
       }
-      requisites = requisites[0];
+      requisites = requisites[1];
     }
     if(!requisites) {
       return res.status(200).json({message: 'notFoundMethod'});

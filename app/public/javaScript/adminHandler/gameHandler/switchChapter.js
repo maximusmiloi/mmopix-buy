@@ -95,21 +95,7 @@ export const createContentChapter = async(value, gameData, chapterData) =>{
         const idGame = event.target.dataset.id;
         const modalDelete = new Modal();
         const createModalDelete = await modalDelete.renderNotificationChapter('Раздел и все связанные с ним продукты будут удалены', idGame);
-        contentContainer.append(createModalDelete)
-/*         const optionsCreateGame = {
-          method: 'POST',
-          body: JSON.stringify({idGame}),
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        }
-        
-        const requestCreateGame = await fetch(`/admin/deletechapter`, optionsCreateGame);
-        const responseCreateGame = await requestCreateGame.json();
-        if(responseCreateGame.message === 'success') {
-          event.target.parentElement.parentElement.remove();
-        }
-        indicatorLoad.style.display = 'none'; */
+        contentContainer.append(createModalDelete)  
       } )
     })
     buttonEditChapter.forEach(button => {
@@ -131,21 +117,22 @@ export const createContentChapter = async(value, gameData, chapterData) =>{
         const buttonCreateSave = document.querySelector('.modal-button-chapter-edit_save');
         buttonCreateSave.addEventListener('click', async(event) => {
           indicatorLoad.style.display = 'block';
-          const inputs = event.target.parentElement.parentElement.querySelectorAll('input');
-          const values = Array.from(inputs).map(input => {
-            return input.value.split(',').map(item => item.trim());
-          });
-          function transformArray(arr) {
-            const newArr = arr.slice(4);
-            const result = [];
-            for (let i = 0; i < newArr.length; i += 2) {
-              result.push([newArr[i], newArr[i + 1]]);
+          const inputMethods = document.getElementById('modal-chapter-edit-methods');
+          const optionContainerDivs = document.querySelectorAll('.modal-chapter-edit-options-container-element');
+          const optionsArray = [];
+          optionContainerDivs.forEach(div => {
+            const inputArray = [];
+            const inputs = div.querySelectorAll('input');
+            inputs.forEach( input => {
+              if(input.value && input.value.length > 0) {
+                inputArray.push(input.value);
+              }
+            })
+            if(inputArray.length > 0) {
+              optionsArray.push(inputArray);
             }
-          
-            return result;
-          }
-          const optionsArray = transformArray(values);
-          const methodsDelivery = values[0];
+          });
+          const methodsDelivery = inputMethods.value.split(',').map(item => item.trim());;
           const inputCourse = document.getElementById('chapter-course-input');
           const inputCourseText = document.getElementById('chapter-course-input-text');
           const inputCourseFactor = document.getElementById('chapter-course-input-factor');

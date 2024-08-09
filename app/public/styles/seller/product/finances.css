@@ -1,3 +1,4 @@
+/* Основной контейнер страницы */
 .finance-container {
   display: flex;
   flex-direction: column;
@@ -7,89 +8,155 @@
   margin-top: 20px;
 }
 
+/* Стили для элементов ввода */
 .finance-container input {
   width: 40%;
   height: 29px;
   border: 1px solid #8778D9;
   background-color: #2F2566;
   color: white;
+  padding: 5px;
+  border-radius: 5px;
 }
+
+/* Стили для кнопок */
 .finance-container button {
-	height: 39px;
-	color: #1F1A3A;
-  font-family: 'TTMilks';
+  height: 39px;
+  color: #1F1A3A;
+  font-family: 'TTMilks', sans-serif;
   font-size: 20px;
   border-radius: 10px;
   background: linear-gradient(to bottom, #F4C27D 0%, #5C411C 100%);
-  border: 1px solid linear-gradient(to bottom, #575757 21%, #F9F9F9 100%);
+  /* border: 1px solid transparent; */
   cursor: pointer;
+  transition: all 0.3s ease;
 }  
+
 .finance-container button:hover {
   background-color: #1F1A3A;
-  background-image: none;
   color: #F4C27D;
   border: 2px solid #F4C27D;
   box-shadow: 0 4px 8px rgba(255, 122, 0, 0.5);
 }
-.finance-panel_button-save {
-  width: 101px;
-  height: 29px;
-}
+
+/* Кнопки сохранения и заказа выплаты */
+.finance-panel_button-save,
 .finance-panel_container__balance___button {
-  /* width: 100%; */
-  width: 174px;
   height: 34px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #8778D9;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
+
+/* .finance-panel_button-save {
+  width: 100px;
+} */
+
+.finance-panel_container__balance___button {
+  width: 180px;
+}
+
+/* Контейнер кнопок */
 .finance-panel_button-container {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
+  padding-top: 10px;
 }
+
+/* Основной контейнер панели */
 .finance-panel_container {
-	display: flex;
+  display: flex;
   justify-content: space-between;
-	gap: 20px;
+  gap: 20px;
   color: #8778D9;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: rgba(135, 120, 217, 0.1);
+  flex-wrap: wrap;
 }
+
+/* Балансовая часть */
 .finance-panel_container__balance {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  flex-grow: 1;
 }
+
+/* Контейнер для ввода и методов оплаты */
 .finance-panel_inputs-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 15px;
-}
-.payment-method-container {
-  display: flex;
-  justify-content: start;
-  gap: 15px;
-}
-.payment-method-container label {
-  width: 10%;
+  flex-grow: 2;
+  align-items: stretch; /* Элементы растягиваются по ширине контейнера */
 }
 
+/* Контейнер для каждого метода оплаты */
+.payment-method-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%; /* Занимает всю доступную ширину */
+}
+
+.payment-method-container label,
+.payment-method-container input,
+.payment-method-container span {
+  margin: 0;
+  flex: 1; /* Элементы растягиваются, чтобы занять одинаковую ширину */
+  max-width: 100%; /* Ограничение ширины, если нужно */
+}
+
+.payment-method-container input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  background-color: #2F2566;
+  color: white;
+  border-radius: 4px;
+  width: 100%; /* Обеспечивает одинаковую ширину всех полей ввода */
+}
+
+#payment-method {
+  width: 100%;
+  max-width: 100%; /* Ограничение ширины, если нужно */
+  flex: 1; /* Растягивает элемент до одинакового размера с другими */
+}
+
+.payment-method-container span {
+  white-space: nowrap;
+  text-align: left;
+}
+
+/* Контейнер для баланса */
 .finance-panel_container__balance-container {
   display: flex;
-  gap: 15px;
+  align-items: center;
+  gap: 10px;
 }
+
 #finance-panel_container__balance___value {
   color: #FF7A00;
   font-size: 24px;
 }
+
 #finance-panel_container__balance___text {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
 }
-#payment-method {
-  width: 60%;
-}
+
+/* #payment-method {
+  flex-grow: 1;
+} */
+
+/* Стили для модального окна */
 .seller-finances-modal {
   display: none;
-	position: fixed;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -99,51 +166,53 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
   z-index: 1000;
-  display: none; 
   flex-direction: column;
   padding: 20px; 
-  font-family: 'TTMilks';
+  font-family: 'TTMilks', sans-serif;
   overflow: auto;
   gap: 5px;
 }
+
+/* Контейнер для финансового контента */
 .finance-content-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
+
+/* Контейнер для списка заказов */
 .order-content-container {
   display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	max-width: 1280px;
-  gap: 15px;
-  font-family: 'TTMilks';
-}
-.order-content-row {
-	display: flex;
-	justify-content: start;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-	height: 15%;
-	width: 100%;;
-	gap: 20px;
-	border-radius: 10px;
-	background-color: rgba(135, 120, 217, 0.4);
-  padding-top: 10px;
-  padding-bottom: 10px;
+  max-width: 1280px;
+  gap: 15px;
+  font-family: 'TTMilks', sans-serif;
+}
+
+/* Строка контента заказа */
+.order-content-row {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  height: 15%;
+  width: 100%;
+  gap: 20px;
+  border-radius: 10px;
+  background-color: rgba(135, 120, 217, 0.4);
+  padding: 10px 20px;
   cursor: pointer;
 }
 
-.order-content-row::before{
+.order-content-row::before,
+.order-content-row::after {
   content: "";
   width: 20px;
   flex-shrink: 0;
 }
-.order-content-row::after{
-  content: "";
-  width: 20px;
-  flex-shrink: 0;
-}
+
+/* Ячейка контента заказа */
 .order-content-cell {
   display: flex;
   flex-direction: column;
@@ -151,141 +220,109 @@
   width: 15%;
   gap: 5px;
 }
+
 .order-content-cell div {
   display: flex;
   flex-direction: column;
   justify-content: center;
-/*   align-items: center; */
 }
+
+/* Кнопка в ячейке заказа */
 .order-content-cell button {
   width: 100px;
-  height: 30%;
+  height: 30px;
   background-color: #E3A64B;
   color: #1F1A3A;
-  font-family: 'TTMilks';
+  font-family: 'TTMilks', sans-serif;
   cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  transition: background-color 0.3s ease;
 }
+
+.order-content-cell button:hover {
+  background-color: #1F1A3A;
+  color: #E3A64B;
+}
+
+/* Методы оплаты на панели */
 .finance-panel_container__methods {
   display: flex;
   flex-direction: column;
   width: 40%;
   gap: 15px;
 }
+
 .finance-panel_container__balance {
   width: 40%;
 }
+
+/* Адаптивность для экранов до 1024px */
 @media only screen and (max-width: 1024px) {
   .main-header {
     max-width: 980px;
   }
+  
   .order-content-container {
-    width:100%;
+    width: 100%;
   }
-  body {
+
+  body, .seller-container, .main-content, .main-panel {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
+
   .seller-container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
     max-width: 960px;
   }
-	main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
+
   .main-content {
     max-width: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .main-panel {
-    display: flex;
-/*     flex-direction: column; */
-    justify-content: center;
-    align-items: center;
   }
 }
 
+/* Адаптивность для экранов до 768px */
 @media only screen and (max-width: 768px) {
-  body {
+  body, .seller-container, .main-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
-  .seller-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
+  .seller-container, .main-content {
     max-width: 720px;
-  }
-  .main-content {
-    max-width: 720px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
   }
 }
 
-
+/* Адаптивность для экранов до 480px */
 @media only screen and (max-width: 480px) {
-  .finance-panel_container__methods {
-    max-width: 100%;
-  }
-  .finance-panel_container__balance___value {
-    max-width: 100%;
-  }
+  .finance-panel_container__methods,
+  .finance-panel_container__balance___value,
   .payment-method-container {
     width: 100%;
   }
-  body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .seller-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
+  .seller-container, .main-content, .finance-container {
     max-width: 440px;
   }
-  .main-content {
-    max-width: 440px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .finance-container {
-    max-width: 440px;
-  }
+
   .finance-panel_container {
-    display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 20px;
-    color: #8778D9;
     max-width: 100%;
-  } 
+  }
+
   .finance-panel_container__balance {
     max-width: 80%;
   }
+
   .finance-panel_container__balance-container {
-    max-width: 100%;
     gap: 30px;
   }
+
   .finance-container button {
     font-size: 12px;
   }

@@ -29,6 +29,12 @@ export class Elements {
     span.id = id;
     return span;
   }
+  renderButton(id, text) {
+    const button = document.createElement('button');
+    button.id = id;
+    button.textContent = text;
+    return button;
+  }
   renderP(id, text) {
     const p = document.createElement('p');
     p.id = id;

@@ -169,11 +169,7 @@ export class Content {
     paginationContainer.classList.add('pagination-container');
     let numberPage = (this.data.length / 10) < 1 ? 0 : Math.ceil(this.data.length / 10);
     //pagination
-    console.log(numberPage)
-    console.log(this.data)
     if(numberPage > 0) {
-      console.log(numberPage)
-      console.log(this.data.reverse())
       const data0Page = this.data.slice(0, 9).reverse();
       contentRows(data0Page);
     } else {
@@ -209,7 +205,6 @@ export class Content {
           p.style.color = 'white';
         });
         localStorage.setItem('admin-order-page', event.target.textContent);
-        console.log(event.target.innerHTML)
         event.target.style.color = '#FF7A00';
         contentContainer.innerHTML = ''; 
         /* const data0Page = this.data.reverse().slice(0, 9); */
@@ -222,7 +217,6 @@ export class Content {
         const buttonEditChapter = document.querySelectorAll('.main-content-container-button-edit');
         const buttonEditDelete = document.querySelectorAll('.main-content-container-button-delete');
         const changeStateChapter = document.querySelectorAll('.enable-disable-chapter');
-        console.log(this.data)
         buttonEditDelete.forEach(button => {
           button.addEventListener('click', async(event) => { 
             const idGame = event.target.dataset.id;
